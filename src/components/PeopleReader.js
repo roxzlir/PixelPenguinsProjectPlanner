@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./PeopleReader.css";
-
-
-
-// Test
+x
 export default function PeopleReader() {
     const [data, setData] = useState(null);
 
