@@ -39,7 +39,7 @@ export default function PeopleReader() {
             </h1>
             {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
             <main className="People-list">
-                <ul>
+                <ul> 
                     {data.results.map((item) => (
                         <li key={item.id}>
                             {""}
