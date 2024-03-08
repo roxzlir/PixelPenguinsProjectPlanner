@@ -13,49 +13,34 @@ export default function TimereportReader() {
             .post("http://localhost:3001/api/notion/timereports", payload)
             .then((response) => {
                 setData(response.data);
-                console.log(
-                    "Datan vi hämtar från Timereports-databasen: ",
-                    response.data
-                );
 
-                const peopleIds = response.data.results
-                    .map((item) => {
-                        return item.properties["Person"]?.relation?.map(
-                            (person) => person.id
-                        );
-                    })
-                    .flat();
 
-                fetchPeopleData(peopleIds);
+                fetchPeopleData();
             })
             .catch((error) => {
                 console.log(
-                    "Fel inträffade vid hämtningen från Timereports-databasen: ",
+                    "Error occurred while fetching data from Timereports database: ",
                     error
                 );
             });
 
-        const fetchPeopleData = (peopleIds) => {
-            // Skicka förfrågan för att hämta information om personer
-            axios
-                .post("http://localhost:3001/api/notion/people", {
-                    ids: peopleIds,
-                })
-                .then((response) => {
-                    setPeopleData(response.data);
-                    console.log(
-                        "Datan vi hämtar från People-databasen: ",
-                        response.data
-                    );
-                })
-
-                .catch((error) => {
-                    console.log(
-                        "Fel inträffade vid hämtning av PERSON ID MOT PEOPLE: ",
-                        error
-                    );
-                });
-        };
+            const fetchPeopleData = () => {
+                axios
+                    .post("http://localhost:3001/api/notion/people")
+                    .then((response) => {
+                        const people = {};
+                        response.data.results.forEach((person) => {
+                            const properties = person.properties || {};
+                            const name = properties["Name"]?.title?.[0]?.plain_text || "Unknown";
+                            people[person.id] = { id: person.id, name };
+                        });
+                        setPeopleData(people);
+                    })
+                    .catch((error) => {
+                        console.log("Error occurred while fetching data about people:", error);
+                    });
+            };
+            
     };
 
     useEffect(() => {
@@ -63,36 +48,35 @@ export default function TimereportReader() {
     }, []);
 
     if (!data || !Array.isArray(data?.results)) {
-        return <p>Laddar data / ingen data att visa...</p>;
+        return <p>Loading data / No data to display...</p>;
     }
+
     return (
         <div>
             <h1 style={{ textAlign: "center" }}>
-                All data från Timereport databasen i vår Notion:
+                All data from the Timereport database in our Notion:
             </h1>
-            {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
             <main className="Timereport-list">
                 <ul>
                     {data.results.map((item) => (
                         <li key={item.id}>
                             <p>
-                                Date: {""}
+                                Date:{" "}
                                 {item.properties["Date"] &&
                                     item.properties["Date"].date &&
                                     item.properties["Date"].date.start}
                             </p>
-                            {item.properties["Person"]?.relation?.map(
-                                (person) => (
-                                    <p key={person.id}>
-                                        Person:{" "}
-                                        {peopleData[person.id]?.properties.Name
-                                            .title[0].plain_text || "Unknown"}
-                                    </p>
-                                )
-                            )}{" "}
-                            {item.properties["Note"].title.map((item) => (
-                                <p key={item.plain_text}>
-                                    Note: {item.plain_text}
+                            {item.properties["Person"]?.relation?.map((person) => (
+                                <p key={person.id}>
+                                Person:{" "}
+                                {peopleData[person.id]?.name ? peopleData[person.id].name : "Unknown"}
+                            </p>
+                        ))}
+
+
+                            {item.properties["Note"].title.map((note) => (
+                                <p key={note.plain_text}>
+                                    Note: {note.plain_text}
                                 </p>
                             ))}
                         </li>
