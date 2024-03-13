@@ -1,12 +1,12 @@
 import React from "react";
-import AddWorkedHours from "../components/AddWorkedHours";
+import AddTimereport from "../components/AddTimereport";
 
 export default function ReportTime() {
     return (
         <div>
             <h1>Report Time</h1>
-            <p>Prova skriva till databasens fält här</p>
-            <AddWorkedHours />
+            <p></p>
+            <AddTimereport />
         </div>
     );
 }
