@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./PeopleReader.css";
-
+x
 export default function PeopleReader() {
     const [data, setData] = useState(null);
 
@@ -39,7 +39,7 @@ export default function PeopleReader() {
             </h1>
             {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
             <main className="People-list">
-                <ul>
+                <ul> 
                     {data.results.map((item) => (
                         <li key={item.id}>
                             {""}
