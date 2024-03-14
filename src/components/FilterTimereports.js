@@ -47,18 +47,28 @@ export default function TimereportReader() {
             const reportDate = new Date(report.properties.Date.date.start);
             const isPersonMatch = report.properties.Person.relation.some((person) => person.id === personId);
             
-            // Extract date parts from reportDate, startDate, and endDate
             const reportDateOnly = new Date(reportDate.getFullYear(), reportDate.getMonth(), reportDate.getDate());
             const startDateOnly = startDate ? new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()) : null;
             const endDateOnly = endDate ? new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()) : null;
             
-            // Compare only the date parts
             const isStartDateMatch = !startDateOnly || reportDateOnly >= startDateOnly;
             const isEndDateMatch = !endDateOnly || reportDateOnly <= endDateOnly;
-            
-            return isPersonMatch && isStartDateMatch && isEndDateMatch;
+    
+            // Extract hours and minutes from the report timestamp
+            const reportHours = reportDate.getHours();
+            const reportMinutes = reportDate.getMinutes();
+    
+            // Check if the timestamp falls within the selected range
+            const isTimeMatch = (startDateOnly && endDateOnly) ?
+                (reportDateOnly > startDateOnly && reportDateOnly < endDateOnly) ||
+                (reportDateOnly.getTime() === startDateOnly.getTime() && reportHours >= startDateOnly.getHours() && reportMinutes >= startDateOnly.getMinutes()) ||
+                (reportDateOnly.getTime() === endDateOnly.getTime() && reportHours <= endDateOnly.getHours() && reportMinutes <= endDateOnly.getMinutes())
+                : true;
+    
+            return isPersonMatch && isStartDateMatch && isEndDateMatch && isTimeMatch;
         });
     };
+    
     
 
     const handleSelectChange = (e, setter) => {

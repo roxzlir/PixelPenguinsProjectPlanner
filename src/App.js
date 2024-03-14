@@ -9,6 +9,8 @@ import Menu from "./components/Menu";
 import DisplayPeople from "./pages/DisplayPeople";
 import User from "./pages/User";
 import CEO from "./pages/CEO";
+import FilteredTimereports from "./pages/FilteredTimereports";
+
 
 function App() {
   return (
@@ -20,12 +22,17 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Start />} />
+            {/* <Route path="/login" element={<AuthLogin />} /> */}
             <Route path="/ReportTime" element={<ReportTime />} />
             <Route path="/DisplayProjects" element={<DisplayProjects />} />
             <Route path="/DisplayPeople" element={<DisplayPeople />} />
             <Route path="/Employees" element={<Employees />} />
             <Route path="/User" element={<User />} />
             <Route path="/CEO" element={<CEO />} />
+            <Route path="/filteredtimereports" element={<FilteredTimereports />} 
+            />
+
+
           </Routes>
         </main>
       </div>
