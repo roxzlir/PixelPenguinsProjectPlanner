@@ -16,7 +16,7 @@ export default function UserVisualize() {
     const payload = {};
 
     axios
-      .post("http://localhost:3004/api/notion/people", payload)
+      .post("http://localhost:3001/api/notion/people", payload)
       .then((response) => {
         console.log("Datan vi hämtar från People-databasen: ", response.data);
 
@@ -92,7 +92,7 @@ export default function UserVisualize() {
 //     const payload = {};
 
 //     axios
-//       .post("http://localhost:3004/api/notion/people", payload)
+//       .post("http://localhost:3001/api/notion/people", payload)
 //       .then((response) => {
 //         console.log("Datan vi hämtar från People-databasen: ", response.data);
 //         // Här kan byter vi ut 'desiredId' mot det ID du vill hämta
@@ -163,7 +163,7 @@ export default function UserVisualize() {
 //   const fetchUsers = () => {
 //     // Axios för att göra ett GET-anrop till Notions API för att hämta användarinformation
 //     axios
-//       .get(`http://localhost:3004/api/notion/pages/${pageId}`)
+//       .get(`http://localhost:3001/api/notion/pages/${pageId}`)
 //       .then((response) => {
 //         // Extrahera användarinformationen från svaret
 //         const userData = response.data;

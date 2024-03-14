@@ -11,7 +11,7 @@ function AuthLogin() {
         const params = new URL(window.document.location).searchParams;
         const code = params.get("code");
         if (!code) return;
-        fetch(`http://localhost:3002/login/${code}`).then(async (resp) => {
+        fetch(`http://localhost:3001/login/${code}`).then(async (resp) => {
             setdbs(await resp.json());
         });
     }, []);

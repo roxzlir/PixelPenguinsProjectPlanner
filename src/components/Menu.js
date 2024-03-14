@@ -27,6 +27,9 @@ export default function Menu() {
           <li>
             <NavLink to="/CEO">CEO</NavLink>
           </li>
+          <li>
+            <NavLink to="/filteredtimereports">Filtered timereports</NavLink>
+          </li>
         </ul>
       </nav>
     </body>

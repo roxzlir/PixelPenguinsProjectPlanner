@@ -33,7 +33,7 @@ export default function VisualizeLogin() {
   //Funktion, hämta användardata från en API
   const fetchData = () => {
     axios
-      .post("http://localhost:3004/api/notion/people")
+      .post("http://localhost:3001/api/notion/people")
       .then((response) => {
         // Extrahera användardata från API-svar och uppdatera state
         const usersData = response.data.results.map((item) => ({

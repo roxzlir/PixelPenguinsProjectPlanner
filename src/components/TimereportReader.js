@@ -13,9 +13,7 @@ export default function TimereportReader() {
             .post("http://localhost:3001/api/notion/timereports", payload)
             .then((response) => {
                 setData(response.data);
-
-
-                fetchPeopleData();
+                fetchPeopleData(); // Call fetchPeopleData separately
             })
             .catch((error) => {
                 console.log(
@@ -23,29 +21,28 @@ export default function TimereportReader() {
                     error
                 );
             });
+    };
 
-            const fetchPeopleData = () => {
-                axios
-                    .post("http://localhost:3001/api/notion/people")
-                    .then((response) => {
-                        const people = {};
-                        response.data.results.forEach((person) => {
-                            const properties = person.properties || {};
-                            const name = properties["Name"]?.title?.[0]?.plain_text || "Unknown";
-                            people[person.id] = { id: person.id, name };
-                        });
-                        setPeopleData(people);
-                    })
-                    .catch((error) => {
-                        console.log("Error occurred while fetching data about people:", error);
-                    });
-            };
-            
+    const fetchPeopleData = () => {
+        axios
+            .post("http://localhost:3001/api/notion/people")
+            .then((response) => {
+                const people = {};
+                response.data.results.forEach((person) => {
+                    const properties = person.properties || {};
+                    const name = properties["Name"]?.title?.[0]?.plain_text || "Unknown";
+                    people[person.id] = { id: person.id, name };
+                });
+                setPeopleData(people);
+            })
+            .catch((error) => {
+                console.log("Error occurred while fetching data about people:", error);
+            });
     };
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, );
 
     if (!data || !Array.isArray(data?.results)) {
         return <p>Loading data / No data to display...</p>;
@@ -68,13 +65,11 @@ export default function TimereportReader() {
                             </p>
                             {item.properties["Person"]?.relation?.map((person) => (
                                 <p key={person.id}>
-                                Person:{" "}
-                                {peopleData[person.id]?.name ? peopleData[person.id].name : "Unknown"}
-                            </p>
-                        ))}
-
-
-                            {item.properties["Note"].title.map((note) => (
+                                    Person:{" "}
+                                    {peopleData[person.id]?.name ? peopleData[person.id].name : "Unknown"}
+                                </p>
+                            ))}
+                            {item.properties["Note"]?.title?.map((note) => (
                                 <p key={note.plain_text}>
                                     Note: {note.plain_text}
                                 </p>
