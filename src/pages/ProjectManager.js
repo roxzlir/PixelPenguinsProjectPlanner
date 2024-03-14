@@ -1,9 +1,14 @@
 import React from "react";
 
 export default function ProjectManager() {
-  return (
-    <div>
-      <h1>Sida för Projektledare</h1>
-    </div>
-  );
+    const loginProcess = localStorage.getItem("loggedInUser");
+    return (
+        <div>
+            <h1>Sida för Projektledare</h1>
+            <br />
+            <br />
+            <br />
+            {loginProcess && <PresentUser />}
+        </div>
+    );
 }

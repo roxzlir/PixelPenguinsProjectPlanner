@@ -1,17 +1,21 @@
 import React from "react";
 import ProjectReader from "../components/ProjectReader";
 import TimereportReader from "../components/TimereportReader";
-import Test1projectReader from "../components/Test1projectReader";
+
+import PresentUser from "../components/PresentUser";
 
 export default function DisplayProjects() {
+    const loginProcess = localStorage.getItem("loggedInUser");
     return (
         <div>
             <h1>Sida för att visa allt ut Projects</h1>
-            <ProjectReader />
+            {loginProcess && <ProjectReader />}
             <br />
-            <TimereportReader />
+            {loginProcess && <TimereportReader />}
             <br />
-            {/* <Test1projectReader /> */}
+            <br />
+            <br />
+            {loginProcess && <PresentUser />}
         </div>
     );
 }
