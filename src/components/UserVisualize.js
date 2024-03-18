@@ -15,13 +15,11 @@ export default function UserVisualize() {
     const fetchData = () => {
         const payload = {};
 
-        axios
-            .post("http://localhost:3001/api/notion/people", payload)
-            .then((response) => {
-                console.log(
-                    "Datan vi hämtar från People-databasen: ",
-                    response.data
-                );
+    axios
+      .post("http://localhost:3001/api/notion/people", payload)
+      .then((response) => {
+        console.log("Datan vi hämtar från People-databasen: ", response.data);
+
 
                 // Byt ut 'desiredName' mot det namn vi vill söka efter och personen som ska displayas
                 const desiredName = "John Doe";

@@ -25,6 +25,7 @@ function AuthLogin() {
     useEffect(() => {
         const params = new URL(window.location.href).searchParams;
         const code = params.get("code");
+
         if (code) {
             fetchData(code); // Anropa fetchData-funktionen med den erhållna koden
         }

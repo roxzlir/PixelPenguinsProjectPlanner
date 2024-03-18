@@ -1,6 +1,5 @@
 import React from "react";
 import AddTimereport from "../components/AddTimereport";
-import PresentUser from "../components/PresentUser";
 
 export default function ReportTime() {
     const loginProcess = localStorage.getItem("loggedInUser");
@@ -8,12 +7,8 @@ export default function ReportTime() {
         <div>
             <h1>Report Time</h1>
             <p></p>
-            {/* <AddTimereport /> */}
-            {loginProcess && <AddTimereport />}
-            <br />
-            <br />
-            <br />
-            {loginProcess && <PresentUser />}
+            <AddTimereport />
+
         </div>
     );
 }

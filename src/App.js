@@ -9,43 +9,41 @@ import Menu from "./components/Menu";
 import DisplayPeople from "./pages/DisplayPeople";
 import User from "./pages/User";
 import CEO from "./pages/CEO";
-import LoginPage from "./pages/LoginPage";
+import FilteredTimereports from "./pages/FilteredTimereports";
 
-export default function App() {
-    const loginProcess = localStorage.getItem("loggedInUser");
-    return (
-        <Router>
-            <div className="App">
-                <header className="App-header">
-                    <Menu />
-                </header>
-                <main>
-                    <Routes>
-                        <Route path="/" element={<Start />} />
-                        <Route path="/LoginPage" element={<LoginPage />} />
-                        <Route path="/ReportTime" element={<ReportTime />} />
-                        <Route
-                            path="/DisplayProjects"
-                            element={<DisplayProjects />}
-                        />
-                        <Route
-                            path="/DisplayPeople"
-                            element={<DisplayPeople />}
-                        />
-                        <Route path="/Employees" element={<Employees />} />
-                        <Route path="/User" element={<User />} />
-                        <Route path="/CEO" element={<CEO />} />
-                    </Routes>
-                </main>
-            </div>
-        </Router>
-    );
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <header className="App-header">
+          <Menu />
+        </header>
+        <main>
+          <Routes>
+            <Route path="/" element={<Start />} />
+            {/* <Route path="/login" element={<AuthLogin />} /> */}
+            <Route path="/ReportTime" element={<ReportTime />} />
+            <Route path="/DisplayProjects" element={<DisplayProjects />} />
+            <Route path="/DisplayPeople" element={<DisplayPeople />} />
+            <Route path="/Employees" element={<Employees />} />
+            <Route path="/User" element={<User />} />
+            <Route path="/CEO" element={<CEO />} />
+            <Route path="/filteredtimereports" element={<FilteredTimereports />} 
+            />
+
+
+          </Routes>
+        </main>
+      </div>
+    </Router>
+  );
 }
-
+ 
 //*********************************************************************************************************** */
 //************************       LÖSNING MED ATT DÖLJA ROUTE'S             ********************************** */
 //*********************************************************************************************************** */
-
+ 
 // import "./App.css";
 // import React, { useState, useEffect } from "react";
 // import {
@@ -64,11 +62,11 @@ export default function App() {
 // import User from "./pages/User";
 // import CEO from "./pages/CEO";
 // import AuthLogin from "./components/AuthLogin";
-
+ 
 // function App() {
 //     const [isLoggedIn, setIsLoggedIn] = useState(false);
 //     const [loggedInUser, setLoggedInUser] = useState(null);
-
+ 
 //     // Läs inloggad användare från localStorage vid komponentens montering
 //     useEffect(() => {
 //         const user = localStorage.getItem("loggedInUser");
@@ -77,7 +75,7 @@ export default function App() {
 //             setIsLoggedIn(true);
 //         }
 //     }, []);
-
+ 
 //     // Funktion för att hantera inloggning
 //     const handleLogin = (user) => {
 //         setLoggedInUser(user);
@@ -85,7 +83,7 @@ export default function App() {
 //         // Spara inloggad användare i localStorage
 //         localStorage.setItem("loggedInUser", user);
 //     };
-
+ 
 //     // Funktion för att hantera utloggning
 //     const handleLogout = () => {
 //         setLoggedInUser(null);
@@ -93,7 +91,7 @@ export default function App() {
 //         // Ta bort inloggad användare från localStorage
 //         localStorage.removeItem("loggedInUser");
 //     };
-
+ 
 //     return (
 //         <Router>
 //             <div className="App">
@@ -142,5 +140,5 @@ export default function App() {
 //         </Router>
 //     );
 // }
-
+ 
 // export default App;
