@@ -5,7 +5,8 @@ import "./ProjectInputEdit.css";
 const ProjectInputEdit = () => {
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
-    const [newDate, setNewDate] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
 
     useEffect(() => {
         fetchData();
@@ -33,8 +34,12 @@ const ProjectInputEdit = () => {
         console.log("Det som klickats på ", project);
     };
 
-    const handleDateChange = (event) => {
-        setNewDate(event.target.value);
+    const handleStartDateChange = (event) => {
+        setStartDate(event.target.value);
+    };
+
+    const handleEndDateChange = (event) => {
+        setEndDate(event.target.value);
     };
 
     const handleDateUpdate = async (e) => {
@@ -42,9 +47,16 @@ const ProjectInputEdit = () => {
         // Använd selectedProject för att få det valda projektet och newDate för det nya datumet
         // Utför en POST-anrop till din API med den uppdaterade informationen
         e.preventDefault();
+
+        if (!selectedProject || !startDate || !endDate) {
+            console.error("Alla fält måste vara ifyllda.");
+            return;
+        }
+
         const updateData = {
             projectId: selectedProject.id,
-            updatedTime: newDate,
+            startDate: startDate,
+            endDate: endDate,
         };
         console.log("DETTA SKICKAS TILL UPPDATE: ", updateData);
         axios
@@ -100,18 +112,29 @@ const ProjectInputEdit = () => {
                 {selectedProject && (
                     <div>
                         <h2>
-                            Uppdate end date for project:{" "}
+                            Update start and end date for project{" "}
                             {
                                 selectedProject.properties.Projectname.title[0]
                                     .plain_text
                             }
                             :
                         </h2>
-                        <input
-                            type="date"
-                            value={newDate}
-                            onChange={handleDateChange}
-                        />
+                        <label>
+                            Start Date:
+                            <input
+                                type="date"
+                                value={startDate}
+                                onChange={handleStartDateChange}
+                            />
+                        </label>
+                        <label>
+                            End Date:
+                            <input
+                                type="date"
+                                value={endDate}
+                                onChange={handleEndDateChange}
+                            />
+                        </label>
                         <button onClick={handleDateUpdate}>Add update</button>
                     </div>
                 )}

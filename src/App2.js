@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Start from "./pages/Start";
 import LoginPage from "./pages/LoginPage";
-import VisualizeLogin from "./components/VisualizeLogin";
+
 import Employees from "./pages/Employees";
 import ReportTime from "./pages/ReportTime";
 import DisplayProjects from "./pages/DisplayProjects";
