@@ -2,7 +2,7 @@ import React from "react";
 import ProjectReader from "../components/ProjectReader";
 import TimereportReader from "../components/TimereportReader";
 import ProjectInputEdit from "../components/ProjectInputEdit";
-
+import AlertCompareEndDate from "../components/AlertCompareEndDate";
 import PresentUser from "../components/PresentUser";
 
 export default function DisplayProjects() {
@@ -11,11 +11,12 @@ export default function DisplayProjects() {
     return (
         <div>
             <h1>Sida för att visa allt ut Projects</h1>
-            {loginProcess && <ProjectReader />}
+            {loginProcess && <AlertCompareEndDate />}
             <br />
-            {loginProcess && <TimereportReader />}
-            <ProjectInputEdit />
+            {/* {loginProcess && <TimereportReader />} */}
+            {loginProcess && <ProjectInputEdit />}
             <br />
+
             <br />
             <br />
             {loginProcess && <PresentUser />}

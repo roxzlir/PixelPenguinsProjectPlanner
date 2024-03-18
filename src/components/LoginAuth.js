@@ -56,7 +56,7 @@ export default function LoginAuth() {
                 const usersData = response.data.results.map((item) => ({
                     username: item.properties.Name.title[0]?.plain_text,
                     id: item.properties.ID.unique_id.number,
-                    role: item.properties.Role.rich_text[0].plain_text,
+                    role: item.properties.Role.select.name,
                 }));
                 console.log("Detta är sparat i usersData: ", usersData);
                 setUsers(usersData);

@@ -2,7 +2,6 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 
 export default function Menu() {
-    const loginProcess = localStorage.getItem("loggedInUser");
     return (
         <body>
             <nav>
@@ -14,9 +13,7 @@ export default function Menu() {
                         <NavLink to="/LoginPage">Login/Logout</NavLink>
                     </li>
                     <li>
-                        {loginProcess && (
-                            <NavLink to="/ReportTime">Report Time</NavLink>
-                        )}
+                        <NavLink to="/ReportTime">Report Time</NavLink>
                     </li>
                     <li>
                         <NavLink to="/DisplayProjects">
