@@ -14,7 +14,7 @@ export default function PeopleRullup() {
     const payload = {};
 
     axios
-      .post("http://localhost:3004/api/notion/people", payload)
+      .post("http://localhost:3001/api/notion/people", payload)
       .then((response) => {
         setData(response.data); // Spara datan i state
         console.log("Datan vi hämtar från People-databasen: ", response.data);

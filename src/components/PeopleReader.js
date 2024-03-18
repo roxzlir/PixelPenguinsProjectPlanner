@@ -45,22 +45,6 @@ export default function PeopleReader() {
         }
     }, [data]);
 
-    // const matchLoggedUser = (loggedInName) => {
-    //     if (data && data.results) {
-    //         const person = data.results.find((item) => {
-    //             return (
-    //                 item.properties.Name.title[0].plain_text === loggedInName
-    //             );
-    //         });
-
-    //         setSingelPerson(person);
-    //         console.log("HÄR ÄR DATAN SOM FINNS I PERSON:", person);
-    //     }
-    // };
-
-    // const hardUserName = "Test Testsson";
-    // matchLoggedUser(logOutLoggedInUser());
-
     useEffect(() => {
         fetchData();
     }, []);

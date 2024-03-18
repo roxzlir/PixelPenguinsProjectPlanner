@@ -66,6 +66,17 @@ export default function ProjectReader() {
                                 {item.properties["Worked hours"].rollup.number}
                             </p>
                             <p>Status: {item.properties.Status.select.name}</p>
+                            <p>
+                                Timespan:{" "}
+                                {item.properties.Timespan.date ? (
+                                    <>
+                                        {item.properties.Timespan.date.start} -{" "}
+                                        {item.properties.Timespan.date.end}
+                                    </>
+                                ) : (
+                                    "No date"
+                                )}
+                            </p>
                         </li>
                     ))}
                 </ul>
