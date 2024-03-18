@@ -30,8 +30,12 @@ export default function Menu() {
           <li>
             <NavLink to="/filteredtimereports">Filtered timereports</NavLink>
           </li>
+
+          <li>
+                        <NavLink to="/CEO">CEO</NavLink>
+                    </li>
         </ul>
       </nav>
     </body>
   );
-}
+  }

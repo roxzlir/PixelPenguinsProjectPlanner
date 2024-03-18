@@ -11,6 +11,8 @@ export default function AddNewTimereport() {
     const [projectData, setProjectData] = useState([]);
     //Denna vill jag spara ner ALL data från JSON svaret
 
+    const [showReport, setShowReport] = useState(false);
+
     const FetchProjects = () => {
         const payload = {};
 
@@ -136,7 +138,22 @@ export default function AddNewTimereport() {
             .then((response) => {
                 // Hantera lyckad förfrågan här
                 console.log("Report added successfully:", response.data);
+
+                //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
+                const reportString = `
+          Timmar: ${reportData.hours}
+          Datum: ${reportData.addDate}
+          Ämne: ${reportData.note}
+        `;
+
+                // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
+                alert(`${reportString}\n\nRapporten har lagts till.`);
+
+                // Visa rapporten
+                setShowReport(true);
+                //*********************       ^^^^^^^ GJORT FRÅN TimeReportAddConfirmation^^^^^^^                 ********************** */
             })
+
             .catch((error) => {
                 // Hantera fel här
                 console.error("Error adding report:", error);
