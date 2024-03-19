@@ -14,6 +14,7 @@ export default function TimereportReader() {
     useEffect(() => {
         const fetchData = async () => {
             try {
+
                 const timereportsResponse = await axios.post("http://localhost:3001/api/notion/timereports");
                 setData(timereportsResponse.data);
 
@@ -25,6 +26,7 @@ export default function TimereportReader() {
                     people[person.id] = { id: person.id, name };
                 });
                 setPeopleData(people);
+
 
                 const projectsResponse = await axios.post("http://localhost:3001/api/notion");
                 const projects = {};
@@ -40,6 +42,7 @@ export default function TimereportReader() {
         };
         fetchData();
     }, []);
+
 
     const filterTimereportsByPersonAndDateRange = (personId, startDate, endDate) => {
         if (!data) return [];
@@ -70,7 +73,6 @@ export default function TimereportReader() {
     };
     
     
-
     const handleSelectChange = (e, setter) => {
         setter(e.target.value);
     };
@@ -78,6 +80,7 @@ export default function TimereportReader() {
     return (
         <div>
             <label>Select a person:</label>
+
             <select value={selectedPersonId} onChange={(e) => handleSelectChange(e, setSelectedPersonId)}>
                 <option value="">All</option>
                 {Object.keys(peopleData).map((personId) => (
@@ -111,6 +114,7 @@ export default function TimereportReader() {
             {selectedPersonId && (
                 <div>
                     <h2>{peopleData[selectedPersonId].name}'s Timereports:</h2>
+
                     {filterTimereportsByPersonAndDateRange(selectedPersonId, selectedStartDate, selectedEndDate).length > 0 ? (
                         <ul>
                             {filterTimereportsByPersonAndDateRange(selectedPersonId, selectedStartDate, selectedEndDate).map((report) => (
@@ -123,6 +127,7 @@ export default function TimereportReader() {
                             ))}
                         </ul>
                     ) : (
+
                         <p>No timereports found for {peopleData[selectedPersonId].name}</p>
                     )}
                 </div>
