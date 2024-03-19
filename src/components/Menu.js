@@ -1,40 +1,45 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 
 export default function Menu() {
+    // const history = useHistory();
+
+    function Logout() {
+        localStorage.removeItem("loggedInUser");
+        // history.push("/");
+    }
+
+    // const reloadButton = document.getElementById("reloadButton");
+
+    // reloadButton.addEventListener("click", function () {
+    //     location.reload();
+    // });
+
     return (
         <body>
             <nav>
                 <ul>
                     <li>
-                        <NavLink to="/">Start</NavLink>
+                        <NavLink to="/">Profile</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/LoginPage">Login/Logout</NavLink>
+                        <NavLink to="/LoginPage">
+                            Login "ska bli Welcome"
+                        </NavLink>
                     </li>
                     <li>
                         <NavLink to="/ReportTime">Report Time</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/DisplayProjects">
-                            Display Projects
-                        </NavLink>
+                        <NavLink to="/DisplayTimereport">Timereports</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/DisplayPeople">Display People</NavLink>
+                        <NavLink to="/DisplayProjects">Projects</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/Employees">Employees</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/User">User</NavLink>
-                    </li>
-                    <li>
-
-                        <NavLink to="/CEO">CEO</NavLink>
-                    </li>
-        </ul>
-      </nav>
-    </body>
-  );
-  }
+                    <br />
+                    <button onClick={Logout}>Logga ut</button>
+                </ul>
+            </nav>
+        </body>
+    );
+}

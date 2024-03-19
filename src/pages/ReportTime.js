@@ -7,8 +7,7 @@ export default function ReportTime() {
         <div>
             <h1>Report Time</h1>
             <p></p>
-            <AddTimereport />
-
+            {loginProcess && <AddTimereport />}
         </div>
     );
 }

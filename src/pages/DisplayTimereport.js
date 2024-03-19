@@ -3,7 +3,7 @@ import PeopleReader from "../components/PeopleReader";
 import PresentUser from "../components/PresentUser";
 import FilterTimereports from "../components/FilterTimereports";
 
-export default function DisplayPeople() {
+export default function DisplayTimereport() {
     const loginProcess = localStorage.getItem("loggedInUser");
     return (
         <div>

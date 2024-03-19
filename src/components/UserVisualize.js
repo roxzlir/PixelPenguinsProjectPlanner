@@ -3,6 +3,7 @@
 /*********************************************************************************************/
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ReportTime from "../pages/ReportTime";
 
 // ENDAST VISUALISERING / DISPLAY AV EN PERSON UTEFTER NAMN NU DÅ...
 // kanske kan slänga in dropdownlistan.. kan ska ju användas när anv är inloggad så onödigt?
@@ -15,14 +16,16 @@ export default function UserVisualize() {
     const fetchData = () => {
         const payload = {};
 
-    axios
-      .post("http://localhost:3001/api/notion/people", payload)
-      .then((response) => {
-        console.log("Datan vi hämtar från People-databasen: ", response.data);
-
+        axios
+            .post("http://localhost:3001/api/notion/people", payload)
+            .then((response) => {
+                console.log(
+                    "Datan vi hämtar från People-databasen: ",
+                    response.data
+                );
 
                 // Byt ut 'desiredName' mot det namn vi vill söka efter och personen som ska displayas
-                const desiredName = "John Doe";
+                const desiredName = localStorage.getItem("loggedInUser");
                 const desiredPerson = response.data.results.find(
                     // Använd find för att leta igenom
                     (item) =>
@@ -77,6 +80,7 @@ export default function UserVisualize() {
                         "N/A"}
                 </p>
                 <p>ID: {person.properties.ID.unique_id.number || "no"}</p>
+                <a href="pages/#/ReportTime">Klicka</a>
             </main>
         </div>
     );

@@ -7,10 +7,11 @@ import PresentUser from "../components/PresentUser";
 
 export default function DisplayProjects() {
     const loginProcess = localStorage.getItem("loggedInUser");
-    // "access_token"
+
     return (
         <div>
             <h1>Sida för att visa allt ut Projects</h1>
+            {loginProcess && <ProjectReader />}
             {loginProcess && <AlertCompareEndDate />}
             <br />
             {/* {loginProcess && <TimereportReader />} */}

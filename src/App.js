@@ -2,48 +2,45 @@ import "./App.css";
 import React from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Start from "./pages/Start";
-import Employees from "./pages/Employees";
 import ReportTime from "./pages/ReportTime";
 import DisplayProjects from "./pages/DisplayProjects";
 import Menu from "./components/Menu";
-import DisplayPeople from "./pages/DisplayPeople";
-import User from "./pages/User";
-import CEO from "./pages/CEO";
-import FilteredTimereports from "./pages/FilteredTimereports";
-
+import DisplayTimereport from "./pages/DisplayTimereport";
+import LoginPage from "./pages/LoginPage";
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <header className="App-header">
-          <Menu />
-        </header>
-        <main>
-          <Routes>
-            <Route path="/" element={<Start />} />
-            {/* <Route path="/login" element={<AuthLogin />} /> */}
-            <Route path="/ReportTime" element={<ReportTime />} />
-            <Route path="/DisplayProjects" element={<DisplayProjects />} />
-            <Route path="/DisplayPeople" element={<DisplayPeople />} />
-            <Route path="/Employees" element={<Employees />} />
-            <Route path="/User" element={<User />} />
-            <Route path="/CEO" element={<CEO />} />
-            <Route path="/filteredtimereports" element={<FilteredTimereports />} 
-            />
-
-
-          </Routes>
-        </main>
-      </div>
-    </Router>
-  );
+    return (
+        <Router>
+            <div className="App">
+                <header className="App-header">
+                    <Menu />
+                </header>
+                <main>
+                    <Routes>
+                        <Route path="/" element={<Start />} />
+                        <Route path="/LoginPage" element={<LoginPage />} />
+                        <Route path="/ReportTime" element={<ReportTime />} />
+                        <Route
+                            path="/DisplayTimereport"
+                            element={<DisplayTimereport />}
+                        />
+                        <Route
+                            path="/DisplayProjects"
+                            element={<DisplayProjects />}
+                        />
+                    </Routes>
+                </main>
+            </div>
+        </Router>
+    );
 }
- 
+
+export default App;
+
 //*********************************************************************************************************** */
 //************************       LÖSNING MED ATT DÖLJA ROUTE'S             ********************************** */
 //*********************************************************************************************************** */
- 
+
 // import "./App.css";
 // import React, { useState, useEffect } from "react";
 // import {
@@ -62,11 +59,11 @@ function App() {
 // import User from "./pages/User";
 // import CEO from "./pages/CEO";
 // import AuthLogin from "./components/AuthLogin";
- 
+
 // function App() {
 //     const [isLoggedIn, setIsLoggedIn] = useState(false);
 //     const [loggedInUser, setLoggedInUser] = useState(null);
- 
+
 //     // Läs inloggad användare från localStorage vid komponentens montering
 //     useEffect(() => {
 //         const user = localStorage.getItem("loggedInUser");
@@ -75,7 +72,7 @@ function App() {
 //             setIsLoggedIn(true);
 //         }
 //     }, []);
- 
+
 //     // Funktion för att hantera inloggning
 //     const handleLogin = (user) => {
 //         setLoggedInUser(user);
@@ -83,7 +80,7 @@ function App() {
 //         // Spara inloggad användare i localStorage
 //         localStorage.setItem("loggedInUser", user);
 //     };
- 
+
 //     // Funktion för att hantera utloggning
 //     const handleLogout = () => {
 //         setLoggedInUser(null);
@@ -91,7 +88,7 @@ function App() {
 //         // Ta bort inloggad användare från localStorage
 //         localStorage.removeItem("loggedInUser");
 //     };
- 
+
 //     return (
 //         <Router>
 //             <div className="App">
@@ -140,5 +137,5 @@ function App() {
 //         </Router>
 //     );
 // }
- 
+
 // export default App;
