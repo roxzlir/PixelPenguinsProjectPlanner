@@ -172,4 +172,5 @@ export default function AlertCompareEndDate({ onSelectProject }) {
             </div>
         </div>
     );
+
 }

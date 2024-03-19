@@ -30,10 +30,11 @@ export default function Menu() {
                         <NavLink to="/User">User</NavLink>
                     </li>
                     <li>
+
                         <NavLink to="/CEO">CEO</NavLink>
                     </li>
-                </ul>
-            </nav>
-        </body>
-    );
-}
+        </ul>
+      </nav>
+    </body>
+  );
+  }
