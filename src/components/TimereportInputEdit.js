@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./TimereportReader.css";
 
-export default function TimereportReader() {
+export default function TimereportInputEdit() {
     const [data, setData] = useState(null);
     const [peopleData, setPeopleData] = useState({});
     const [projectData, setProjectData] = useState({});
@@ -90,6 +90,17 @@ export default function TimereportReader() {
                                         Person:{" "}
                                         {peopleData[person.id]?.name
                                             ? peopleData[person.id].name
+                                            : "Unknown"}
+                                    </p>
+                                )
+                            )}
+
+                            {item.properties["Project"]?.relation?.map(
+                                (project) => (
+                                    <p key={project.id}>
+                                        Project:{" "}
+                                        {projectData[project.id]?.name
+                                            ? projectData[project.id].name
                                             : "Unknown"}
                                     </p>
                                 )

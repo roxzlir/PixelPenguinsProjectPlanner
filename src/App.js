@@ -1,4 +1,4 @@
-import "./App.css";
+// import "./src/css/App";
 import React from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Start from "./pages/Start";
