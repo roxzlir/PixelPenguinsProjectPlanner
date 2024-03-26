@@ -1,33 +1,93 @@
-// import "./src/css/App";
-import React from "react";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Start from "./pages/Start";
 import ReportTime from "./pages/ReportTime";
 import DisplayProjects from "./pages/DisplayProjects";
 import Menu from "./components/Menu";
 import DisplayTimereport from "./pages/DisplayTimereport";
 import LoginPage from "./pages/LoginPage";
+import "./css/baseCSSTest.css";
 
 function App() {
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userRole, setUserRole] = useState("");
+
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem("loggedInUser");
+        const userRole = localStorage.getItem("userRole");
+
+        if (loggedInUser && userRole) {
+          setIsLoggedIn(true);
+          setUserRole(userRole);
+        }
+        getRoleData();
+
+    }, 
+[]);
+
+
+const getRoleData = async () => {
+  try {
+      const response = await fetch('/api/notion/people');
+      if (!response.ok) {
+          throw new Error('Failed to fetch user data');
+      }
+      const data = await response.json();
+      // Assuming data is an array of users, you might loop through each user
+      data.results.forEach(user => {
+          const role = user.properties.Role.rich_text[0].plain_text;
+          console.log('User Role:', role);
+          // Here you can set the user role in state or perform any other actions
+          setUserRole(role); // Update the state with the fetched user role
+      });
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+  }
+}
+
+
+
+    
+    const handleLogin = () => {
+        setIsLoggedIn(true);
+        setUserRole(userRole);
+        // Directly after logging in
+        window.location.reload();    
+      };
+
+    const handleLogout = () => {
+        localStorage.removeItem("loggedInUser");
+        setUserRole("");
+        setIsLoggedIn(false);
+        // Directly after logout
+        window.location.href = "/#/LoginPage";
+    };
+
     return (
         <Router>
             <div className="App">
-                <header className="App-header">
-                    <Menu />
-                </header>
-                <main>
+            {isLoggedIn && <Menu userRole={userRole} onLogout={handleLogout} />}                <main>
                     <Routes>
-                        <Route path="/" element={<Start />} />
-                        <Route path="/LoginPage" element={<LoginPage />} />
-                        <Route path="/ReportTime" element={<ReportTime />} />
-                        <Route
-                            path="/DisplayTimereport"
-                            element={<DisplayTimereport />}
-                        />
-                        <Route
-                            path="/DisplayProjects"
-                            element={<DisplayProjects />}
-                        />
+                <Route path="/LoginPage" element={<LoginPage onLogin={handleLogin} />} />
+                <Route path="/" element={<Start />} />
+                {isLoggedIn && (
+                <>
+                {userRole === "Employee" &&(
+                <Route path="/ReportTime" element={<ReportTime />} />
+                )}
+                
+                {(userRole === "Teamleader" || userRole === "CEO") && (
+                <>
+                    <Route
+                        path="/DisplayTimereport" element={<DisplayTimereport />}/>
+                    <Route path="/DisplayProjects" element={<DisplayProjects />} />
+                    </>
+                                )}
+                </>
+                
+            )}
+              
+                        {!isLoggedIn && <Route path="*" element={<Navigate to="/LoginPage" />} />}
                     </Routes>
                 </main>
             </div>
@@ -37,105 +97,3 @@ function App() {
 
 export default App;
 
-//*********************************************************************************************************** */
-//************************       LÖSNING MED ATT DÖLJA ROUTE'S             ********************************** */
-//*********************************************************************************************************** */
-
-// import "./App.css";
-// import React, { useState, useEffect } from "react";
-// import {
-//     HashRouter as Router,
-//     Route,
-//     Routes,
-//     Navigate,
-// } from "react-router-dom";
-// import Start from "./pages/Start";
-// import VisualizeLogin from "./components/VisualizeLogin";
-// import Employees from "./pages/Employees";
-// import ReportTime from "./pages/ReportTime";
-// import DisplayProjects from "./pages/DisplayProjects";
-// import Menu from "./components/Menu";
-// import DisplayPeople from "./pages/DisplayPeople";
-// import User from "./pages/User";
-// import CEO from "./pages/CEO";
-// import AuthLogin from "./components/AuthLogin";
-
-// function App() {
-//     const [isLoggedIn, setIsLoggedIn] = useState(false);
-//     const [loggedInUser, setLoggedInUser] = useState(null);
-
-//     // Läs inloggad användare från localStorage vid komponentens montering
-//     useEffect(() => {
-//         const user = localStorage.getItem("loggedInUser");
-//         if (user) {
-//             setLoggedInUser(user);
-//             setIsLoggedIn(true);
-//         }
-//     }, []);
-
-//     // Funktion för att hantera inloggning
-//     const handleLogin = (user) => {
-//         setLoggedInUser(user);
-//         setIsLoggedIn(true);
-//         // Spara inloggad användare i localStorage
-//         localStorage.setItem("loggedInUser", user);
-//     };
-
-//     // Funktion för att hantera utloggning
-//     const handleLogout = () => {
-//         setLoggedInUser(null);
-//         setIsLoggedIn(false);
-//         // Ta bort inloggad användare från localStorage
-//         localStorage.removeItem("loggedInUser");
-//     };
-
-//     return (
-//         <Router>
-//             <div className="App">
-//                 <header className="App-header">
-//                     <Menu isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-//                 </header>
-//                 <main>
-//                     <Routes>
-//                         <Route path="/" element={<Start />} />
-//                         <Route
-//                             path="/login"
-//                             element={<VisualizeLogin onLogin={handleLogin} />}
-//                         />
-//                         {/* Skyddade rutter */}
-//                         {isLoggedIn ? (
-//                             <>
-//                                 <Route
-//                                     path="/ReportTime"
-//                                     element={<ReportTime />}
-//                                 />
-//                                 <Route
-//                                     path="/DisplayProjects"
-//                                     element={<DisplayProjects />}
-//                                 />
-//                                 <Route
-//                                     path="/DisplayPeople"
-//                                     element={<DisplayPeople />}
-//                                 />
-//                                 <Route
-//                                     path="/Employees"
-//                                     element={<Employees />}
-//                                 />
-//                                 <Route path="/User" element={<User />} />
-//                                 <Route path="/CEO" element={<CEO />} />
-//                             </>
-//                         ) : (
-//                             <Route
-//                                 element={
-//                                     <Navigate to="/login" replace={true} />
-//                                 }
-//                             />
-//                         )}
-//                     </Routes>
-//                 </main>
-//             </div>
-//         </Router>
-//     );
-// }
-
-// export default App;

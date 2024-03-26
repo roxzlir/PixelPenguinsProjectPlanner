@@ -1,45 +1,36 @@
 import React from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-export default function Menu() {
-    // const history = useHistory();
-
-    function Logout() {
-        localStorage.removeItem("loggedInUser");
-        // history.push("/");
-    }
-
-    // const reloadButton = document.getElementById("reloadButton");
-
-    // reloadButton.addEventListener("click", function () {
-    //     location.reload();
-    // });
-
+function Menu({ userRole, onLogout }) {
     return (
-        <body>
+        <header className="App-header">
             <nav>
-                <ul>
+                <ul className="menuList">
                     <li>
-                        <NavLink to="/">Profile</NavLink>
+                        <NavLink to="/">Home</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/LoginPage">
-                            Login "ska bli Welcome"
-                        </NavLink>
-                    </li>
+                    {userRole === "Employee" && (
                     <li>
                         <NavLink to="/ReportTime">Report Time</NavLink>
                     </li>
+                     )}
+                     {(userRole === "Teamleader" || userRole === "CEO") && (
+                     <>
                     <li>
                         <NavLink to="/DisplayTimereport">Timereports</NavLink>
                     </li>
                     <li>
                         <NavLink to="/DisplayProjects">Projects</NavLink>
                     </li>
-                    <br />
-                    <button onClick={Logout}>Logga ut</button>
+                    </>
+                    )}
+                    <li>
+                        <button onClick={onLogout}>Logout</button>
+                    </li>
                 </ul>
             </nav>
-        </body>
+        </header>
     );
 }
+
+export default Menu;
