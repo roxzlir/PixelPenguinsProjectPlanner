@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./ApiReader.css";
 
 function ActiveProjects() {
     const [data, setData] = useState(null);

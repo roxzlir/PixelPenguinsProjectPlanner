@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./ProjectInputEdit.css";
 
 const ProjectHoursEdit = () => {
     const [projects, setProjects] = useState([]);

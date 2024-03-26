@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./TimereportReader.css";
+import "../css/TimereportReader.css";
 
 export default function TimereportReader() {
     const [data, setData] = useState(null);

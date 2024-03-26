@@ -3,7 +3,6 @@
 /*********************************************************************************************/
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReportTime from "../pages/ReportTime";
 
 // ENDAST VISUALISERING / DISPLAY AV EN PERSON UTEFTER NAMN NU DÅ...
 // kanske kan slänga in dropdownlistan.. kan ska ju användas när anv är inloggad så onödigt?
