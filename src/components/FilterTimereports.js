@@ -1,208 +1,87 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
-export default function TimereportReader() {
-    const [data, setData] = useState(null);
-    const [peopleData, setPeopleData] = useState({});
-    const [projectData, setProjectData] = useState({});
-    const [selectedPersonId, setSelectedPersonId] = useState("");
-    const [selectedStartDate, setSelectedStartDate] = useState(null);
-    const [selectedEndDate, setSelectedEndDate] = useState(null);
+function TimereportReader() {
+  const [timereports, setTimereports] = useState([]);
+  const [selectedPerson, setSelectedPerson] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [people, setPeople] = useState([]);
+  const [projects, setProjects] = useState({});
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const timereportsResponse = await axios.post(
-                    "http://localhost:3001/api/notion/timereports"
-                );
-                setData(timereportsResponse.data);
+  async function fetchData() {
+    try {
+      const [timereportsResponse, peopleResponse] = await Promise.all([
+        axios.post("http://localhost:3001/api/notion/timereports"),
+        axios.post("http://localhost:3001/api/notion/people"),
+      ]);
 
-                const peopleResponse = await axios.post(
-                    "http://localhost:3001/api/notion/people"
-                );
-                const people = {};
-                peopleResponse.data.results.forEach((person) => {
-                    const properties = person.properties || {};
-                    const name =
-                        properties["Name"]?.title?.[0]?.plain_text || "Unknown";
-                    people[person.id] = { id: person.id, name };
-                });
-                setPeopleData(people);
+      setTimereports(timereportsResponse.data.results);
 
-                const projectsResponse = await axios.post(
-                    "http://localhost:3001/api/notion"
-                );
-                const projects = {};
-                projectsResponse.data.results.forEach((project) => {
-                    const properties = project.properties || {};
-                    const projectName =
-                        properties["Projectname"]?.title?.[0]?.plain_text ||
-                        "Unknown";
-                    projects[project.id] = {
-                        id: project.id,
-                        name: projectName,
-                    };
-                });
-                setProjectData(projects);
-            } catch (error) {
-                console.log("Error occurred while fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []);
+      // Extracting and formatting people data
+      const formattedPeople = peopleResponse.data.results.map(person => ({
+        id: person.id,
+        name: person.properties.Name.title[0]?.text?.content || "Unknown"
+      }));
+      setPeople(formattedPeople);
 
-    const filterTimereportsByPersonAndDateRange = (
-        personId,
-        startDate,
-        endDate
-    ) => {
-        if (!data) return [];
-        return data.results.filter((report) => {
-            const reportDate = new Date(report.properties.Date.date.start);
-            const isPersonMatch = report.properties.Person.relation.some(
-                (person) => person.id === personId
-            );
+      const [projectsResponse] = await Promise.all([
+      axios.post("http://localhost:3001/api/notion") 
+    ]);
 
-            const reportDateOnly = new Date(
-                reportDate.getFullYear(),
-                reportDate.getMonth(),
-                reportDate.getDate()
-            );
-            const startDateOnly = startDate
-                ? new Date(
-                      startDate.getFullYear(),
-                      startDate.getMonth(),
-                      startDate.getDate()
-                  )
-                : null;
-            const endDateOnly = endDate
-                ? new Date(
-                      endDate.getFullYear(),
-                      endDate.getMonth(),
-                      endDate.getDate()
-                  )
-                : null;
 
-            const isStartDateMatch =
-                !startDateOnly || reportDateOnly >= startDateOnly;
-            const isEndDateMatch =
-                !endDateOnly || reportDateOnly <= endDateOnly;
+      const formattedProjects = projectsResponse.data.results.reduce((acc, project) => {
+        acc[project.id] = project.properties.Projectname.title[0]?.text?.content || "Unknown";
+        return acc;
 
-            // Extract hours and minutes from the report timestamp
-            const reportHours = reportDate.getHours();
-            const reportMinutes = reportDate.getMinutes();
+      }, {});
+      setProjects(formattedProjects);
+    } catch (error) {
+      console.log("Error occurred while fetching data:", error);
+    }
+  }
 
-            // Check if the timestamp falls within the selected range
-            const isTimeMatch =
-                startDateOnly && endDateOnly
-                    ? (reportDateOnly > startDateOnly &&
-                          reportDateOnly < endDateOnly) ||
-                      (reportDateOnly.getTime() === startDateOnly.getTime() &&
-                          reportHours >= startDateOnly.getHours() &&
-                          reportMinutes >= startDateOnly.getMinutes()) ||
-                      (reportDateOnly.getTime() === endDateOnly.getTime() &&
-                          reportHours <= endDateOnly.getHours() &&
-                          reportMinutes <= endDateOnly.getMinutes())
-                    : true;
+  function filterTimereports() {
+    return timereports.filter(report => {
+      const reportDate = new Date(report.properties.Date.date.start);
+      const isPersonMatch = !selectedPerson || report.properties.Person.relation.some(person => person.id === selectedPerson);
+      const isDateRangeMatch = (!startDate || new Date(reportDate) >= new Date(startDate)) && (!endDate || new Date(reportDate) <= new Date(endDate));
 
-            return (
-                isPersonMatch &&
-                isStartDateMatch &&
-                isEndDateMatch &&
-                isTimeMatch
-            );
-        });
-    };
+      return isPersonMatch && isDateRangeMatch;
+    });
+  }
 
-    const handleSelectChange = (e, setter) => {
-        setter(e.target.value);
-    };
+  return (
+    <div>
+      <label>Select a person:</label>
+      <select value={selectedPerson} onChange={(e) => setSelectedPerson(e.target.value)}>
+        <option value="">All</option>
+        {people.map(person => (
+          <option key={person.id} value={person.id}>
+            {person.name}
+          </option>
+        ))}
+      </select>
 
-    return (
-        <div>
-            <label>Select a person:</label>
+      <label>Choose date range:</label>
+      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+      <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
 
-            <select
-                value={selectedPersonId}
-                onChange={(e) => handleSelectChange(e, setSelectedPersonId)}
-            >
-                <option value="">All</option>
-                {Object.keys(peopleData).map((personId) => (
-                    <option key={personId} value={personId}>
-                        {peopleData[personId].name}
-                    </option>
-                ))}
-            </select>
-
-            <label>Choose date range:</label>
-            <div>
-                <DatePicker
-                    selected={selectedStartDate}
-                    onChange={(date) => setSelectedStartDate(date)}
-                    selectsStart
-                    startDate={selectedStartDate}
-                    endDate={selectedEndDate}
-                    placeholderText="Start Date"
-                />
-                <DatePicker
-                    selected={selectedEndDate}
-                    onChange={(date) => setSelectedEndDate(date)}
-                    selectsEnd
-                    startDate={selectedStartDate}
-                    endDate={selectedEndDate}
-                    minDate={selectedStartDate}
-                    placeholderText="End Date"
-                />
-            </div>
-
-            {selectedPersonId && (
-                <div>
-                    <h2>{peopleData[selectedPersonId].name}'s Timereports:</h2>
-
-                    {filterTimereportsByPersonAndDateRange(
-                        selectedPersonId,
-                        selectedStartDate,
-                        selectedEndDate
-                    ).length > 0 ? (
-                        <ul>
-                            {filterTimereportsByPersonAndDateRange(
-                                selectedPersonId,
-                                selectedStartDate,
-                                selectedEndDate
-                            ).map((report) => (
-                                <li key={report.id}>
-                                    <p>
-                                        Date:{" "}
-                                        {report.properties.Date.date.start}
-                                    </p>
-                                    <p>
-                                        Hours: {report.properties.Hours.number}
-                                    </p>
-                                    <p>
-                                        Project:{" "}
-                                        {projectData[
-                                            report.properties.Project
-                                                .relation[0].id
-                                        ]?.name || "Unknown"}
-                                    </p>
-                                    <p>
-                                        Note:{" "}
-                                        {report.properties.Note.title[0]
-                                            ?.plain_text || "No note"}
-                                    </p>
-                                </li>
-                            ))}
-                        </ul>
-                    ) : (
-                        <p>
-                            No timereports found for{" "}
-                            {peopleData[selectedPersonId].name}
-                        </p>
-                    )}
-                </div>
-            )}
-        </div>
-    );
+      <ul>
+        {filterTimereports().map(report => (
+          <li key={report.id}>
+            <p>Date: {report.properties.Date.date.start}</p>
+            <p>Hours: {report.properties.Hours.number}</p>
+            <p>Project: {projects[report.properties.Project.relation[0].id] || "Unknown"}</p>            
+            <p>Note: {report.properties.Note?.title?.[0]?.plain_text || "No note"}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }
+
+export default TimereportReader;

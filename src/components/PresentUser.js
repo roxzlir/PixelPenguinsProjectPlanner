@@ -4,7 +4,6 @@ import axios from "axios";
 export default function PresentUser() {
     const [data, setData] = useState([]);
     const [singlePerson, setSingelPerson] = useState(null);
-    const [loggedInRole, setLoggedInRole] = useState(null);
 
     const fetchData = () => {
         const payload = {};
