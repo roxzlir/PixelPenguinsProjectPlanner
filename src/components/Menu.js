@@ -20,6 +20,9 @@ function Menu({ userRole, onLogout }) {
                     <li>
                         <NavLink to="/DisplayTimereport">Timereports</NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/ReportTimeAll">Report Time</NavLink>
+                    </li>
                     <li className="menu-link">
                         <NavLink to="/DisplayProjects" className={"nav-link"}>
                             Projects

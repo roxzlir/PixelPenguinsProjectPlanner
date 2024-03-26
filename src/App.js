@@ -11,6 +11,7 @@ import Menu from "./components/Menu";
 import DisplayTimereport from "./pages/DisplayTimereport";
 import LoginPage from "./pages/LoginPage";
 import Logo from "./components/Logo";
+import ReportTimeAll from "./pages/ReportTimeAll";
 
 
 function App() {
@@ -71,7 +72,9 @@ const getRoleData = async () => {
     return (
         <Router>
 
+            <Logo/>
             <div className="App">
+              <div className="app-menu-section">
             {isLoggedIn && <Menu userRole={userRole} onLogout={handleLogout} />}                <main>
 
                     <Routes>
@@ -86,8 +89,10 @@ const getRoleData = async () => {
                 {(userRole === "Teamleader" || userRole === "CEO") && (
                 <>
                     <Route
-                        path="/DisplayTimereport" element={<DisplayTimereport />}/>
+                      path="/DisplayTimereport" element={<DisplayTimereport />}/>
                     <Route path="/DisplayProjects" element={<DisplayProjects />} />
+                    <Route 
+                    path="/ReportTimeAll" element={<ReportTimeAll />}/>
                     </>
                                 )}
                 </>
@@ -97,6 +102,7 @@ const getRoleData = async () => {
                         {!isLoggedIn && <Route path="*" element={<Navigate to="/LoginPage" />} />}
                     </Routes>
                 </main>
+            </div>
             </div>
         </Router>
     );

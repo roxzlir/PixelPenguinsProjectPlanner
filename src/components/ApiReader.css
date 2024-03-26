@@ -1,8 +1,0 @@
-.ApiReader-container li {
-}
-.ApiReader-container ul {
-    display: flex;
-    flex-direction: row;
-    list-style: none;
-    justify-content: space-evenly;
-}

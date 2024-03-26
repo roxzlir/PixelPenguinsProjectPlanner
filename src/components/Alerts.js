@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
-export default function AlertCompareEndDate({ onSelectProject }) {
+export default function Alert({ onSelectProject }) {
   const [data, setData] = useState(null);
   const [todayDate] = useState(new Date()); // Dagens datum
   const [alertResults, setAlertResults] = useState([]); // State för att lagra varningsresultat

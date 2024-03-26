@@ -17,7 +17,6 @@ export default function LoginAuth() {
     const [selectedUser, setSelectedUser] = useState("");
     const [password, setPassword] = useState("");
     const [users, setUsers] = useState([]);
-    const [userRole, setUserRole] = useState([]);
     const navigate = useNavigate();
 
     // Läs inloggad användare från localStorage vid komponentens montering
@@ -27,13 +26,7 @@ export default function LoginAuth() {
             setLoggedInUser(user);
         }
     }, []);
-    // useEffect(() => {
-    //     if (userRole) {
-    //         localStorage.setItem("userRole", JSON.stringify(userRole));
-    //     }
-    // }, [userRole]);
-
-    // Funktion för att hantera inloggning
+   
     const handleLogin = () => {
         const user = users.find((user) => user.username === selectedUser);
         const loggedInRole = users.find(
@@ -47,7 +40,6 @@ export default function LoginAuth() {
         console.log("Detta finns i loggedInId: ", loggedInId);
         if (user && user.id.toString() === password) {
             setLoggedInUser(selectedUser);
-            setUserRole(loggedInRole);
             localStorage.setItem("loggedInUser", selectedUser); // Spara inloggad användare i localStorage
             localStorage.setItem("userRole", loggedInRole);
             localStorage.setItem("loggedInId", loggedInId);

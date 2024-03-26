@@ -1,0 +1,61 @@
+body{
+    background-color: #264949;
+    
+}
+
+p{
+    color: #F5F5F5;
+}
+
+h1{
+    color: #F5F5F5;
+}
+
+li{
+    color: #F5F5F5;
+}
+
+.menuList {
+    list-style-type: none;
+    justify-content: center;
+    color: #F5F5F5;
+
+}
+
+button {
+    background-color: #F89640;
+    border-radius: 10px;
+    border-color: #F89640;
+}
+
+.People-list {
+    color: #F5F5F5;
+
+}
+
+.logintest {
+    background-color: #F89640;
+    border-radius: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.noBulletLists{
+    list-style-type: none;
+}
+
+label{
+    color: #F5F5F5;
+}
+
+select{
+    background-color: #F89640;
+    border-radius: 20px;
+    border-color: #F89640;
+}
+
+input{
+    background-color: #F89640;
+    border-radius: 20px;
+    border-color: #F89640;
+}

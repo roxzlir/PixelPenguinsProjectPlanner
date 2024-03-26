@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function TimereportReader() {
+function FilterProjectsReports() {
   const [timereports, setTimereports] = useState([]);
   const [selectedProject, setSelectedProject] = useState("");
   const [projects, setProjects] = useState([]);
@@ -64,4 +64,4 @@ function TimereportReader() {
   );
 }
 
-export default TimereportReader;
+export default FilterProjectsReports;

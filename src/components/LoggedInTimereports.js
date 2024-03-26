@@ -5,7 +5,6 @@ export default function LoggedInTimereports() {
     const [data, setData] = useState(null);
     const [peopleData, setPeopleData] = useState({});
     const [projectData, setProjectData] = useState({});
-    const loggedInName = localStorage.getItem("loggedInUser");
     const [allPeopleData, setAllPeopleData] = useState(null);
 
     useEffect(() => {
