@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
+import Menu from "./Menu";
 
 export default function LoginAuth() {
     // // LÖSEN
@@ -16,6 +18,7 @@ export default function LoginAuth() {
     const [password, setPassword] = useState("");
     const [users, setUsers] = useState([]);
     const [userRole, setUserRole] = useState([]);
+    const navigate = useNavigate();
 
     // Läs inloggad användare från localStorage vid komponentens montering
     useEffect(() => {
@@ -24,11 +27,11 @@ export default function LoginAuth() {
             setLoggedInUser(user);
         }
     }, []);
-    useEffect(() => {
-        if (userRole) {
-            localStorage.setItem("userRole", JSON.stringify(userRole));
-        }
-    }, [userRole]);
+    // useEffect(() => {
+    //     if (userRole) {
+    //         localStorage.setItem("userRole", JSON.stringify(userRole));
+    //     }
+    // }, [userRole]);
 
     // Funktion för att hantera inloggning
     const handleLogin = () => {
@@ -36,13 +39,19 @@ export default function LoginAuth() {
         const loggedInRole = users.find(
             (item) => item.username === selectedUser
         )?.role;
+        const loggedInId = users.find(
+            (item) => item.username === selectedUser
+        )?.pageID;
 
         console.log("Detta finns i userRole: ", loggedInRole);
+        console.log("Detta finns i loggedInId: ", loggedInId);
         if (user && user.id.toString() === password) {
             setLoggedInUser(selectedUser);
             setUserRole(loggedInRole);
             localStorage.setItem("loggedInUser", selectedUser); // Spara inloggad användare i localStorage
-            localStorage.setItem("userRole", userRole);
+            localStorage.setItem("userRole", loggedInRole);
+            localStorage.setItem("loggedInId", loggedInId);
+            navigate("/");
         } else {
             alert("Fel användarnamn eller lösenord!");
         }
@@ -57,7 +66,7 @@ export default function LoginAuth() {
                     username: item.properties.Name.title[0]?.plain_text,
                     id: item.properties.ID.unique_id.number,
                     role: item.properties.Role.select.name,
-                    // pageID: item.id,
+                    pageID: item.id,
                 }));
                 console.log("Detta är sparat i usersData: ", usersData);
                 setUsers(usersData);

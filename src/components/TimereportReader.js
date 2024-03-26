@@ -8,13 +8,24 @@ export default function TimereportReader() {
 
     const fetchData = () => {
         const payload = {};
-
+        const userID = localStorage.getItem("loggedInId");
+        console.log("userID: ", userID);
         axios
             .post("http://localhost:3001/api/notion/timereports", payload)
             .then((response) => {
-                setData(response.data);
-
-
+                const filteredData = response.data.results.filter((item) => {
+                    // Kontrollera om 'Person' relationen existerar och inte är null
+                    if (
+                        item.properties.Person &&
+                        item.properties.Person.relation
+                    ) {
+                        return item.properties.Person.relation.some(
+                            (person) => person.id === userID
+                        );
+                    }
+                    return false; // Om 'Person' relationen saknas eller är null, exkludera denna post
+                });
+                setData(filteredData);
                 fetchPeopleData();
             })
             .catch((error) => {
@@ -24,30 +35,34 @@ export default function TimereportReader() {
                 );
             });
 
-            const fetchPeopleData = () => {
-                axios
-                    .post("http://localhost:3001/api/notion/people")
-                    .then((response) => {
-                        const people = {};
-                        response.data.results.forEach((person) => {
-                            const properties = person.properties || {};
-                            const name = properties["Name"]?.title?.[0]?.plain_text || "Unknown";
-                            people[person.id] = { id: person.id, name };
-                        });
-                        setPeopleData(people);
-                    })
-                    .catch((error) => {
-                        console.log("Error occurred while fetching data about people:", error);
+        const fetchPeopleData = () => {
+            axios
+                .post("http://localhost:3001/api/notion/people")
+                .then((response) => {
+                    const people = {};
+                    response.data.results.forEach((person) => {
+                        const properties = person.properties || {};
+                        const name =
+                            properties["Name"]?.title?.[0]?.plain_text ||
+                            "Unknown";
+                        people[person.id] = { id: person.id, name };
                     });
-            };
-            
+                    setPeopleData(people);
+                })
+                .catch((error) => {
+                    console.log(
+                        "Error occurred while fetching data about people:",
+                        error
+                    );
+                });
+        };
     };
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    if (!data || !Array.isArray(data?.results)) {
+    if (!data || !Array.isArray(data.results)) {
         return <p>Loading data / No data to display...</p>;
     }
 
@@ -66,15 +81,18 @@ export default function TimereportReader() {
                                     item.properties["Date"].date &&
                                     item.properties["Date"].date.start}
                             </p>
-                            {item.properties["Person"]?.relation?.map((person) => (
-                                <p key={person.id}>
-                                Person:{" "}
-                                {peopleData[person.id]?.name ? peopleData[person.id].name : "Unknown"}
-                            </p>
-                        ))}
+                            {item.properties["Person"]?.relation?.map(
+                                (person) => (
+                                    <p key={person.id}>
+                                        Person:{" "}
+                                        {peopleData[person.id]?.name
+                                            ? peopleData[person.id].name
+                                            : "Unknown"}
+                                    </p>
+                                )
+                            )}
 
-
-                            {item.properties["Note"].title.map((note) => (
+                            {item.properties["Note"]?.title?.map((note) => (
                                 <p key={note.plain_text}>
                                     Note: {note.plain_text}
                                 </p>

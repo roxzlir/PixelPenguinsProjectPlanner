@@ -1,40 +1,46 @@
 import React from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import "../css/Menu.css";
 
 export default function Menu() {
-    // const history = useHistory();
+    const history = useNavigate();
 
     function Logout() {
         localStorage.removeItem("loggedInUser");
-        // history.push("/");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("loggedInId");
+        history("/");
     }
-
-    // const reloadButton = document.getElementById("reloadButton");
-
-    // reloadButton.addEventListener("click", function () {
-    //     location.reload();
-    // });
 
     return (
         <body>
-            <nav>
-                <ul>
-                    <li>
-                        <NavLink to="/">Profile</NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="/LoginPage">
+            <nav className="menu-container">
+                <ul className="menu-links">
+                    <li className="menu-link">
+                        <NavLink to="/LoginPage" className={"nav-link"}>
                             Login "ska bli Welcome"
                         </NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/ReportTime">Report Time</NavLink>
+                    <li className="menu-link">
+                        <NavLink to="/" className={"nav-link"}>
+                            Profile
+                        </NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/DisplayTimereport">Timereports</NavLink>
+
+                    <li className="menu-link">
+                        <NavLink to="/ReportTime" className={"nav-link"}>
+                            Report Time
+                        </NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/DisplayProjects">Projects</NavLink>
+                    <li className="menu-link">
+                        <NavLink to="/DisplayTimereport" className={"nav-link"}>
+                            Timereports
+                        </NavLink>
+                    </li>
+                    <li className="menu-link">
+                        <NavLink to="/DisplayProjects" className={"nav-link"}>
+                            Projects
+                        </NavLink>
                     </li>
                     <br />
                     <button onClick={Logout}>Logga ut</button>

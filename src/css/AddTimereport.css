@@ -1,0 +1,63 @@
+.A-T-container {
+    display: flex;
+    flex-direction: row;
+    background-color: #adbc9f;
+    margin: 6px;
+    padding: 6px;
+    border: 3px solid #f89437;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.A-T-form {
+    display: flex;
+    justify-content: center;
+    font-family: "Graduate", serif;
+    flex-wrap: wrap;
+}
+
+.A-T-form label {
+    margin: 10px;
+    padding: 4px;
+}
+.A-T-select,
+.A-T-input {
+    border: 3px solid #f89437;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 4px;
+}
+
+/* CSS */
+.button-42 {
+    background-color: initial;
+    background-image: linear-gradient(-180deg, #ff7e31, orange);
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter, -apple-system, system-ui, Roboto, "Helvetica Neue",
+        Arial, sans-serif;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    pointer-events: auto;
+    position: relative;
+    text-align: center;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 40%;
+    z-index: 9;
+    border: 0;
+    transition: box-shadow 0.2s;
+}
+
+.button-42:hover {
+    box-shadow: rgba(212, 66, 4, 0.5) 0 3px 8px;
+}

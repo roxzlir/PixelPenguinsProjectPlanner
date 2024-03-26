@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../css/AddTimereport.css";
+import "../css/LogTimereport.css";
 
-export default function AddTimereport() {
+export default function LogTimereport() {
     //********************************************************* */
     //Här sätter jag upp det som har med PROJEKT ATT GÖRA
     //********************************************************* */
@@ -60,9 +60,9 @@ export default function AddTimereport() {
     //          Här kör jag allt för PEOPLE                     */
     //********************************************************* */
 
-    const [names, setNames] = useState([]);
+    // const [names, setNames] = useState([]);
     const [peopleData, setPeopleData] = useState([]);
-
+    const loggedInName = localStorage.getItem("loggedInUser");
     const fetchData = () => {
         const payload = {};
 
@@ -71,11 +71,11 @@ export default function AddTimereport() {
             .then((response) => {
                 const fetchedData = response.data;
                 setPeopleData(fetchedData);
-                const namesList = fetchedData.results.map((item) => {
-                    return item.properties.Name.title[0].plain_text;
-                });
-                setNames(namesList);
-                console.log("Namn från People-databasen: ", namesList);
+                // const namesList = fetchedData.results.map((item) => {
+                //     return item.properties.Name.title[0].plain_text;
+                // });
+                // setNames(namesList);
+                // console.log("Namn från People-databasen: ", namesList);
             })
             .catch((error) => {
                 console.log("Fel vid hämtning från People-databasen: ", error);
@@ -99,6 +99,7 @@ export default function AddTimereport() {
     useEffect(() => {
         fetchData();
         FetchProjects();
+        findPersonId();
     }, []);
 
     //************************************************** */
@@ -119,7 +120,7 @@ export default function AddTimereport() {
         });
     };
 
-    const peopleID = findPersonId(reportData.selectedName);
+    const peopleID = findPersonId(loggedInName);
     const projectID = findProjectId(reportData.selectedProject);
     console.log(peopleID);
     console.log(projectID);
@@ -162,28 +163,14 @@ export default function AddTimereport() {
     };
 
     return (
-        <main className="A-T-container">
-            <h3>Project manager component for adding a timereport:</h3>
-            <form className="A-T-form" onSubmit={handleSubmit}>
+        <main className="L-T-container">
+            <h3>Thank you for your hard work {loggedInName}!</h3>
+            <p>Please register your timereport below: </p>
+            <form onSubmit={handleSubmit} className="L-T-form">
                 <label>
-                    Choose name:
+                    Project{" "}
                     <select
-                        className="A-T-select"
-                        name="selectedName"
-                        value={reportData.selectedName}
-                        onChange={handleInputChange}
-                    >
-                        {names.map((name, index) => (
-                            <option key={index} value={name}>
-                                {name}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label>
-                    Choose project:
-                    <select
-                        className="A-T-select"
+                        className="L-T-select"
                         name="selectedProject"
                         value={reportData.selectedProject}
                         onChange={handleInputChange}
@@ -196,9 +183,9 @@ export default function AddTimereport() {
                     </select>
                 </label>
                 <label>
-                    Hours:
+                    Hours{" "}
                     <input
-                        className="A-T-input"
+                        className="L-T-input"
                         type="number"
                         name="hours"
                         value={reportData.hours}
@@ -206,9 +193,9 @@ export default function AddTimereport() {
                     />
                 </label>
                 <label>
-                    Date:
+                    Date{" "}
                     <input
-                        className="A-T-input"
+                        className="L-T-input"
                         type="date"
                         name="addDate"
                         value={reportData.addDate.toISOString().substr(0, 10)}
@@ -217,17 +204,21 @@ export default function AddTimereport() {
                     />
                 </label>
                 <label>
-                    Note:
+                    Note{" "}
                     <input
-                        className="A-T-input"
+                        className="L-T-input"
                         type="text"
                         name="note"
                         value={reportData.note}
                         onChange={handleInputChange}
                     />
                 </label>
-                <button className="button-42" type="submit">
-                    Lägg till
+                <button
+                    type="submit"
+                    id="LogTimereport-btn"
+                    onClick={handleSubmit}
+                >
+                    REGISTER
                 </button>
             </form>
         </main>

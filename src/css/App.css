@@ -3,4 +3,31 @@ VÅRA FÄRGKODER:
 MÖRKA: #12372A
 NÄST MÖRKA: #436850
 LJUSA: #ADBC9F
-LJUSASTE: #FBFADA
+LJUSASTE: #FBFADA*/
+body {
+    background-color: #102e2e;
+}
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+}
+
+.app-menu-section {
+    grid-area: 1 / 1 / 6 / 2;
+    /* background-color: cornflowerblue; */
+    /* display: flex;
+    justify-content: center; 
+    align-items: center */
+}
+.app-logo-section {
+    grid-area: 1 / 2 / 2 / 6;
+    /* background-color: rgb(55, 173, 71); */
+    display: flex;
+    height: 400px;
+}
+.app-components-section {
+    grid-area: 2 / 2 / 6 / 6;
+}

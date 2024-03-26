@@ -1,4 +1,4 @@
-// import "./src/css/App";
+import "./css/App.css";
 import React from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Start from "./pages/Start";
@@ -7,15 +7,21 @@ import DisplayProjects from "./pages/DisplayProjects";
 import Menu from "./components/Menu";
 import DisplayTimereport from "./pages/DisplayTimereport";
 import LoginPage from "./pages/LoginPage";
+import Logo from "./components/Logo";
+import LoginAuth from "./components/LoginAuth";
+import Menu2 from "./extras/Menu2";
 
 function App() {
     return (
         <Router>
-            <div className="App">
-                <header className="App-header">
+            <div className="app-grid">
+                <header className="app-menu-section">
                     <Menu />
                 </header>
-                <main>
+                <section className="app-logo-section">
+                    <Logo />
+                </section>
+                <main className="app-components-section">
                     <Routes>
                         <Route path="/" element={<Start />} />
                         <Route path="/LoginPage" element={<LoginPage />} />

@@ -2,11 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ProjectInputEdit.css";
 
-const ProjectInputEdit = () => {
+const ProjectHoursEdit = () => {
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [updatedHours, setUpdatedHours] = useState("");
     const [showReport, setShowReport] = useState(false);
 
     useEffect(() => {
@@ -36,44 +35,42 @@ const ProjectInputEdit = () => {
         setSelectedProject(selectedProject);
     };
 
-    const handleStartDateChange = (event) => {
-        setStartDate(event.target.value);
+    const handleHoursChange = (event) => {
+        setUpdatedHours(event.target.value);
     };
 
-    const handleEndDateChange = (event) => {
-        setEndDate(event.target.value);
-    };
-
-    const handleDateUpdate = async (e) => {
+    const handleHoursUpdate = async (e) => {
         // Lägg till logik för att uppdatera Timespan-datumet i din databas
         // Använd selectedProject för att få det valda projektet och newDate för det nya datumet
         // Utför en POST-anrop till din API med den uppdaterade informationen
         e.preventDefault();
+        const updateData = {
+            projectId: selectedProject.id,
+            hours: parseInt(updatedHours),
+        };
 
-        if (!selectedProject || !startDate || !endDate) {
-            console.error("Alla fält måste vara ifyllda.");
+        if (!selectedProject || !updatedHours) {
+            alert(
+                `Please select how many hours you would like to set for project ${selectedProject.properties.Projectname.title[0].plain_text} before you register update`
+            );
             return;
         }
 
-        const updateData = {
-            projectId: selectedProject.id,
-            startDate: startDate,
-            endDate: endDate,
-        };
         console.log("DETTA SKICKAS TILL UPPDATE: ", updateData);
         axios
-            .patch("http://localhost:3001/api/update-project", updateData)
+            .patch("http://localhost:3001/api/update-project-hours", updateData)
             .then((response) => {
                 console.log("Update SUCESS!: ", response.data);
+
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
-                const reportString = `Project: ${selectedProject.properties.Projectname.title[0].plain_text} with previous timespan: ${selectedProject.properties.Timespan.date.start} - ${selectedProject.properties.Timespan.date.end} has now been updated with dates: ${startDate} - ${endDate}`;
+                const reportString = `Project: ${selectedProject.properties.Projectname.title[0].plain_text} with previous planned hours: ${selectedProject.properties.Hours.number} has now been updated to: ${updatedHours} hours`;
 
                 // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
                 alert(`Project update added! \n${reportString}\n`);
 
                 // Visa rapporten
                 setShowReport(true);
-                //*********************       ^^^^^^^ GJORT FRÅN TimeReportAddConfirmation^^^^^^^                 ********************** */
+                //*********************^^^^^^^^^^^ GJORT FRÅN TimeReportAddConfirmation ^^^^^^^^^^^^^^^********************** */
             })
             .catch((error) => {
                 console.log("Update didn't post to server: ", error);
@@ -95,7 +92,7 @@ const ProjectInputEdit = () => {
     return (
         <div className="page-container">
             <div className="display-section">
-                <h1>Current project and timespan</h1>
+                <h1>Current project with hours</h1>
                 <h3>
                     Please click on the project you would like to change end
                     date for:
@@ -120,13 +117,21 @@ const ProjectInputEdit = () => {
                                 }
                             </p>
                             <p>
-                                {" -- "}
-                                {project.properties.Status.select.name}
+                                {" "}
+                                Estimaded hours:
+                                {project.properties.Hours.number}
                             </p>
-                            {" -- "}
                             <p>
                                 {" "}
-                                Current Timespan:{" "}
+                                Worked hours:{" "}
+                                {
+                                    project.properties["Worked hours"].rollup
+                                        .number
+                                }
+                            </p>
+                            <p>
+                                {" "}
+                                Timespan:{" "}
                                 {project.properties.Timespan.date ? (
                                     <>
                                         {project.properties.Timespan.date.start}{" "}
@@ -134,7 +139,8 @@ const ProjectInputEdit = () => {
                                     </>
                                 ) : (
                                     "No date"
-                                )}
+                                )}{" "}
+                                --{project.properties.Status.select.name}
                             </p>
                         </option>
                     ))}
@@ -144,7 +150,7 @@ const ProjectInputEdit = () => {
                 {selectedProject && (
                     <div>
                         <h2>
-                            Update start and end date for project{" "}
+                            Update Estimaded hours for:{" "}
                             {
                                 selectedProject.properties.Projectname.title[0]
                                     .plain_text
@@ -152,22 +158,14 @@ const ProjectInputEdit = () => {
                             :
                         </h2>
                         <label>
-                            Start Date:
+                            New number of hours:
                             <input
-                                type="date"
-                                value={startDate}
-                                onChange={handleStartDateChange}
+                                type="number"
+                                value={updatedHours}
+                                onChange={handleHoursChange}
                             />
                         </label>
-                        <label>
-                            End Date:
-                            <input
-                                type="date"
-                                value={endDate}
-                                onChange={handleEndDateChange}
-                            />
-                        </label>
-                        <button onClick={handleDateUpdate}>Add update</button>
+                        <button onClick={handleHoursUpdate}>Add update</button>
                     </div>
                 )}
             </div>
@@ -175,4 +173,4 @@ const ProjectInputEdit = () => {
     );
 };
 
-export default ProjectInputEdit;
+export default ProjectHoursEdit;

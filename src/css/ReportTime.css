@@ -1,0 +1,36 @@
+/* .parent {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 6px;
+    grid-row-gap: 6px;
+}
+
+.div1 {
+    grid-area: 2 / 4 / 6 / 7;
+}
+.div2 {
+    grid-area: 2 / 1 / 6 / 4;
+} */
+
+/* .parent {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 6px;
+    grid-row-gap: 6px;
+    background-color: #12372a;
+}
+
+.div1 {
+    grid-area: 1 / 1 / 4 / 7;
+}
+.div2 {
+    grid-area: 4 / 1 / 7 / 7;
+} */
+
+.ReportTime-container {
+}
+.ReportTime-container h1 {
+    margin: auto;
+}
