@@ -1,51 +1,39 @@
 import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import "../css/Menu.css";
 
-export default function Menu() {
-    const history = useNavigate();
+import { NavLink } from "react-router-dom";
 
-    function Logout() {
-        localStorage.removeItem("loggedInUser");
-        localStorage.removeItem("userRole");
-        localStorage.removeItem("loggedInId");
-        history("/");
-    }
-
+function Menu({ userRole, onLogout }) {
     return (
-        <body>
-            <nav className="menu-container">
-                <ul className="menu-links">
-                    <li className="menu-link">
-                        <NavLink to="/LoginPage" className={"nav-link"}>
-                            Login "ska bli Welcome"
-                        </NavLink>
+        <header className="App-header">
+            <nav>
+                <ul className="menuList">
+                    <li>
+                        <NavLink to="/">Home</NavLink>
                     </li>
-                    <li className="menu-link">
-                        <NavLink to="/" className={"nav-link"}>
-                            Profile
-                        </NavLink>
+                    {userRole === "Employee" && (
+                    <li>
+                        <NavLink to="/ReportTime">Report Time</NavLink>
                     </li>
-
-                    <li className="menu-link">
-                        <NavLink to="/ReportTime" className={"nav-link"}>
-                            Report Time
-                        </NavLink>
-                    </li>
-                    <li className="menu-link">
-                        <NavLink to="/DisplayTimereport" className={"nav-link"}>
-                            Timereports
-                        </NavLink>
+                     )}
+                     {(userRole === "Teamleader" || userRole === "CEO") && (
+                     <>
+                    <li>
+                        <NavLink to="/DisplayTimereport">Timereports</NavLink>
                     </li>
                     <li className="menu-link">
                         <NavLink to="/DisplayProjects" className={"nav-link"}>
                             Projects
                         </NavLink>
                     </li>
-                    <br />
-                    <button onClick={Logout}>Logga ut</button>
+                    </>
+                    )}
+                    <li>
+                        <button onClick={onLogout}>Logout</button>
+                    </li>
                 </ul>
             </nav>
-        </body>
+        </header>
     );
 }
+
+export default Menu; 

@@ -4,6 +4,8 @@ import ProjectInputEdit from "../components/ProjectInputEdit";
 import AlertCompareEndDate from "../components/AlertCompareEndDate";
 import PresentUser from "../components/PresentUser";
 import ProjectHoursEdit from "../components/ProjectHoursEdit";
+import ActiveProjects from "../components/activeProjects";
+
 
 export default function DisplayProjects() {
     const userRole = localStorage.getItem("userRole");
@@ -11,13 +13,10 @@ export default function DisplayProjects() {
     return (
         <div>
             <h1>Sida för att visa allt ut Projects</h1>
-            <div>
-                {userRole === "Employee" && (
-                    <React.Fragment>
-                        <ProjectReader />
-                    </React.Fragment>
-                )}
-            </div>
+
+            {loginProcess && <ActiveProjects/>}
+            {loginProcess && <ProjectReader />}
+            {loginProcess && <AlertCompareEndDate />}
             <br />
             <div>
                 {userRole === "Teamleader" ||

@@ -1,7 +1,7 @@
+
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
-import Menu from "./Menu";
 
 export default function LoginAuth() {
     // // LÖSEN
@@ -12,7 +12,7 @@ export default function LoginAuth() {
     // // Fig Nelson = 5
     // // Test Testsson = 8
     // // Angelica = 9
-
+ 
     const [loggedInUser, setLoggedInUser] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [password, setPassword] = useState("");
@@ -52,11 +52,14 @@ export default function LoginAuth() {
             localStorage.setItem("userRole", loggedInRole);
             localStorage.setItem("loggedInId", loggedInId);
             navigate("/");
+
+            window.location.reload();    
+
         } else {
             alert("Fel användarnamn eller lösenord!");
         }
     };
-
+ 
     // Funktion för att hämta användardata från API
     const fetchData = () => {
         axios
@@ -75,11 +78,11 @@ export default function LoginAuth() {
                 console.log("Fel vid hämtning av användardata:", error);
             });
     };
-
+ 
     useEffect(() => {
         fetchData();
     }, []);
-
+ 
     return (
         <div
             style={{

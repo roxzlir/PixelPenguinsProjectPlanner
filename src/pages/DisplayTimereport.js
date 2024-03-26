@@ -4,6 +4,7 @@ import PresentUser from "../components/PresentUser";
 import FilterTimereports from "../components/FilterTimereports";
 import TimereportInputEdit from "../components/TimereportInputEdit";
 import TimereportReader from "../components/TimereportReader";
+import ProjectReportsReader from "../components/FilterProjectsReports";
 
 export default function DisplayTimereport() {
     const userRole = localStorage.getItem("userRole");
@@ -11,14 +12,14 @@ export default function DisplayTimereport() {
     return (
         <div>
             <h1>Sidan för att visa allt ur People</h1>
-            {userRole === "Employee" && (
-                <React.Fragment>
-                    {/* <PeopleReader /> */}
-                    <h2>HÄR UNDER KÖRS TIMEREPORTREADER</h2>
-                    <TimereportReader />
-                    <h2>TILL HIT</h2>
-                </React.Fragment>
-            )}
+
+            <br />
+            {loginProcess && <ProjectReportsReader />}
+            <br />
+
+            {loginProcess && <PeopleReader />}
+            <br />
+            {loginProcess && <FilterTimereports />}
             <br />
 
             {/* <br />
@@ -30,9 +31,12 @@ export default function DisplayTimereport() {
                         <TimereportInputEdit />
                     </React.Fragment>
                 ))}
-
+*/
             <br />
-            {userRole && <PresentUser />} */}
+
+            {loginProcess && <PresentUser />}
+
+
         </div>
     );
 }
