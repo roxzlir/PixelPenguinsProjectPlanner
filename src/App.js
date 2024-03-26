@@ -1,12 +1,17 @@
+
+import "./css/App.css";
+
 import React, { useState, useEffect } from "react";
 import { HashRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+
 import Start from "./pages/Start";
 import ReportTime from "./pages/ReportTime";
 import DisplayProjects from "./pages/DisplayProjects";
 import Menu from "./components/Menu";
 import DisplayTimereport from "./pages/DisplayTimereport";
 import LoginPage from "./pages/LoginPage";
-import "./css/baseCSSTest.css";
+import Logo from "./components/Logo";
+
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -65,8 +70,10 @@ const getRoleData = async () => {
 
     return (
         <Router>
+
             <div className="App">
             {isLoggedIn && <Menu userRole={userRole} onLogout={handleLogout} />}                <main>
+
                     <Routes>
                 <Route path="/LoginPage" element={<LoginPage onLogin={handleLogin} />} />
                 <Route path="/" element={<Start />} />

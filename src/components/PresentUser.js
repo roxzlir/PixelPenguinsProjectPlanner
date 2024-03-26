@@ -26,7 +26,14 @@ export default function PresentUser() {
     };
     const fromLocalStorage = () => {
         const loggedInUser = localStorage.getItem("loggedInUser");
-        console.log("VAD SOM LIGGER I LOCALSTORAGE: ", loggedInUser);
+        const loggedInId = localStorage.getItem("loggedInId");
+        const userRole = localStorage.getItem("userRole");
+        console.log(
+            "VAD SOM LIGGER I LOCALSTORAGE: ",
+            loggedInUser,
+            loggedInId,
+            userRole
+        );
         return loggedInUser;
     };
 

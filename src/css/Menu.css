@@ -1,0 +1,26 @@
+.menu-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+.menu-links {
+    list-style: none;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    padding: 10px;
+    border-radius: 18px;
+    background: linear-gradient(315deg, #113131, #0e2929);
+    box-shadow: -22px -22px 61px #0a1e1e, 22px 22px 61px #163e3e;
+}
+
+.menu-link {
+    flex: 1;
+    margin: 8%;
+    font-family: "Graduate", serif;
+}
+.nav-link {
+    text-decoration: none;
+    color: antiquewhite;
+}

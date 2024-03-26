@@ -1,0 +1,115 @@
+.L-T-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #adbc9f;
+    margin: 6px;
+    padding: 6px;
+    border: 3px solid #f89437;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.L-T-form {
+    display: flex;
+    justify-content: center;
+    font-family: "Graduate", serif;
+    flex-wrap: wrap;
+}
+.L-T-form label {
+    margin: 10px;
+    padding: 4px;
+}
+.L-T-select,
+.L-T-input {
+    border: 3px solid #f89437;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 4px;
+}
+/* #LogTimereport-btn {
+    background-color: orange;
+    width: 6em;
+    height: 3em;
+    margin-top: 10px;
+    border: 1.5px solid rgb(207, 136, 3);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.6s, transform 0.6s;
+}
+
+#LogTimereport-btn:hover {
+    background-color: rgb(221, 145, 3);
+    transform: scale(0.95);
+} */
+
+/* CSS */
+#LogTimereport-btn {
+    background-color: initial;
+    background-image: linear-gradient(-180deg, #ff7e31, orange);
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 2px 4px;
+    color: #ffffff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Inter, -apple-system, system-ui, Roboto, "Helvetica Neue",
+        Arial, sans-serif;
+    height: 40px;
+    line-height: 40px;
+    outline: 0;
+    overflow: hidden;
+    padding: 0 20px;
+    pointer-events: auto;
+    position: relative;
+    text-align: center;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    vertical-align: top;
+    white-space: nowrap;
+    width: 40%;
+    z-index: 9;
+    border: 0;
+    transition: box-shadow 0.2s;
+}
+
+#LogTimereport-btn:hover {
+    box-shadow: rgba(212, 66, 4, 0.5) 0 3px 8px;
+}
+
+/* CSS */
+/* #LogTimereport-btn {
+    margin: 10px;
+    padding: 15px 30px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border-radius: 10px;
+    display: block;
+    border: 0px;
+    font-weight: 700;
+    box-shadow: 0px 0px 14px -7px #f09819;
+    background-image: linear-gradient(
+        45deg,
+        #ff512f 0%,
+        #f09819 51%,
+        #ff512f 100%
+    );
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+#LogTimereport-btn:hover {
+    background-position: right center;
+   
+     color: #fff;
+    text-decoration: none;
+}
+
+#LogTimereport-btn:active {
+    transform: scale(0.95);
+}   */

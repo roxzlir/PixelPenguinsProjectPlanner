@@ -1,4 +1,5 @@
 import React from "react";
+
 import { NavLink } from "react-router-dom";
 
 function Menu({ userRole, onLogout }) {
@@ -19,8 +20,10 @@ function Menu({ userRole, onLogout }) {
                     <li>
                         <NavLink to="/DisplayTimereport">Timereports</NavLink>
                     </li>
-                    <li>
-                        <NavLink to="/DisplayProjects">Projects</NavLink>
+                    <li className="menu-link">
+                        <NavLink to="/DisplayProjects" className={"nav-link"}>
+                            Projects
+                        </NavLink>
                     </li>
                     </>
                     )}
@@ -33,4 +36,4 @@ function Menu({ userRole, onLogout }) {
     );
 }
 
-export default Menu;
+export default Menu; 
