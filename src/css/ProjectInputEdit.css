@@ -125,7 +125,8 @@
     transform: scale(1.05);
 } */
 
-.card-list {
+/*HÄR LIGGER DET SOM ÄR FÖR CARDS FILTERTIMEREPORTS*/
+/* .card-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-gap: 20px;
@@ -141,4 +142,25 @@
 
 .card p {
     margin: 5px 0;
+} */
+
+.table-container {
+    overflow-x: auto;
+}
+
+.timereport-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.timereport-table th,
+.timereport-table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.timereport-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: left;
 }

@@ -106,7 +106,6 @@ export default function LoginAuth() {
                     onChange={(e) => setPassword(e.target.value)}
                     // style={{ marginLeft: "10px" }}
                 />
-                <br />
                 <button
                     className="standard-btn2"
                     onClick={handleLogin}

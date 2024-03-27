@@ -97,8 +97,38 @@ function TimereportReader() {
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                 />
-
-                <div className="card-list">
+            </div>
+            <div className="table-container">
+                <table className="timereport-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Hours</th>
+                            <th>Project</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {/* Skapa en rad för varje filtrerad timrapport */}
+                        {filterTimereports().map((report) => (
+                            <tr key={report.id}>
+                                <td>{report.properties.Date.date.start}</td>
+                                <td>{report.properties.Hours.number}</td>
+                                <td>
+                                    {projects[
+                                        report.properties.Project.relation[0].id
+                                    ] || "Unknown"}
+                                </td>
+                                <td>
+                                    {report.properties.Note?.title?.[0]
+                                        ?.plain_text || "No note"}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+            {/* <div className="card-list">
                     {filterTimereports().map((report) => (
                         <div key={report.id} className="card">
                             <p>Date: {report.properties.Date.date.start}</p>
@@ -116,9 +146,9 @@ function TimereportReader() {
                             </p>
                         </div>
                     ))}
-                </div>
-            </div>
+                </div> */}
         </div>
+        // </div>
     );
 }
 
