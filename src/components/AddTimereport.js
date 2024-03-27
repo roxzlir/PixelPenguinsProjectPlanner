@@ -227,7 +227,7 @@ export default function AddTimereport() {
                     />
                 </label>
                 <button className="button-42" type="submit">
-                    Lägg till
+                    Register
                 </button>
             </form>
         </main>

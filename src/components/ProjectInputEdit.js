@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/ProjectInputEdit.css";
 
 const ProjectInputEdit = () => {
     const [projects, setProjects] = useState([]);
@@ -93,7 +94,7 @@ const ProjectInputEdit = () => {
 
     return (
         <div className="page-container">
-            <div className="display-section">
+            <section className="display-section">
                 <h1>Current project and timespan</h1>
                 <h3>
                     Please click on the project you would like to change end
@@ -102,7 +103,7 @@ const ProjectInputEdit = () => {
                 <select
                     onChange={handleSelectedProject}
                     value={selectedProject?.id}
-                    className="PIE-ulink"
+                    className="PIE-select"
                 >
                     <option>Select a project</option>
                     {projects.map((project) => (
@@ -138,8 +139,8 @@ const ProjectInputEdit = () => {
                         </option>
                     ))}
                 </select>
-            </div>
-            <div className="action-section">
+                {/* <div/> */}
+                {/* <div className="action-section"> */}
                 {selectedProject && (
                     <div>
                         <h2>
@@ -153,6 +154,7 @@ const ProjectInputEdit = () => {
                         <label>
                             Start Date:
                             <input
+                                className="PIE-input"
                                 type="date"
                                 value={startDate}
                                 onChange={handleStartDateChange}
@@ -166,10 +168,15 @@ const ProjectInputEdit = () => {
                                 onChange={handleEndDateChange}
                             />
                         </label>
-                        <button onClick={handleDateUpdate}>Add update</button>
+                        <button
+                            className="standard-btn"
+                            onClick={handleDateUpdate}
+                        >
+                            Add update
+                        </button>
                     </div>
                 )}
-            </div>
+            </section>
         </div>
     );
 };

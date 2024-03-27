@@ -4,15 +4,15 @@ import AlertCompareEndDate from "../components/AlertCompareEndDate";
 import ProjectHoursEdit from "../components/ProjectHoursEdit";
 import Alert from "../components/Alerts";
 import ActiveProjects from "../components/ActiveProjects";
-export default function DisplayProjects() {
 
+export default function DisplayProjects() {
     return (
         <div>
-            <Alert/>
-            <AlertCompareEndDate/>
-            <ProjectInputEdit/>
-            <ProjectHoursEdit/>
-            <ActiveProjects/>
+            {/* <Alert />
+            <AlertCompareEndDate /> */}
+            <ProjectInputEdit />
+            <ProjectHoursEdit />
+            <ActiveProjects />
         </div>
     );
 }

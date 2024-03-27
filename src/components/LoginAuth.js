@@ -1,18 +1,17 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
 
 export default function LoginAuth() {
     // // LÖSEN
-    // // Dominic Ement = 1
-    // // Penny Tool = 2
-    // // Justin Case = 3
-    // // Jhon Doe = 4
-    // // Fig Nelson = 5
-    // // Test Testsson = 8
-    // // Angelica = 9
- 
+    // // Dominic Ement = 123456
+    // // Penny Tool = 654321
+    // // Justin Case = 111111
+    // // Jhon Doe = 222222
+    // // Fig Nelson = 333333
+    // // Test Testsson = 999999
+    // // Angelica = 888888
+
     const [loggedInUser, setLoggedInUser] = useState("");
     const [selectedUser, setSelectedUser] = useState("");
     const [password, setPassword] = useState("");
@@ -26,7 +25,7 @@ export default function LoginAuth() {
             setLoggedInUser(user);
         }
     }, []);
-   
+
     const handleLogin = () => {
         const user = users.find((user) => user.username === selectedUser);
         const loggedInRole = users.find(
@@ -45,51 +44,50 @@ export default function LoginAuth() {
             localStorage.setItem("loggedInId", loggedInId);
             navigate("/");
 
-            window.location.reload();    
-
+            window.location.reload();
         } else {
             alert("Fel användarnamn eller lösenord!");
         }
     };
- 
-    // Funktion för att hämta användardata från API
+
+    // Funktion för att hämta användardata från API item.properties.ID.unique_id.number
     const fetchData = () => {
         axios
             .post("http://localhost:3001/api/notion/people")
             .then((response) => {
                 const usersData = response.data.results.map((item) => ({
                     username: item.properties.Name.title[0]?.plain_text,
-                    id: item.properties.ID.unique_id.number,
+                    id: item.properties.Password.rich_text[0]?.text.content,
                     role: item.properties.Role.select.name,
                     pageID: item.id,
                 }));
-                console.log("Detta är sparat i usersData: ", usersData);
+                console.log(
+                    "Detta är sparat i usersData: ",
+                    usersData,
+                    usersData.id
+                );
                 setUsers(usersData);
             })
             .catch((error) => {
                 console.log("Fel vid hämtning av användardata:", error);
             });
     };
- 
+
     useEffect(() => {
         fetchData();
     }, []);
- 
+
     return (
-        <div
-            style={{
-                textAlign: "center",
-                backgroundColor: "pink",
-                padding: "20px",
-            }}
-        >
-            <h1 style={{ textAlign: "center" }}>Inloggning</h1>
-            <p>
-                VisualizeLogin component, när inloggat visualiseras logga ut
-                knappen
-            </p>
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
+        <div className="page-container">
+            <main className="display-section">
+                <h1 style={{ textAlign: "center" }}>Welcome</h1>
+                <p>
+                    VisualizeLogin component, när inloggat visualiseras logga ut
+                    knappen
+                </p>
+
                 <select
+                    className="PIE-select"
                     onChange={(e) => setSelectedUser(e.target.value)}
                     value={selectedUser}
                 >
@@ -101,32 +99,39 @@ export default function LoginAuth() {
                     ))}
                 </select>
                 <input
+                    className="PIE-input"
                     type="password"
                     placeholder="Lösenord"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    style={{ marginLeft: "10px" }}
+                    // style={{ marginLeft: "10px" }}
                 />
-                <button onClick={handleLogin} style={{ marginLeft: "10px" }}>
+                <br />
+                <button
+                    className="standard-btn2"
+                    onClick={handleLogin}
+                    // style={{ marginLeft: "10px" }}
+                >
                     Logga in
                 </button>
-            </div>
-            {loggedInUser && (
-                <button
-                    onClick={() => {
-                        setLoggedInUser("");
-                        localStorage.removeItem("loggedInUser"); // Ta bort inloggad användare från localStorage
-                    }}
-                    style={{ marginLeft: "10px" }}
-                >
-                    Logga ut
-                </button>
-            )}
-            <p style={{ textAlign: "center" }}>
-                {loggedInUser
-                    ? `Inloggad som: ${loggedInUser}`
-                    : "Ingen användare är inloggad."}
-            </p>
+
+                {loggedInUser && (
+                    <button
+                        className="standard-btn2"
+                        onClick={() => {
+                            setLoggedInUser("");
+                            localStorage.removeItem("loggedInUser"); // Ta bort inloggad användare från localStorage
+                        }}
+                    >
+                        Logga ut
+                    </button>
+                )}
+                <p style={{ textAlign: "center" }}>
+                    {loggedInUser
+                        ? `Inloggad som: ${loggedInUser}`
+                        : "Ingen användare är inloggad."}
+                </p>
+            </main>
         </div>
     );
 }
