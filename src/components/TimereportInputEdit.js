@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../css/TimereportReader.css";
+import "../css/ProjectInputEdit.css";
 
 export default function TimereportInputEdit() {
     const [data, setData] = useState(null);
@@ -146,12 +146,11 @@ export default function TimereportInputEdit() {
     console.log("Här är projectData", projectData);
 
     return (
-        <div>
-            <h1 style={{ textAlign: "center" }}>
-                Change date on a timereport:
-            </h1>
-            <main className="Timereport-list">
+        <div className="page-container">
+            <main className="display-section">
+                <h1>Change date on a timereport:</h1>
                 <select
+                    className="PIE-select"
                     name="selectedReport"
                     onChange={handleSelectedReport}
                     value={selectedReport?.id}
@@ -163,13 +162,9 @@ export default function TimereportInputEdit() {
                         <option
                             value={item.id}
                             className="TIE-link"
-                            style={{
-                                backgroundColor: "yellow",
-                                border: "2px solid black",
-                            }}
                             key={item.id}
                         >
-                            <p>
+                            <p id="TIE-date">
                                 Date:{" "}
                                 {item.properties["Date"] &&
                                     item.properties["Date"].date &&
@@ -221,12 +216,18 @@ export default function TimereportInputEdit() {
                         <label>
                             New date:
                             <input
+                                className="PIE-input"
                                 type="date"
                                 value={newDate}
                                 onChange={handleNewDate}
                             />
                         </label>
-                        <button onClick={handleDateUpdate}>Update date</button>
+                        <button
+                            className="standard-btn"
+                            onClick={handleDateUpdate}
+                        >
+                            Update date
+                        </button>
                     </div>
                 )}
             </main>

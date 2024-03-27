@@ -18,17 +18,13 @@ export default function LoggedInTimereports() {
                     "http://localhost:3001/api/notion/timereport/loggedin",
                     requestBody,
                     {
-                        method: "POST",
                         headers: {
                             "Content-Type": "application/json",
                         },
                     }
                 );
 
-                if (!response.ok)
-                    throw new Error("Något gick fel vid hämtning av data");
-
-                setData(data);
+                setData(response.data); // Uppdatera state med den hämtade datan
             } catch (error) {
                 console.log("Fel vi fetchedSingel: ", error);
             }
@@ -84,103 +80,6 @@ export default function LoggedInTimereports() {
         fetchPeopleData();
         fetchProjectData();
     }, []); // Kör useEffect endast en gång vid mount
-
-    //*********************************************************************************** */
-
-    // const fetchData = () => {
-    //     const payload = {};
-
-    //     axios
-    //         .post(
-    //             "http://localhost:3001/api/notion/timereport",
-    //             payload
-    //         )
-    //         .then((response) => {
-    //             setData(response.data);
-
-    //             fetchPeopleData();
-    //             fetchProjectData();
-    //         })
-    //         .catch((error) => {
-    //             console.log(
-    //                 "Error occurred while fetching data from Timereports database: ",
-    //                 error
-    //             );
-    //         });
-
-    //     const fetchPeopleData = () => {
-    //         axios
-    //             .post("http://localhost:3001/api/notion/people")
-    //             .then((response) => {
-    //                 const fetchedData = response.data;
-    //                 setAllPeopleData(fetchedData);
-    //                 const people = {};
-    //                 response.data.results.forEach((person) => {
-    //                     const properties = person.properties || {};
-    //                     const name =
-    //                         properties["Name"]?.title?.[0]?.plain_text ||
-    //                         "Unknown";
-    //                     people[person.id] = { id: person.id, name };
-    //                 });
-    //                 setPeopleData(people);
-    //             })
-    //             .catch((error) => {
-    //                 console.log(
-    //                     "Error occurred while fetching data about people:",
-    //                     error
-    //                 );
-    //             });
-    //     };
-
-    //     // Funktion för att hämta projektdata från en extern källa
-    //     const fetchProjectData = () => {
-    //         // Anropar en API-endpoint för att hämta projektdata
-    //         axios.post("http://localhost:3001/api/notion").then((response) => {
-    //             // Skapar ett tomt objekt för att lagra projektnamn och deras tillhörande ID
-    //             const projects = {};
-    //             // Loopar igenom varje resultat i API-svaret
-    //             response.data.results.forEach((item) => {
-    //                 // Hämtar egenskaperna för varje projekt, eller om det inte finns några egenskaper, sätts det till ett tomt objekt
-    //                 const properties = item.properties || {};
-    //                 // Hämtar projektnamnet från egenskaperna, om det finns, eller sätter det till "Unknown" om det inte finns något namn
-    //                 const projectName =
-    //                     properties["Projectname"]?.title?.[0]?.plain_text ||
-    //                     "Unknown";
-    //                 // Lägger till projektets ID och namn i projects-objektet, där ID används som nyckel
-    //                 projects[item.id] = { id: item.id, projectName };
-    //             });
-    //             // Uppdaterar state med den hämtade projektdata
-    //             setProjectData(projects);
-    //         });
-    //     };
-    // };
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-
-    // const findPersonId = () => {
-    //     if (allPeopleData && allPeopleData.results) {
-    //         const person = allPeopleData.results.find((item) => {
-    //             return (
-    //                 item.properties.Name.title[0].plain_text === loggedInName
-    //             );
-    //         });
-
-    //         if (person) {
-    //             return person.id;
-    //         }
-    //     }
-
-    //     return null; // Return null if person not found or data is undefined
-    // };
-
-    // const loggedInUserId = findPersonId();
-
-    // const userReportsOnly = data.results.filter((item) => {
-    //     return item.properties.Person?.relation?.[0]?.id === findPersonId();
-    // });
-    // console.log(userReportsOnly);
 
     if (!data || !Array.isArray(data?.results)) {
         return <p>Loading data / No data to display...</p>;

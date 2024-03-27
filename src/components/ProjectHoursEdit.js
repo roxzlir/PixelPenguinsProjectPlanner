@@ -99,7 +99,7 @@ const ProjectHoursEdit = () => {
                 <select
                     onChange={handleSelectedProject}
                     value={selectedProject?.id}
-                    className="PIE-ulink"
+                    className="PIE-select"
                 >
                     <option>Select a project</option>
                     {projects.map((project) => (
@@ -144,8 +144,8 @@ const ProjectHoursEdit = () => {
                         </option>
                     ))}
                 </select>
-            </div>
-            <div className="action-section">
+                {/* </div>
+            <div className="action-section"> */}
                 {selectedProject && (
                     <div>
                         <h2>
@@ -159,12 +159,18 @@ const ProjectHoursEdit = () => {
                         <label>
                             New number of hours:
                             <input
+                                className="PIE-input"
                                 type="number"
                                 value={updatedHours}
                                 onChange={handleHoursChange}
                             />
                         </label>
-                        <button onClick={handleHoursUpdate}>Add update</button>
+                        <button
+                            className="standard-btn"
+                            onClick={handleHoursUpdate}
+                        >
+                            Add update
+                        </button>
                     </div>
                 )}
             </div>

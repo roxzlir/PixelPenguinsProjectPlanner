@@ -7,7 +7,9 @@ function ActiveProjects() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.post("http://localhost:3001/api/notion");
+            const response = await axios.post(
+                "http://localhost:3001/api/notion"
+            );
             setData(response.data);
             console.log("Data fetched from Notion: ", response.data);
         } catch (error) {
@@ -65,17 +67,11 @@ function ActiveProjects() {
                             <p>Hours: {item.properties.Hours.number}</p>
                             <p>
                                 Hours left:{" "}
-                                {
-                                    item.properties["Hours left"].formula
-                                        .number
-                                }
+                                {item.properties["Hours left"].formula.number}
                             </p>
                             <p>
                                 Worked hours:{" "}
-                                {
-                                    item.properties["Worked hours"].rollup
-                                        .number
-                                }
+                                {item.properties["Worked hours"].rollup.number}
                             </p>
                             <p>Status: {item.properties.Status.select.name}</p>
                             <p>
