@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
+import "../css/LoginAuth.css";
 
 export default function LoginAuth() {
     // // LÖSEN
@@ -35,8 +36,6 @@ export default function LoginAuth() {
             (item) => item.username === selectedUser
         )?.pageID;
 
-        console.log("Detta finns i userRole: ", loggedInRole);
-        console.log("Detta finns i loggedInId: ", loggedInId);
         if (user && user.id.toString() === password) {
             setLoggedInUser(selectedUser);
             localStorage.setItem("loggedInUser", selectedUser); // Spara inloggad användare i localStorage
@@ -46,7 +45,7 @@ export default function LoginAuth() {
 
             window.location.reload();
         } else {
-            alert("Fel användarnamn eller lösenord!");
+            alert("Wrong password for this user!");
         }
     };
 
@@ -61,15 +60,13 @@ export default function LoginAuth() {
                     role: item.properties.Role.select.name,
                     pageID: item.id,
                 }));
-                console.log(
-                    "Detta är sparat i usersData: ",
-                    usersData,
-                    usersData.id
-                );
                 setUsers(usersData);
             })
             .catch((error) => {
-                console.log("Fel vid hämtning av användardata:", error);
+                console.log(
+                    "Something went wrong when collectiong data from notion: ",
+                    error
+                );
             });
     };
 
@@ -78,20 +75,17 @@ export default function LoginAuth() {
     }, []);
 
     return (
-        <div className="page-container">
-            <main className="display-section">
-                <h1 style={{ textAlign: "center" }}>Welcome</h1>
-                <p>
-                    VisualizeLogin component, när inloggat visualiseras logga ut
-                    knappen
-                </p>
+        <div className="LoginAuth-container">
+            <main className="LA-display-section">
+                <h1>Welcome</h1>
+                <p>Please select your name and enter password</p>
 
                 <select
-                    className="PIE-select"
+                    className="LA-select"
                     onChange={(e) => setSelectedUser(e.target.value)}
                     value={selectedUser}
                 >
-                    <option value="">Välj användare</option>
+                    <option value="">Choose user</option>
                     {users.map((user, index) => (
                         <option key={index} value={user.username}>
                             {user.username}
@@ -99,37 +93,19 @@ export default function LoginAuth() {
                     ))}
                 </select>
                 <input
-                    className="PIE-input"
+                    className="LA-input"
                     type="password"
-                    placeholder="Lösenord"
+                    placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    // style={{ marginLeft: "10px" }}
                 />
-                <br />
-                <button
-                    className="standard-btn2"
-                    onClick={handleLogin}
-                    // style={{ marginLeft: "10px" }}
-                >
-                    Logga in
+                <button className="standard-btn2" onClick={handleLogin}>
+                    Login
                 </button>
-
-                {loggedInUser && (
-                    <button
-                        className="standard-btn2"
-                        onClick={() => {
-                            setLoggedInUser("");
-                            localStorage.removeItem("loggedInUser"); // Ta bort inloggad användare från localStorage
-                        }}
-                    >
-                        Logga ut
-                    </button>
-                )}
-                <p style={{ textAlign: "center" }}>
+                <p>
                     {loggedInUser
-                        ? `Inloggad som: ${loggedInUser}`
-                        : "Ingen användare är inloggad."}
+                        ? `Logged in as: ${loggedInUser}`
+                        : "No user is logged in."}
                 </p>
             </main>
         </div>

@@ -1,0 +1,35 @@
+.LoginAuth-container {
+    display: flex;
+    background-color: #adbc9f;
+    margin: 6px;
+    padding: 6px;
+    border: 3px solid #ffa346;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.LA-display-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-family: "Graduate", serif;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.LA-select,
+.LA-input {
+    border: 3px solid #ffa346;
+    border-radius: 6px;
+    margin: 4px;
+    padding: 4px;
+}
+.LA-select {
+    width: 44%;
+}
+@media only screen and (max-width: 768px) {
+    .LA-select {
+        width: 48%;
+    }
+}

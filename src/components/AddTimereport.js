@@ -12,7 +12,7 @@ export default function AddTimereport() {
     const [projectData, setProjectData] = useState([]);
     //Denna vill jag spara ner ALL data från JSON svaret
 
-    const [showReport, setShowReport] = useState(false);
+
 
     const FetchProjects = () => {
         const payload = {};
@@ -75,10 +75,13 @@ export default function AddTimereport() {
                     return item.properties.Name.title[0].plain_text;
                 });
                 setNames(namesList);
-                console.log("Namn från People-databasen: ", namesList);
+
             })
             .catch((error) => {
-                console.log("Fel vid hämtning från People-databasen: ", error);
+                console.log(
+                    "Something went wrong when collectiong data from notion: ",
+                    error
+                );
             });
     };
 
@@ -121,8 +124,7 @@ export default function AddTimereport() {
 
     const peopleID = findPersonId(reportData.selectedName);
     const projectID = findProjectId(reportData.selectedProject);
-    console.log(peopleID);
-    console.log(projectID);
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -137,22 +139,16 @@ export default function AddTimereport() {
         axios
             .post("http://localhost:3001/api/add-report", reportDataCopy)
             .then((response) => {
-                // Hantera lyckad förfrågan här
-                console.log("Report added successfully:", response.data);
 
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
                 const reportString = `
-          Timmar: ${reportData.hours}
-          Datum: ${reportData.addDate}
-          Ämne: ${reportData.note}
+          Hours: ${reportData.hours}
+          Date: ${reportData.addDate}
+          Note: ${reportData.note}
         `;
 
                 // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
-                alert(`${reportString}\n\nRapporten har lagts till.`);
-
-                // Visa rapporten
-                setShowReport(true);
-                //*********************       ^^^^^^^ GJORT FRÅN TimeReportAddConfirmation^^^^^^^                 ********************** */
+                alert(`${reportString}\n\nReport have been added.`);
             })
 
             .catch((error) => {

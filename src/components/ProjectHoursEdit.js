@@ -5,7 +5,6 @@ const ProjectHoursEdit = () => {
     const [projects, setProjects] = useState([]);
     const [selectedProject, setSelectedProject] = useState(null);
     const [updatedHours, setUpdatedHours] = useState("");
-    const [showReport, setShowReport] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -18,11 +17,10 @@ const ProjectHoursEdit = () => {
             .post("http://localhost:3001/api/notion", payload)
             .then((response) => {
                 setProjects(response.data.results);
-                console.log("Datan vi hämtar från Notion: ", response.data);
             })
             .catch((error) => {
-                console.log(
-                    "Fel inträffade vid hämtningen från Notion: ",
+                alert(
+                    "Something went wrong when collectiong data from notion: ",
                     error
                 );
             });
@@ -39,9 +37,6 @@ const ProjectHoursEdit = () => {
     };
 
     const handleHoursUpdate = async (e) => {
-        // Lägg till logik för att uppdatera Timespan-datumet i din databas
-        // Använd selectedProject för att få det valda projektet och newDate för det nya datumet
-        // Utför en POST-anrop till din API med den uppdaterade informationen
         e.preventDefault();
         const updateData = {
             projectId: selectedProject.id,
@@ -59,17 +54,11 @@ const ProjectHoursEdit = () => {
         axios
             .patch("http://localhost:3001/api/update-project-hours", updateData)
             .then((response) => {
-                console.log("Update SUCESS!: ", response.data);
-
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
                 const reportString = `Project: ${selectedProject.properties.Projectname.title[0].plain_text} with previous planned hours: ${selectedProject.properties.Hours.number} has now been updated to: ${updatedHours} hours`;
 
                 // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
                 alert(`Project update added! \n${reportString}\n`);
-
-                // Visa rapporten
-                setShowReport(true);
-                //*********************^^^^^^^^^^^ GJORT FRÅN TimeReportAddConfirmation ^^^^^^^^^^^^^^^********************** */
             })
             .catch((error) => {
                 console.log("Update didn't post to server: ", error);

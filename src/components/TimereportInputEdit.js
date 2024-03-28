@@ -8,7 +8,6 @@ export default function TimereportInputEdit() {
     const [projectData, setProjectData] = useState({});
     const [selectedReport, setSelectedReport] = useState(null);
     const [newDate, setNewDate] = useState("");
-    const [showReport, setShowReport] = useState(false);
 
     const fetchData = () => {
         const payload = {};
@@ -41,7 +40,6 @@ export default function TimereportInputEdit() {
                         people[person.id] = { id: person.id, name };
                     });
                     setPeopleData(people);
-                    console.log("HÄR ÄR PEOPLE: ", people);
                 })
                 .catch((error) => {
                     console.log(
@@ -92,34 +90,32 @@ export default function TimereportInputEdit() {
     const handleDateUpdate = async (e) => {
         e.preventDefault();
         if (!selectedReport || !newDate) {
-            console.log("Alla fält måste vara ifyllda!");
+            alert("Please fill all fields");
             return;
         }
         const updateDate = {
             pageId: selectedReport.id,
             updateDate: newDate,
         };
-        console.log("Detta skickas till servern: ", updateDate);
+
         axios
             .patch(
                 "http://localhost:3001/api/update-timereport-date",
                 updateDate
             )
             .then((response) => {
-                console.log("Uppdatering LYCKADES!! ", response.data);
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
                 const reportString = `From date: ${selectedReport.properties.Date.date.start} to new date: ${newDate}`;
 
                 // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
                 alert(`Timereport date is now updated! \n${reportString}\n`);
-
-                // Visa rapporten
-                setShowReport(true);
-                //*********************       ^^^^^^^ GJORT FRÅN TimeReportAddConfirmation^^^^^^^                 ********************** */
             })
 
             .catch((error) => {
-                console.log("Något fel med patch via servern: ", error);
+                console.log(
+                    "Something went wrong with update to server: ",
+                    error
+                );
             });
     };
 
@@ -156,8 +152,6 @@ export default function TimereportInputEdit() {
                     value={selectedReport?.id}
                 >
                     <option value="">Select a report</option>
-                    {/* //vill vi sortera med namn kör vi data.results.map som
-                    vanligt */}
                     {sortedData.map((item) => (
                         <option
                             value={item.id}

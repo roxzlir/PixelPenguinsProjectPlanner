@@ -1,11 +1,13 @@
 .L-T-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
     background-color: #adbc9f;
     margin: 6px;
+    text-align: center;
     padding: 6px;
     border: 3px solid #f89437;
-    text-align: center;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -26,24 +28,7 @@
     margin: 4px;
     padding: 4px;
 }
-/* #LogTimereport-btn {
-    background-color: orange;
-    width: 6em;
-    height: 3em;
-    margin-top: 10px;
-    border: 1.5px solid rgb(207, 136, 3);
-    border-radius: 10px;
-    text-align: center;
-    cursor: pointer;
-    transition: background-color 0.6s, transform 0.6s;
-}
 
-#LogTimereport-btn:hover {
-    background-color: rgb(221, 145, 3);
-    transform: scale(0.95);
-} */
-
-/* CSS */
 #LogTimereport-btn {
     background-color: initial;
     background-image: linear-gradient(-180deg, #ff7e31, orange);
@@ -77,39 +62,32 @@
     box-shadow: rgba(212, 66, 4, 0.5) 0 3px 8px;
 }
 
-/* CSS */
-/* #LogTimereport-btn {
-    margin: 10px;
-    padding: 15px 30px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    border-radius: 10px;
-    display: block;
-    border: 0px;
-    font-weight: 700;
-    box-shadow: 0px 0px 14px -7px #f09819;
-    background-image: linear-gradient(
-        45deg,
-        #ff512f 0%,
-        #f09819 51%,
-        #ff512f 100%
-    );
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-}
+@media only screen and (max-width: 768px) {
+    .L-T-form {
+        flex-direction: column;
+    }
 
-#LogTimereport-btn:hover {
-    background-position: right center;
-   
-     color: #fff;
-    text-decoration: none;
-}
+    .L-T-form label {
+        display: block;
+        width: 97%; /* Sätt bredden till 100% för att de ska ta upp hela kolumnen */
+        margin-bottom: 10px; /* Lägg till lite avstånd mellan varje label */
+    }
+    .L-T-select {
+        display: block;
+        text-align: center;
+        width: 96%;
+    }
+    .L-T-input {
+        display: block;
+        text-align: center;
+        width: 90%;
+    }
 
-#LogTimereport-btn:active {
-    transform: scale(0.95);
-}   */
+    .L-T-form label:not(:last-child) {
+        margin-bottom: 10px; /* Lägg till lite avstånd mellan varje label */
+    }
+    #LogTimereport-btn {
+        margin-left: 30%;
+        width: 50%;
+    }
+}

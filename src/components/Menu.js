@@ -1,21 +1,44 @@
+import { useState } from "react";
 import React from "react";
 import "../css/Menu.css";
 
 import { NavLink } from "react-router-dom";
 
 function Menu({ userRole, onLogout }) {
+    const [showMenu, setShowMenu] = useState(false);
+
+    const toggleMenu = () => {
+        setShowMenu(!showMenu);
+    };
+    const closeMenu = () => {
+        setShowMenu(false);
+    };
+
     return (
         <header className="menu-container">
             <nav>
-                <ul className="menu-links">
+                <div className="menu-toggle" onClick={toggleMenu}>
+                    <div className="menu-toggle-bar"></div>
+                    <div className="menu-toggle-bar"></div>
+                    <div className="menu-toggle-bar"></div>
+                </div>
+                <ul className={`menu-links ${showMenu ? "show" : ""}`}>
                     <li className="menu-link">
-                        <NavLink className={"nav-link"} to="/">
+                        <NavLink
+                            className={"nav-link"}
+                            to="/"
+                            onClick={closeMenu}
+                        >
                             Home
                         </NavLink>
                     </li>
                     {userRole === "Employee" && (
                         <li className="menu-link">
-                            <NavLink className={"nav-link"} to="/ReportTime">
+                            <NavLink
+                                className={"nav-link"}
+                                to="/ReportTime"
+                                onClick={closeMenu}
+                            >
                                 Report Time
                             </NavLink>
                         </li>
@@ -26,6 +49,7 @@ function Menu({ userRole, onLogout }) {
                                 <NavLink
                                     className={"nav-link"}
                                     to="/DisplayTimereport"
+                                    onClick={closeMenu}
                                 >
                                     Timereports
                                 </NavLink>
@@ -34,6 +58,7 @@ function Menu({ userRole, onLogout }) {
                                 <NavLink
                                     className={"nav-link"}
                                     to="/ReportTimeAll"
+                                    onClick={closeMenu}
                                 >
                                     Report Time
                                 </NavLink>
@@ -42,6 +67,7 @@ function Menu({ userRole, onLogout }) {
                                 <NavLink
                                     to="/DisplayProjects"
                                     className={"nav-link"}
+                                    onClick={closeMenu}
                                 >
                                     Projects
                                 </NavLink>

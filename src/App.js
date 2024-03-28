@@ -60,6 +60,8 @@ function App() {
 
     const handleLogout = () => {
         localStorage.removeItem("loggedInUser");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("loggedInId");
         setUserRole("");
         setIsLoggedIn(false);
         // Directly after logout
