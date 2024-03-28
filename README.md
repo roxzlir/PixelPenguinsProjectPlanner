@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# Project Planner Application.
+## PPPP - PixelPenguins Project Planner
+We received a task to create an application where the user is able to report time to different projects.
+For this task we have used React as our frontend application, we have a Expressjs server solution as a middleware to be able to connect with our databases via Notion API. 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Thank you for using PixelPenguins Applications
+##### PLEASE NOTE: When the user visits our page you will be presented with a login demand.
+To access the functions of this page the user need to exist in the database of employees and have both a name, employment role and a password added to them. All the employees that
+will have access to the page are found in the select list on the login page and just need to enter his/hers password to be redirected to all the functions.
+Example password for users:
+Ture Thorén password: 999999 (Teamleader account)
+Dominic Ement password: 123456 (Employee account)
 
-## Available Scripts
+There are seperate functions based on your employment role. Employees only have access to log time reports but will also se their personal data displayed upon login.
+If a teamleader or the CEO login they will have mutch more access to both see all timereports, see all project and make changes to them both. 
+They can also add new timereports in any employees name in case of emergency.
 
-In the project directory, you can run:
+##### Technical notes:
+The first page from witch you begin is the page we've named /LoginPage
+and we have integrated our Menu component in our App.js file since we base which Menu link's that will be visible for the user
+we needed to reload the App.js for the menu to update. 
 
-### `npm start`
+So on the LoginPage we render our LoginAuth component and based on the result from that component we 
+render 2 different result in our <Menu/> component. We have also added a condition on our LoginPage to display our 
+<UserVisualize/> component only IF the user is logged in.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+##### Users with role Employee will see: 
+###### Link Home to "/" 
+<UserVisualize/> Present all the logged in user's personal data.
+<LoginAuth/> Handle the login process.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+###### Link Report Time to "/ReportTime" where we render:
+<LogTimereport/> Tool to make a new timereport, based on the user who is logged in. 
 
-### `npm test`
+##### Users with role Teamleader/CEO will see:
+###### Link Home to "/"
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+###### Link Timereports to "/DisplayTimereport" where we render:
+<FilterTimereports/> Filter timereports based on both name or date, possible to select all.
+<FilterProjectReports/> Let's you see all timereports that been added for selected project
+<TimereportInputEdit/> Tool to change the date on any timereport that have been added. 
 
-### `npm run build`
+###### Link Report Time to "/ReportTimeAll" where we render:
+<AddTimeReport>  Tool to make a new timereport on any of the employee's.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+###### Link to Projects "/DisplayProjects" where we render: 
+<AlertCompareEndDate/> Display all the projects sorted by status and highlights some warnings 
+<Alert/> Give different warnings based on project's timespan and hos many hours that are left, have a filter for project that are close to go live as well. 
+<ActiveProjects/> Let you display project based on selected status.
+<ProjectInputEdit/> Tool to change the timespan dates on any project.
+<ProjectHoursEdit/> Tool to change the amount of hours a project is allowed. 
+<AddNewProject/> Tool to add a new project to the database.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+##### What happens when I'm done?
+When the user press the Logout button there is a function that reload the page (to update the Menu component and clear the links) and remove all
+data from localStorage and return the user to our "/LoginPage" again as when the page was opend the first time.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Link to our SCRUM board:
+[https://app.asana.com/0/1206692289443729/1206692184386317](https://app.asana.com/read-only/Pixel-Penguins/1201209955681624/8f66c19702d85e5f19a8d5f3dec76d8b/board)
 
-### `npm run eject`
+#### The Pixel Penguin Team:
+##### -> Angelica Lindström
+##### -> Caroline Uthawong-Burr
+##### -> Emil Nordin
+##### -> Theres Sundberg Selin
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/ActiveProjects.css";
 
 function ActiveProjects() {
     const [data, setData] = useState(null);
@@ -11,7 +12,6 @@ function ActiveProjects() {
                 "http://localhost:3001/api/notion"
             );
             setData(response.data);
-            console.log("Data fetched from Notion: ", response.data);
         } catch (error) {
             console.log("Error occurred while fetching data:", error);
         }
@@ -38,9 +38,12 @@ function ActiveProjects() {
     });
 
     return (
-        <div>
+            <div className="ap-page-container">     
+                        <div className="ap-display-section">    
+                        <thead>
+   
             <h1 style={{ textAlign: "center" }}>Active projects</h1>
-            <div>
+            
                 <label htmlFor="statusFilter">Filter by status:</label>
                 <select
                     id="statusFilter"
@@ -52,30 +55,43 @@ function ActiveProjects() {
                     <option value="Next Up">Next Up</option>
                     <option value="Done">Done</option>
                 </select>
-            </div>
-            <div className="ApiReader-container">
-                <ul>
+                </thead>
+                </div>
+            
+                <div className="ap-table-container">
+                <table className="ap-timereport-table">
+                <tbody>
+                <tr>
+                <tr>
+                            <th>Project</th>
+                            <th>Hours</th>
+                            <th>Hours left</th>
+                            <th>Hours worked</th>
+                            <th>Status</th>
+                            <th>Date span</th>
+
+                        </tr>
                     {filteredProjects.map((item) => (
-                        <li key={item.id}>
-                            <p>
-                                Projectname:{" "}
+                        <tr key={item.id}>
+                            <td>
+                                {" "}
                                 {
                                     item.properties.Projectname.title[0]
                                         .plain_text
                                 }
-                            </p>
-                            <p>Hours: {item.properties.Hours.number}</p>
-                            <p>
-                                Hours left:{" "}
+                            </td>
+                            <td>{item.properties.Hours.number}</td>
+                            <td>
+                                {" "}
                                 {item.properties["Hours left"].formula.number}
-                            </p>
-                            <p>
-                                Worked hours:{" "}
+                            </td>
+                            <td>
+                                {" "}
                                 {item.properties["Worked hours"].rollup.number}
-                            </p>
-                            <p>Status: {item.properties.Status.select.name}</p>
-                            <p>
-                                Timespan:{" "}
+                            </td>
+                            <td>Status: {item.properties.Status.select.name}</td>
+                            <td>
+                                {" "}
                                 {item.properties.Timespan.date ? (
                                     <>
                                         {item.properties.Timespan.date.start} -{" "}
@@ -84,11 +100,15 @@ function ActiveProjects() {
                                 ) : (
                                     "No date"
                                 )}
-                            </p>
-                        </li>
+                            </td>
+                        </tr>
+                        
                     ))}
-                </ul>
-            </div>
+                </tr>
+              
+                </tbody>
+                </table>
+        </div>
         </div>
     );
 }
