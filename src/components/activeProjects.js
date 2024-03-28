@@ -12,7 +12,6 @@ function ActiveProjects() {
                 "http://localhost:3001/api/notion"
             );
             setData(response.data);
-            console.log("Data fetched from Notion: ", response.data);
         } catch (error) {
             console.log("Error occurred while fetching data:", error);
         }
