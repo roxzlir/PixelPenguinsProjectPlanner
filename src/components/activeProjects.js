@@ -53,7 +53,7 @@ function ActiveProjects() {
                 >
                     <option value="All">All</option>
                     <option value="Active">Active</option>
-                    <option value="Next up">Next up</option>
+                    <option value="Next Up">Next up</option>
                     <option value="Done">Done</option>
                 </select>
                 </thead>
