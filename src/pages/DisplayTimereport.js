@@ -2,15 +2,21 @@ import React from "react";
 import FilterTimereports from "../components/FilterTimereports";
 import TimereportInputEdit from "../components/TimereportInputEdit";
 import FilterProjectsReports from "../components/FilterProjectsReports";
+
+
 export default function DisplayTimereport() {
-
     return (
-        <div>
+        <div className="DT-parent">
             <h1>Timereports</h1>
-
-            <FilterTimereports/>
-            <FilterProjectsReports/>
-            <TimereportInputEdit/>
+            <section className="DT-left">
+                <FilterTimereports />
+            </section>
+            <section className="DT-right">
+                <FilterProjectsReports />
+            </section>
+            <section className="DT-bottom">
+                <TimereportInputEdit />
+            </section>
         </div>
     );
 }

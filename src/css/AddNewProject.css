@@ -1,4 +1,4 @@
-.A-T-container {
+.ANP-container {
     display: flex;
     flex-direction: row;
     background-color: #adbc9f;
@@ -9,23 +9,26 @@
     flex-wrap: wrap;
 }
 
-.A-T-form {
+.ANP-form {
     display: flex;
     justify-content: center;
     font-family: "Graduate", serif;
     flex-wrap: wrap;
 }
 
-.A-T-form label {
+.ANP-form label {
     margin: 10px;
     padding: 4px;
 }
-.A-T-select,
-.A-T-input {
+.ANP-select,
+.ANP-input {
     border: 3px solid #f89437;
     border-radius: 6px;
     margin: 4px;
     padding: 4px;
+}
+.ANP-container h3 {
+    margin: 40px;
 }
 
 /* CSS */
@@ -62,32 +65,33 @@
     box-shadow: rgba(212, 66, 4, 0.5) 0 3px 8px;
 }
 @media only screen and (max-width: 768px) {
-    .A-T-form {
+    .ANP-form {
         flex-direction: column;
+        text-align: center;
+    }
+    .ANP-container h3 {
+        text-align: center;
+        margin: 10px;
     }
 
-    .A-T-form label {
+    .ANP-form label {
         display: block;
         width: 100%; /* Sätt bredden till 100% för att de ska ta upp hela kolumnen */
         margin-bottom: 10px; /* Lägg till lite avstånd mellan varje label */
-        align-items: center;
         text-align: center;
     }
-    .A-T-input {
+    .ANP-input {
         display: block;
         text-align: center;
         width: 90%;
     }
-    .A-T-select {
+    .ANP-select {
         display: block;
         text-align: center;
         width: 96%;
     }
 
-    .A-T-form label:not(:last-child) {
+    .ANP-form label:not(:last-child) {
         margin-bottom: 10px; /* Lägg till lite avstånd mellan varje label */
-    }
-    .button-42 {
-        margin-left: 35%;
     }
 }

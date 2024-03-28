@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/ProjectInputEdit.css";
 
 function TimereportReader() {
     const [timereports, setTimereports] = useState([]);
@@ -69,7 +70,7 @@ function TimereportReader() {
 
     return (
         <div className="page-container">
-            <div className="display-section">
+            <div className="table-container">
                 <label>Select a person:</label>
                 <select
                     className="PIE-select"
@@ -98,57 +99,36 @@ function TimereportReader() {
                     onChange={(e) => setEndDate(e.target.value)}
                 />
             </div>
-            <div className="table-container">
-                <table className="timereport-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Hours</th>
-                            <th>Project</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {/* Skapa en rad för varje filtrerad timrapport */}
-                        {filterTimereports().map((report) => (
-                            <tr key={report.id}>
-                                <td>{report.properties.Date.date.start}</td>
-                                <td>{report.properties.Hours.number}</td>
-                                <td>
-                                    {projects[
-                                        report.properties.Project.relation[0].id
-                                    ] || "Unknown"}
-                                </td>
-                                <td>
-                                    {report.properties.Note?.title?.[0]
-                                        ?.plain_text || "No note"}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-            {/* <div className="card-list">
+
+            <table className="timereport-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Hours</th>
+                        <th>Project</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {/* Skapa en rad för varje filtrerad timrapport */}
                     {filterTimereports().map((report) => (
-                        <div key={report.id} className="card">
-                            <p>Date: {report.properties.Date.date.start}</p>
-                            <p>Hours: {report.properties.Hours.number}</p>
-                            <p>
-                                Project:{" "}
+                        <tr key={report.id}>
+                            <td>{report.properties.Date.date.start}</td>
+                            <td>{report.properties.Hours.number}</td>
+                            <td>
                                 {projects[
                                     report.properties.Project.relation[0].id
                                 ] || "Unknown"}
-                            </p>
-                            <p>
-                                Note:{" "}
+                            </td>
+                            <td>
                                 {report.properties.Note?.title?.[0]
                                     ?.plain_text || "No note"}
-                            </p>
-                        </div>
+                            </td>
+                        </tr>
                     ))}
-                </div> */}
+                </tbody>
+            </table>
         </div>
-        // </div>
     );
 }
 

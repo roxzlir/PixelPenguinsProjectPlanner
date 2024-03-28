@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/LogTimereport.css";
 
+//LÄGG TILL I MOBIL LÄGE ATT LABLE LIGGER OVANFÖR INPUT
+
 export default function LogTimereport() {
     //********************************************************* */
     //Här sätter jag upp det som har med PROJEKT ATT GÖRA
@@ -11,8 +13,6 @@ export default function LogTimereport() {
 
     const [projectData, setProjectData] = useState([]);
     //Denna vill jag spara ner ALL data från JSON svaret
-
-    const [showReport, setShowReport] = useState(false);
 
     const FetchProjects = () => {
         const payload = {};
@@ -71,14 +71,12 @@ export default function LogTimereport() {
             .then((response) => {
                 const fetchedData = response.data;
                 setPeopleData(fetchedData);
-                // const namesList = fetchedData.results.map((item) => {
-                //     return item.properties.Name.title[0].plain_text;
-                // });
-                // setNames(namesList);
-                // console.log("Namn från People-databasen: ", namesList);
             })
             .catch((error) => {
-                console.log("Fel vid hämtning från People-databasen: ", error);
+                console.log(
+                    "Something went wrong when collectiong data from notion: ",
+                    error
+                );
             });
     };
 
@@ -122,8 +120,6 @@ export default function LogTimereport() {
 
     const peopleID = findPersonId(loggedInName);
     const projectID = findProjectId(reportData.selectedProject);
-    console.log(peopleID);
-    console.log(projectID);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -134,13 +130,10 @@ export default function LogTimereport() {
             selectedName: peopleID,
             selectedProject: projectID,
         };
-        console.log("REPORT DATACOPY: ", reportDataCopy);
+
         axios
             .post("http://localhost:3001/api/add-report", reportDataCopy)
             .then((response) => {
-                // Hantera lyckad förfrågan här
-                console.log("Report added successfully:", response.data);
-
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
                 const reportString = `
           Timmar: ${reportData.hours}
@@ -150,10 +143,6 @@ export default function LogTimereport() {
 
                 // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
                 alert(`${reportString}\n\nRapporten har lagts till.`);
-
-                // Visa rapporten
-                setShowReport(true);
-                //*********************       ^^^^^^^ GJORT FRÅN TimeReportAddConfirmation^^^^^^^                 ********************** */
             })
 
             .catch((error) => {
@@ -165,7 +154,7 @@ export default function LogTimereport() {
     return (
         <main className="L-T-container">
             <h3>Thank you for your hard work {loggedInName}!</h3>
-            <p>Please register your timereport below: </p>
+
             <form onSubmit={handleSubmit} className="L-T-form">
                 <label>
                     Project{" "}

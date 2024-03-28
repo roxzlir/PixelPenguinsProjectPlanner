@@ -7,7 +7,6 @@ const ProjectInputEdit = () => {
     const [selectedProject, setSelectedProject] = useState(null);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
-    const [showReport, setShowReport] = useState(false);
 
     useEffect(() => {
         fetchData();
@@ -20,11 +19,10 @@ const ProjectInputEdit = () => {
             .post("http://localhost:3001/api/notion", payload)
             .then((response) => {
                 setProjects(response.data.results);
-                console.log("Datan vi hämtar från Notion: ", response.data);
             })
             .catch((error) => {
                 console.log(
-                    "Fel inträffade vid hämtningen från Notion: ",
+                    "Something went wrong when collectiong data from notion: ",
                     error
                 );
             });
@@ -45,13 +43,10 @@ const ProjectInputEdit = () => {
     };
 
     const handleDateUpdate = async (e) => {
-        // Lägg till logik för att uppdatera Timespan-datumet i din databas
-        // Använd selectedProject för att få det valda projektet och newDate för det nya datumet
-        // Utför en POST-anrop till din API med den uppdaterade informationen
         e.preventDefault();
 
         if (!selectedProject || !startDate || !endDate) {
-            console.error("Alla fält måste vara ifyllda.");
+            alert("All fields need to be selected.");
             return;
         }
 
@@ -60,20 +55,15 @@ const ProjectInputEdit = () => {
             startDate: startDate,
             endDate: endDate,
         };
-        console.log("DETTA SKICKAS TILL UPPDATE: ", updateData);
+
         axios
             .patch("http://localhost:3001/api/update-project", updateData)
             .then((response) => {
-                console.log("Update SUCESS!: ", response.data);
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
                 const reportString = `Project: ${selectedProject.properties.Projectname.title[0].plain_text} with previous timespan: ${selectedProject.properties.Timespan.date.start} - ${selectedProject.properties.Timespan.date.end} has now been updated with dates: ${startDate} - ${endDate}`;
 
                 // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
                 alert(`Project update added! \n${reportString}\n`);
-
-                // Visa rapporten
-                setShowReport(true);
-                //*********************       ^^^^^^^ GJORT FRÅN TimeReportAddConfirmation^^^^^^^                 ********************** */
             })
             .catch((error) => {
                 console.log("Update didn't post to server: ", error);
