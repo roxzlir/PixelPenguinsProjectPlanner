@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "../css/ActiveProjects.css";
 
 function ActiveProjects() {
     const [data, setData] = useState(null);
@@ -38,8 +39,8 @@ function ActiveProjects() {
     });
 
     return (
-            <div className="page-container">     
-                        <div className="display-section">    
+            <div className="ap-page-container">     
+                        <div className="ap-display-section">    
                         <thead>
    
             <h1 style={{ textAlign: "center" }}>Active projects</h1>
@@ -58,31 +59,40 @@ function ActiveProjects() {
                 </thead>
                 </div>
             
-                <div className="table-container">
-                <table className="timereport-table">
+                <div className="ap-table-container">
+                <table className="ap-timereport-table">
                 <tbody>
                 <tr>
+                <tr>
+                            <th>Project</th>
+                            <th>Hours</th>
+                            <th>Hours left</th>
+                            <th>Hours worked</th>
+                            <th>Status</th>
+                            <th>Date span</th>
+
+                        </tr>
                     {filteredProjects.map((item) => (
                         <tr key={item.id}>
                             <td>
-                                Projectname:{" "}
+                                {" "}
                                 {
                                     item.properties.Projectname.title[0]
                                         .plain_text
                                 }
                             </td>
-                            <td>Hours: {item.properties.Hours.number}</td>
+                            <td>{item.properties.Hours.number}</td>
                             <td>
-                                Hours left:{" "}
+                                {" "}
                                 {item.properties["Hours left"].formula.number}
                             </td>
                             <td>
-                                Worked hours:{" "}
+                                {" "}
                                 {item.properties["Worked hours"].rollup.number}
                             </td>
                             <td>Status: {item.properties.Status.select.name}</td>
                             <td>
-                                Timespan:{" "}
+                                {" "}
                                 {item.properties.Timespan.date ? (
                                     <>
                                         {item.properties.Timespan.date.start} -{" "}
@@ -96,6 +106,7 @@ function ActiveProjects() {
                         
                     ))}
                 </tr>
+              
                 </tbody>
                 </table>
         </div>
