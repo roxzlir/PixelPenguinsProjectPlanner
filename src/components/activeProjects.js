@@ -38,9 +38,12 @@ function ActiveProjects() {
     });
 
     return (
-        <div>
+            <div className="page-container">     
+                        <div className="display-section">    
+                        <thead>
+   
             <h1 style={{ textAlign: "center" }}>Active projects</h1>
-            <div>
+            
                 <label htmlFor="statusFilter">Filter by status:</label>
                 <select
                     id="statusFilter"
@@ -52,29 +55,33 @@ function ActiveProjects() {
                     <option value="Next up">Next up</option>
                     <option value="Done">Done</option>
                 </select>
-            </div>
-            <div className="ApiReader-container">
-                <ul>
+                </thead>
+                </div>
+            
+                <div className="table-container">
+                <table className="timereport-table">
+                <tbody>
+                <tr>
                     {filteredProjects.map((item) => (
-                        <li key={item.id}>
-                            <p>
+                        <tr key={item.id}>
+                            <td>
                                 Projectname:{" "}
                                 {
                                     item.properties.Projectname.title[0]
                                         .plain_text
                                 }
-                            </p>
-                            <p>Hours: {item.properties.Hours.number}</p>
-                            <p>
+                            </td>
+                            <td>Hours: {item.properties.Hours.number}</td>
+                            <td>
                                 Hours left:{" "}
                                 {item.properties["Hours left"].formula.number}
-                            </p>
-                            <p>
+                            </td>
+                            <td>
                                 Worked hours:{" "}
                                 {item.properties["Worked hours"].rollup.number}
-                            </p>
-                            <p>Status: {item.properties.Status.select.name}</p>
-                            <p>
+                            </td>
+                            <td>Status: {item.properties.Status.select.name}</td>
+                            <td>
                                 Timespan:{" "}
                                 {item.properties.Timespan.date ? (
                                     <>
@@ -84,11 +91,14 @@ function ActiveProjects() {
                                 ) : (
                                     "No date"
                                 )}
-                            </p>
-                        </li>
+                            </td>
+                        </tr>
+                        
                     ))}
-                </ul>
-            </div>
+                </tr>
+                </tbody>
+                </table>
+        </div>
         </div>
     );
 }

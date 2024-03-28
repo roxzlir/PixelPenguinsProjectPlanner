@@ -129,16 +129,49 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-gap: 20px;
+    grid-template-rows: auto;
+    
 }
 
 .card {
-    border: 1px solid #ccc;
+    border: 3px solid #ffa346;
     border-radius: 8px;
     padding: 10px;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    
 }
 
 .card p {
     margin: 5px 0;
+}
+
+
+.noBulletLists {
+    list-style: none;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.timereport-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #f2f2f2;
+    border: 3px solid #ffa346;
+
+}
+
+.timereport-table th,
+.timereport-table td {
+    padding: 8px;
+    border: 1px solid #ffa346;
+}
+
+.timereport-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: left;
 }
