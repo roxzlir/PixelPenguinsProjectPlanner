@@ -7,6 +7,9 @@ For this task we have used React as our frontend application, we have a Expressj
 ##### PLEASE NOTE: When the user visits our page you will be presented with a login demand.
 To access the functions of this page the user need to exist in the database of employees and have both a name, employment role and a password added to them. All the employees that
 will have access to the page are found in the select list on the login page and just need to enter his/hers password to be redirected to all the functions.
+Example password for users:
+Ture Thorén password: 999999 (Teamleader account)
+Dominic Ement password: 123456 (Employee account)
 
 There are seperate functions based on your employment role. Employees only have access to log time reports but will also se their personal data displayed upon login.
 If a teamleader or the CEO login they will have mutch more access to both see all timereports, see all project and make changes to them both. 
@@ -46,6 +49,7 @@ render 2 different result in our <Menu/> component. We have also added a conditi
 <ActiveProjects/> Let you display project based on selected status.
 <ProjectInputEdit/> Tool to change the timespan dates on any project.
 <ProjectHoursEdit/> Tool to change the amount of hours a project is allowed. 
+<AddNewProject/> Tool to add a new project to the database.
 
 ##### What happens when I'm done?
 When the user press the Logout button there is a function that reload the page (to update the Menu component and clear the links) and remove all
