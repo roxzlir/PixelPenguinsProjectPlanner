@@ -1,187 +1,139 @@
 import React, { useState, useEffect } from "react";
+import "../css/AlertCompareED.css";
 import axios from "axios";
 
-export default function AlertCompareEndDate({ onSelectProject }) {
-  // State för att lagra data och dagens datum
+export default function AlertCompareEndDate() {
   const [data, setData] = useState(null);
-  const [todayDate, setTodayDate] = useState(new Date()); // Dagens datum
 
-  // Hämta data från backend när komponenten monteras
+  // get data from project db, notion
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post("http://localhost:3001/api/notion");
-        setData(response.data); // Sätt den hämtade datan i state
-        console.log("Datan vi hämtar från Notion: ", response.data);
+        setData(response.data);
+        console.log("Data fetched from Notion: ", response.data);
       } catch (error) {
-        console.log("Fel inträffade vid hämtningen från Notion: ", error);
+        console.log("Error fetching data from Notion: ", error);
       }
     };
 
-    fetchData(); // Anropa funktionen för att hämta data
-  }, []); // Använd en tom beroende-array för att köra useEffect en gång när komponenten monteras
+    fetchData();
+  }, []);
 
-  /// ********************************************************************************
-  // Funktion för att jämföra dagens datum med slutdatum för varje projekt
-  // Sorterar efter status och sätter bakgrunsfärg efter detta
-  // LISAR ALLA OCH DISPLAYAR ALLA
-  /// ********************************************************************************
-  const compareTime = () => {
+  // function to sort projects by status name and worked hours
+  const projectDataHours = () => {
     if (data && Array.isArray(data.results)) {
-      // Filtrera projekt baserat på status
-      const activeProjects = data.results.filter(
-        (project) => project.properties.Status.select.name === "Active"
-      );
-      const nextUpProjects = data.results.filter(
-        (project) => project.properties.Status.select.name === "Next up"
-      );
-      const doneProjects = data.results.filter(
-        (project) => project.properties.Status.select.name === "Done"
-      );
+      // array with all projects, sort by endDate first for Active projects, then status
+      const sortedProjects = [...data.results].sort((a, b) => {
+        // Compare endDate first for Active projects
+        const status1 = a.properties.Status.select.name;
+        const status2 = b.properties.Status.select.name;
 
-      // Sortera projekten i ordning och rendera dem
-      return (
-        <div>
-          <h2>Active Projects:</h2>
-          <ul>{sortProjects(activeProjects, "green")}</ul>
-          <h2>Next Up Projects:</h2>
-          <ul>{sortProjects(nextUpProjects, "orange")}</ul>
-          <h2>Done Projects:</h2>
-          <ul>{sortProjects(doneProjects, "red")}</ul>
-        </div>
-      );
-    }
-  };
-  // HÖR IHOP!!  Funktion för att sortera bort - dagar kvar till end Date!!
-  const sortProjects = (projects, color) => {
-    return projects.map((project) => {
-      const endDate = new Date(project.properties.Timespan.date.end);
-      const projectName = project.properties.Projectname.title[0].text.content;
-      const timeDifference = endDate.getTime() - todayDate.getTime();
-      let daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        if (status1 === "Active" && status2 === "Active") {
+          const endDateA = new Date(a.properties.Timespan.date.end);
+          const endDateB = new Date(b.properties.Timespan.date.end);
+          if (endDateA < endDateB) return -1;
+          if (endDateA > endDateB) return 1;
+        }
 
-      // Skapa meddelande baserat på antalet dagar kvar
-      let daysLeftMessage = ""; // Meddelande om antal dagar kvar innan avslut
+        // Comparing status order by name
+        const statusOrder = { Active: 1, "Next Up": 2, Done: 3 }; // order of status in tabel later
+        const orderA = statusOrder[status1];
+        const orderB = statusOrder[status2];
 
-      if (daysDifference <= 0) {
-        daysLeftMessage = "Project has ended.";
-      } else {
-        daysLeftMessage = `The Project has ${daysDifference} days left before ending.`;
-      }
+        // Comparing ordder
+        if (orderA < orderB) return -1;
+        if (orderA > orderB) return 1;
+        return 0;
+      });
 
-      // Kontrollera om projektet har avslutats
-      // men fortfarande är markerat som "Active" eller "Next up"
-      // aktiverar varningstext
-      let activeWarning = "";
-      if (
-        daysDifference <= 0 &&
-        (project.properties.Status.select.name === "Active" ||
-          project.properties.Status.select.name === "Next up")
-      ) {
-        activeWarning = `WARNING: Project has ended but still marked as ${project.properties.Status.select.name}.`;
-      }
-
-      return (
-        <ul key={project.id}>
-          <h3>Project name: {projectName}</h3>
-          End-Date for {projectName} project is: {endDate.toDateString()}
-          <div style={{ backgroundColor: color }}>
-            {daysLeftMessage}
-            {activeWarning && <p style={{ color: "red" }}>{activeWarning}</p>}
-          </div>
-        </ul>
-      );
-    });
-  };
-
-  /// ********************************************************************************
-  // Funktion med olika bakgrundsfärg beroende på status  TIMMAR
-  //    OM ACTIVE , NEXT UP, DONE ?
-  /// ********************************************************************************
-  const hoursLeft = () => {
-    if (data && Array.isArray(data.results)) {
-      return data.results.map((hours) => {
-        // hämta data för timmar, arbetade timmar och kvarvarande timmar
+      // mapping projects
+      return sortedProjects.map((hours) => {
         const totalHours = hours.properties.Hours.number;
         const workedHours = hours.properties["Worked hours"].rollup.number;
         const hoursLeft = hours.properties["Hours left"].formula.number;
         const projectName = hours.properties.Projectname.title[0].text.content;
-
-        // hämta projektstatus och definiera stil baserat på det
+        const endDate = new Date(hours.properties.Timespan.date.end);
         const activeProject = hours.properties.Status.select.name;
-        let style = {}; // Deklarera stylevariabeln
+        const startDate = new Date(hours.properties.Timespan.date.start);
+        const today = new Date();
+        const daysLeft = Math.ceil(
+          (endDate.getTime() - today.getTime()) / (1000 * 3600 * 24)
+        );
 
-        // Bakgrundsfärg beroende på status
+        let warningMessage; // if active check deys left
         if (activeProject === "Active") {
-          style = { backgroundColor: "green" }; // Aktiv
-        } else if (activeProject === "Next up") {
-          style = { backgroundColor: "orange" }; // Nästa
-        } else if (activeProject === "Done") {
-          style = { backgroundColor: "red" }; // Klart
+          if (daysLeft <= 0) {
+            // no days left, check enddate!
+            warningMessage = "EndDate!";
+          } else {
+            warningMessage = `Days left: ${daysLeft}`;
+          }
+        }
+        if (activeProject === "Next Up") {
+          // if Next Up check days until start
+          const daysUntilStart = Math.ceil(
+            (startDate.getTime() - today.getTime()) / (1000 * 3600 * 24)
+          );
+          warningMessage =
+            daysUntilStart > 0 // more than 0 Days left
+              ? `Days until start: ${daysUntilStart}`
+              : "Active?"; // Active not next up?
         }
 
-        // Kontrollera om status är "Active" eller "Next up" och hours left är mindre än 0
-        if (
-          (activeProject === "Active" || activeProject === "Next up") &&
-          hoursLeft < 0
-        ) {
-          return (
-            <ul key={hours.id}>
-              <h3>Project name: {projectName}</h3>
-              <div style={style}>Status: {activeProject} </div>
-              <div style={{ color: "red" }}>
-                WARNING: Hours left is less than 0 but till active / Next up
-                {/* varning */}
-              </div>
-              Hours left: {hoursLeft} <br />
-              Worked hours: {workedHours} <br />
-              Hours: {totalHours} <br />
-              <br /> <br /> <br /> <br />
-            </ul>
-          );
-        } else {
-          // Om timmar och arbetade timmar finns
-          return (
-            <ul key={hours.id}>
-              <h3>Project name: {projectName}</h3>
-              <div style={style}>Status: {activeProject} </div>
-              Hours left: {hoursLeft} <br />
-              Worked hours: {workedHours} <br />
-              Hours: {totalHours} <br />
-              <br /> <br /> <br /> <br />
-            </ul>
-          );
+        let style = {}; // set style background by status
+        if (activeProject === "Active") {
+          style = { backgroundColor: "green" };
+        } else if (activeProject === "Next Up") {
+          style = { backgroundColor: "yellow" };
+        } else if (activeProject === "Done") {
+          style = { backgroundColor: "lightcoral" };
         }
+
+        // return data and make table, give warnings, style for statuscolor
+        return (
+          <tr key={hours.id} style={style}>
+            <td style={{ backgroundColor: "white" }}>{projectName}</td>
+            <td>{totalHours}</td>
+            <td>{hoursLeft}</td>
+            <td>{workedHours}</td>
+            <td>
+              {startDate.toDateString()} - {endDate.toDateString()}
+            </td>
+            <td>{activeProject}</td>
+            {warningMessage && (
+              <td style={{ color: "red", backgroundColor: "white" }}>
+                {warningMessage}
+              </td>
+            )}
+          </tr>
+        );
       });
     }
   };
 
   if (!data || !Array.isArray(data?.results)) {
-    // Om data inte finns eller inte är en array
-    return <p>Laddar data / ingen data att visa...</p>;
+    // If data doesn't exist or no array
+    return <p>Loading data / No data to display...</p>;
   }
 
-  // Om data finns
+  // If data exists
   return (
-    <div style={{ textAlign: "left" }}>
-      <h1>COMPARE DIFFERNT DATA</h1>
-      <h2>
-        CompareTime - Compare EndDate against TODAY DATE: <br></br>{" "}
-        {todayDate.toDateString()} {/**dagens datum */}
-      </h2>
-      <br />
-      <div className="AlertContainer">
-        <h2>compareTime - How many days left until endate</h2>
-        <p>All Projects Active, Next up, Done</p>
-        <ul>{compareTime()}</ul>
-      </div>
-      <br />
-      <h3>HoursLeft - Jämför Timmar loggade i ett project</h3>
-      <div>
-        {/* HoursLeft(), enskilt projekt TIMMAR  GULT ORANGE GRÖNT*/}
-        <ul>{hoursLeft()}</ul>
-      </div>
-      <br />
-    </div>
+    <main className="ACEDtable-container">
+      <table className="ACED-table">
+        <thead>
+          <tr>
+            <th>Project</th>
+            <th>Total Hours</th>
+            <th>Hours left</th>
+            <th>Worked Hours</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th style={{ backgroundColor: "red" }}>Warnings</th>
+          </tr>
+        </thead>
+        <tbody>{projectDataHours()}</tbody>
+      </table>
+    </main>
   );
 }
