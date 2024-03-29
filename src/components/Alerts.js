@@ -1,30 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
+import "../css/Alerts.css";
 import axios from "axios";
 
 export default function Alert({ onSelectProject }) {
   const [data, setData] = useState(null);
-  const [todayDate] = useState(new Date()); // Dagens datum
-  const [alertResults, setAlertResults] = useState([]); // State för att lagra varningsresultat
+  const [todayDate] = useState(new Date()); // Todays date
+  const [alertResults, setAlertResults] = useState([]); // State to save / set Alertresults
   const alertDataRef = useRef([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post("http://localhost:3001/api/notion");
-        setData(response.data); // Sätt den hämtade datan i state
-        console.log("Datan vi hämtar från Notion: ", response.data);
+        setData(response.data);
+        console.log("Data we get Notion: ", response.data);
       } catch (error) {
-        console.log("Fel inträffade vid hämtningen från Notion: ", error);
+        console.log("Wrong while fetching data from Notion: ", error);
       }
     };
 
-    fetchData(); // Anropa funktionen för att hämta data
-  }, []); // Använd en tom beroende-array för att köra useEffect en gång när komponenten monteras
+    fetchData();
+  }, []);
 
-  //**************************************************************************************************************
-  //******************* Next up project (ej activa än) Om det är mindre än 10 dagar kvar till startUP *******************************************
-  //**************************************************************************************************************
-
+  //******************* IF less then 10 days to startUP *******************
   const alertDaysUntilStart = () => {
     if (!data || !Array.isArray(data.results)) return null;
 
@@ -38,9 +36,9 @@ export default function Alert({ onSelectProject }) {
       const activeProject = alertData.properties.Status.select.name;
       const startDateDate = alertData.properties.Timespan.date.start;
 
-      //om next up och vilkor stämmer
-      if (activeProject === "Next up" && daysToStart >= 0 && daysToStart < 10) {
-        // Lägg till data i ref-objektet
+      //If next Up & terms days to start
+      if (activeProject === "Next Up" && daysToStart >= 0 && daysToStart < 10) {
+        // data to ref-object
         alertDataRef.current.push({
           type: "alertDaysUntilStart",
           projectName: projectName,
@@ -50,31 +48,29 @@ export default function Alert({ onSelectProject }) {
         });
 
         return (
-          <ul key={alertData.id}>
-            <br />
+          <section className="Alert-section">
             <h3 style={{ color: "red" }}>
-              WARNING!
-              <br /> Less than 10 days to startup
+              WARNING! <br />
+              NEXT UP - Less than 10 days to startup
             </h3>
-            <h2>
-              Project name: {projectName} <br />
-            </h2>
-            Days until start : {daysToStart} <br />
-            Start date project : {startDateDate} <br />
-            End date project : {endDateEnd} <br />
-          </ul>
+            <li className="Alert-li" key={alertData.id}>
+              <h2>Project: {projectName}</h2>
+              Days until start : {daysToStart} <br />
+              Start date project : {startDateDate} <br />
+              End date project : {endDateEnd} <br />
+              ------------------------------------------
+              <p>Make the changes needed</p>
+            </li>
+          </section>
         );
       }
       return null;
     });
 
-    setAlertResults(alerts); // Uppdatera state med varningsresultat
+    setAlertResults(alerts); // Uppdate setAlertResults with alerts
   };
 
-  //**************************************************************************************************************
-  // Funktion för att kontrollera varningar baserat på timmar kvar
-  // mindre än 10 h kvar på projekt
-  //**************************************************************************************************************
+  // *******************If less then 10 h left in project*******************
   const alertHours = () => {
     if (!data || !Array.isArray(data.results)) return null;
 
@@ -86,140 +82,139 @@ export default function Alert({ onSelectProject }) {
       const activeProject = alertData.properties.Status.select.name;
       const startDateDate = new Date(alertData.properties.Timespan.date.start);
 
-      // om det enda eller andra vilkoret stämmer
+      // if one of the terms is right
       if (
         (activeProject === "Active" && hoursLeft >= 0 && hoursLeft <= 10) ||
         (activeProject === "Next up" && hoursLeft >= 0 && hoursLeft <= 10)
       ) {
         return (
-          <ul key={alertData.id}>
-            <br />
-            <h3 style={{ color: "red" }}>
-              WARNING!
-              <br /> Less than 10 hours left in project
-            </h3>
-            ********************* <br />
-            <h2>
-              Project name: {projectName} <br />
-            </h2>
-            Active? : {activeProject} <br />
-            Hours left: {hoursLeft} <br />
-            Start date: {startDateDate.toDateString()} <br />
-            End date: {endDate.toDateString()} <br />
-            ********************* <br />
-          </ul>
+          //return
+          <section className="Alert-section">
+            <li className="Alert-li" key={alertData.id}>
+              <h3 style={{ color: "red" }}>
+                WARNING!
+                <br /> Less than 10 hours left in project
+              </h3>
+              <h2>
+                Project: {projectName} <br />
+              </h2>
+              Status : {activeProject} <br />
+              Hours left: {hoursLeft} <br />
+              Start date: {startDateDate.toDateString()} <br />
+              End date: {endDate.toDateString()} <br />
+              ------------------------------------------
+              <p>Make the changes needed</p>
+            </li>
+          </section>
         );
       }
 
-      return null; // Return null för det som inte möter vilkoren
+      return null; // Return null if not
     });
 
-    setAlertResults(alerts); // Uppdatera state med varningsresultat
+    setAlertResults(alerts); // Update state setAlertResults with alert results
   };
 
-  // **************************************************************************************
-  // OM DET ÄR MER Hours left i förhållande sätt till end date i timmar..
-  // **************************************************************************************
+  // *******************IF more Hours left vs/ workdays til end date 8h/workday*******************
   const alertHoursDays = () => {
     if (!data || !Array.isArray(data.results)) return null;
 
-    let alerts = []; // Definiera alerts
+    let alerts = []; // Definie alerts as let
 
     alerts = data.results.map((alertData) => {
+      // mapping results
       const endDate = new Date(alertData.properties.Timespan.date.end);
-      const daysLeft = Math.ceil((endDate - todayDate) / (1000 * 3600 * 24)); // Days left until endDate
+      const daysLeft = Math.ceil((endDate - todayDate) / (1000 * 3600 * 24)); // so we can see Days left until endDate
 
-      // är endDate efter dagens datum?
+      // If endDate is after today date reurn null
       if (endDate < todayDate) return null;
 
       const projectName =
         alertData.properties.Projectname.title[0].text.content;
       const activeProject = alertData.properties.Status.select.name;
       const hoursLeft = alertData.properties["Hours left"].formula.number;
-      const workHoursPerDay = 8; // 8 h / arbetsdag
+      const workHoursPerDay = 8; // 8 h / workday
+      const neededWorkDays = hoursLeft / workHoursPerDay; // calculate needed workdays
 
-      const neededWorkDays = hoursLeft / workHoursPerDay; // räklna ut behövda arbetsdagar
-
-      //om vilkor stämmer
+      //if Active & daysleft id less than needed workdays
       if (activeProject === "Active" && daysLeft < neededWorkDays) {
         return (
-          <ul key={alertData.id}>
-            <br />
-            <h3 style={{ color: "red" }}>
-              WARNING! <br /> This project is {activeProject} and has more hours
-              left than workdays until endDate:
-            </h3>
-            <h2>
-              Project name: {projectName} <br />
-            </h2>
-            Days left until endDate: {daysLeft} <br />
-            Needed work days: {neededWorkDays} <br />
-            Hours left: {hoursLeft} <br /> <br />
-            Todays date: {todayDate.toDateString()} <br />
-            End date project: {endDate.toDateString()} <br />
-            ------------------------------------------
-            <p>Make the changes needed</p>
-          </ul>
+          <section className="Alert-section">
+            <li className="Alert-li" key={alertData.id}>
+              <h3 style={{ color: "red" }}>
+                WARNING! <br /> {activeProject} project has more hours left than
+                workdays until End-Date
+              </h3>
+              <h2>
+                Project name: {projectName} <br />
+              </h2>
+              Days left until endDate: {daysLeft} <br />
+              Needed work days: {neededWorkDays} <br />
+              Hours left: {hoursLeft} <br /> <br />
+              Todays date: {todayDate.toDateString()} <br />
+              End date project: {endDate.toDateString()} <br />
+              ------------------------------------------
+              <p>Make the changes needed</p>
+            </li>
+          </section>
         );
       }
 
-      return null; // Retur null för det som inte möter vilkoren
+      return null; // Return null if not
     });
 
-    setAlertResults(alerts); // Uppdatera state med varningsresultat
+    setAlertResults(alerts); // Update setAlertResults state with alertresult
   };
 
-  // **************************************************************************************
-  // om det är mindre än 48 h kvar till end date
-  // **************************************************************************************
+  //*******************If less than 48 h to end date*******************
   const alertTwoDayEnd = () => {
     if (!data || !Array.isArray(data.results)) return null;
 
-    let alerts = []; // Definiera alerts
+    let alerts = []; // Definie alerts
 
     data.results.forEach((alertData) => {
       const endDate = new Date(alertData.properties.Timespan.date.end);
-      const daysLeft = Math.ceil((endDate - todayDate) / (1000 * 3600 * 24)); // dagar till endDate
+      const daysLeft = Math.ceil((endDate - todayDate) / (1000 * 3600 * 24)); // days to endDate
 
-      // kolla om enddate är i framtiden, retur null
+      // if enddate is in the feature, return null
       if (endDate < todayDate) return null;
 
       const projectName =
         alertData.properties.Projectname.title[0].text.content;
       const activeProject = alertData.properties.Status.select.name;
 
-      // om vilkor stämmer
+      // If active & days left less than 2
       if (activeProject === "Active" && daysLeft < 2) {
         alerts.push(
-          <ul key={alertData.id}>
-            <br />
-            <h3 style={{ color: "red" }}>
-              WARNING! <br /> This project is {activeProject} and has less than
-              48 hours to endDate:
-            </h3>
-            <h2>
-              Project name: {projectName} <br />
-            </h2>
-            Todays date: {todayDate.toDateString()} <br />
-            Days left until endDate: {daysLeft} <br />
-            End date for this project: {endDate.toDateString()} <br />
-            ------------------------------------------
-            <p>Make the changes needed</p>
-          </ul>
+          <section className="Alert-section">
+            <li className="Alert-li" key={alertData.id}>
+              <br />
+              <h3 style={{ color: "red" }}>
+                WARNING! <br /> {activeProject} project has less than 48 hours
+                to endDate
+              </h3>
+              <h2>
+                Project: {projectName} <br />
+              </h2>
+              Todays date: {todayDate.toDateString()} <br />
+              Days left until endDate: {daysLeft} <br />
+              End date for this project: {endDate.toDateString()} <br />
+              ------------------------------------------
+              <p>Make the changes needed</p>
+            </li>
+          </section>
         );
       }
     });
 
-    setAlertResults(alerts); // Uppdatera state med varningsresultat
+    setAlertResults(alerts); // Update setAlertResults state with alertresult
   };
 
-  // **************************************************************************************
-  // OM END DATE PASSERAT
-  // **************************************************************************************
+  // *******************If END DATE PASSED*******************
   const alertEndDate = () => {
     if (!data || !Array.isArray(data.results)) return null;
 
-    let alerts = []; // Definiera 'alerts' här
+    let alerts = []; // Definie alerts as let
 
     data.results.forEach((alertData) => {
       const projectName =
@@ -227,130 +222,104 @@ export default function Alert({ onSelectProject }) {
       const activeProject = alertData.properties.Status.select.name;
       const endDate = new Date(alertData.properties.Timespan.date.end);
 
-      // räkna skillnaden mellan endDate och dagens datum i millisekunder
+      // count the difference between endDate & today date in millisec
       let passedDays = endDate.getTime() - todayDate.getTime();
 
-      // Konvertera passedDays från milliseconds till dagar
+      // Convert passedDays from millisec to days
       passedDays = Math.ceil(passedDays / (1000 * 3600 * 24));
 
-      // är enddate före dagens datum?
+      // If enddate is after Todays date return null( enddate havent passed)
       if (endDate > todayDate) return null;
 
+      // (else enddate passed) if Active
       if (activeProject === "Active") {
         alerts.push(
-          <ul key={alertData.id}>
-            <br />
-            <h3 style={{ color: "red" }}>
-              WARNING! <br /> This project is {activeProject}, endDate has
-              PASSED:
-            </h3>
-            <h2>
-              Project name: {projectName} <br />
-            </h2>
-            Todays date: {todayDate.toDateString()} <br />
-            End date: {endDate.toDateString()} <br />
-            Passes in {passedDays} days
-            <br />
-            ------------------------------------------
-          </ul>
+          <section className="Alert-section">
+            <li className="Alert-li" key={alertData.id}>
+              <h3 style={{ color: "red" }}>
+                WARNING! <br /> {activeProject} project, End-Date PASSED
+              </h3>
+              <h2>
+                {projectName} <br />
+              </h2>
+              Todays date: {todayDate.toDateString()} <br />
+              End date: {endDate.toDateString()} <br />
+              Passed by {passedDays} days
+              <br />
+              ------------------------------------------
+              <p>Make the changes needed</p>
+            </li>
+          </section>
         );
       }
     });
 
-    setAlertResults(alerts); // Uppdatera state med varningsresultat
-
-    // Returnera hasDataToShow
+    setAlertResults(alerts); // Update setAlertResults state with alertresult
   };
 
-  //**************************************************************************************************************
-  // Till Knapp för att starta varningskontrollen för antal dagar kvar till start
-  //**************************************************************************************************************
-  const checkDaysButtonColor = alertResults.length > 0 ? "default" : "red";
-
-  //**************************************************************************************************************
-  // Till Knapp för att starta varningskontrollen för antal timmar kvar
-  //**************************************************************************************************************
-  const checkHoursButtonColor = alertResults.length > 0 ? "default" : "red";
-
-  //**************************************************************************************************************
-  // Till Knapp för att starta varningskontrollen
-  // OM DET ÄR MER Hours left i förhållande sätt till end date i timmar..
-  //**************************************************************************************************************
-  const checkAlertHoursButtonColor =
-    alertResults.length > 0 ? "default" : "red";
-
-  //**************************************************************************************************************
-  // Till Knapp för att starta varningskontrollen
-  // OM om det är mindre än 48 h kvar till end date..
-  //**************************************************************************************************************
-  const checkAlertTwodayEndButtonColor =
-    alertResults.length > 0 ? "default" : "red";
-
-  //**************************************************************************************************************
-  // Till Knapp för att starta varningskontrollen
-  // OM OM END DATE PASSERAT..
-  //**************************************************************************************************************
-  const checkAlertEndDateButtonColor =
-    alertResults.length > 0 ? "default" : "red";
+  // ************************************************************
+  // Button color based on whether there are alert results or not
+  const checkAlertResult = setAlertResults.length > 0 ? "red" : "default";
 
   return (
-    <div style={{ textAlign: "left" }}>
-      <h1>WARNINGS DATA PROJECTS</h1>
-      <h2>
-        TODAY DATE: {todayDate.toDateString()} {/**dagens datum */}
-      </h2>
+    <section className="Alert-container">
+      <main className="Alert-box">
+        <h2>Project Alerts</h2>
+        <h3>TODAY DATE: {todayDate.toDateString()}</h3>
+        <p>DoubleClick to see warnings</p>
 
-      {/* Knapp för att starta varningskontrollen för antal dagar kvar 
-      10 Dagar till startup Next up project (ej activa än) */}
-      <button
-        onMouseEnter={alertDaysUntilStart}
-        onMouseDown={() => setAlertResults([])}
-        style={{ backgroundColor: checkDaysButtonColor }}
-      >
-        Check Projects (10 Days to StartUp)
-      </button>
+        {/* 10 Days to startup, Next up project (not Active yet) */}
+        <button
+          className="Alert-B"
+          onDoubleClick={alertDaysUntilStart} // starts alertfunction on doubleClick
+          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          style={{ backgroundColor: checkAlertResult }} // if data red button
+        >
+          (10 Days to StartUp)
+        </button>
 
-      {/* Knapp för att starta varningskontrollen för mindre än 10 h kvar på Active projekt*/}
-      <button
-        onMouseEnter={alertHours}
-        onMouseDown={() => setAlertResults([])}
-        style={{ backgroundColor: checkHoursButtonColor }}
-      >
-        Check Projects (Less then 10 Hours in project)
-      </button>
+        {/* less then 10 h left Active projekt*/}
+        <button
+          className="Alert-B"
+          onDoubleClick={alertHours} // starts alertfunction on doubleClick
+          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          style={{ backgroundColor: checkAlertResult }} // if data red button
+        >
+          (Less then 10 Hours left)
+        </button>
 
-      {/* Knapp för att starta varningskontrollen
-    OM DET ÄR MER Hours left i förhållande sätt till end date i timmar.. */}
-      <button
-        onMouseEnter={alertHoursDays}
-        onMouseDown={() => setAlertResults([])}
-        style={{ backgroundColor: checkAlertHoursButtonColor }}
-      >
-        Check Projects (Active Date & Time)
-      </button>
+        {/* more Hours left vs/ workdays til end date */}
+        <button
+          className="Alert-B"
+          onDoubleClick={alertHoursDays} // starts alertfunction on doubleClick
+          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          style={{ backgroundColor: checkAlertResult }} // if data red button
+        >
+          (Active Date & Time)
+        </button>
 
-      {/* Knapp för att starta varningskontrollen OM om det är 
-    mindre än 48 h kvar till end date.. */}
-      <button
-        onMouseEnter={alertTwoDayEnd}
-        onMouseDown={() => setAlertResults([])}
-        style={{ backgroundColor: checkAlertTwodayEndButtonColor }}
-      >
-        Check Projects (Less than 48h EndDate)
-      </button>
+        {/* less then 48 h left to end date Active */}
+        <button
+          className="Alert-B"
+          onDoubleClick={alertTwoDayEnd} // starts alertfunction on doubleClick
+          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          style={{ backgroundColor: checkAlertResult }} // if data red button
+        >
+          (Less than 48h EndDate)
+        </button>
 
-      {/* Knapp för att starta varningskontrollen OM OM END DATE PASSERAT. */}
+        {/* end date passed Active */}
+        <button
+          className="Alert-B"
+          onDoubleClick={alertEndDate} // starts alertfunction on doubleClick
+          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown
+          style={{ backgroundColor: checkAlertResult }} // if data red button
+        >
+          (ACTIVE EndDate PASSED!!)
+        </button>
 
-      <button
-        onMouseEnter={alertEndDate}
-        onMouseDown={() => setAlertResults([])} // Återställ alertResults när musen lämnar knappen
-        style={{ backgroundColor: checkAlertEndDateButtonColor }}
-      >
-        Check Projects (ACTIVE & EndDate has PASSED!!)
-      </button>
-
-      {/* Rendera varningsresultat */}
-      {alertResults}
-    </div>
+        {alertResults}
+      </main>
+    </section>
   );
 }

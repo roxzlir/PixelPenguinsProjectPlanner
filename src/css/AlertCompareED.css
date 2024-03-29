@@ -1,20 +1,19 @@
 .ACEDtable-container {
   display: flex;
+  flex-direction: column;
   background-color: #adbc9f;
   margin: 6px;
   padding: 6px;
   border: 3px solid #ffa346;
   text-align: center;
-  flex-wrap: wrap;
   justify-content: space-evenly;
-  min-width: fit-content;
 }
 
 .ACED-table {
   background-color: white;
   border: 3px solid #ffa346;
-  min-width: fit-content;
   font-family: Arial, Helvetica, sans-serif;
+  justify-items: center;
 }
 
 .ACED-table th,
@@ -25,4 +24,20 @@
 .ACED-table th {
   background-color: #ffa346;
   font-weight: bold;
+}
+.ACEDtable-container h2 {
+  font-family: "Graduate", serif;
+}
+
+/* Media query small screens */
+@media only screen and (max-width: 768px) {
+  .ACEDtable-container {
+    padding: 10px;
+    font-size: 11px;
+  }
+
+  .ACED-table th,
+  .ACED-table td {
+    padding: 4px;
+  }
 }
