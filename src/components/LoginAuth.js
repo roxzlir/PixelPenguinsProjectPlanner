@@ -78,7 +78,11 @@ export default function LoginAuth() {
         <div className="LoginAuth-container">
             <main className="LA-display-section">
                 <h1>Welcome</h1>
-                <p>Please select your name and enter password</p>
+                <p>
+                    {loggedInUser
+                        ? "Have a nice day!"
+                        : "Please select your name and enter password"}
+                </p>
 
                 <select
                     className="LA-select"

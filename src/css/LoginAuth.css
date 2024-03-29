@@ -25,11 +25,9 @@
     margin: 4px;
     padding: 4px;
 }
-.LA-select {
-    width: 44%;
-}
+
 @media only screen and (max-width: 768px) {
     .LA-select {
-        width: 48%;
+        width: 74%;
     }
 }
