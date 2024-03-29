@@ -9,6 +9,7 @@ function TimereportReader() {
     const [endDate, setEndDate] = useState(null);
     const [people, setPeople] = useState([]);
     const [projects, setProjects] = useState({});
+
     useEffect(() => {
         fetchData();
     }, []);

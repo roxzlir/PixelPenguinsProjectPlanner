@@ -153,6 +153,7 @@ const ProjectInputEdit = () => {
                         <label>
                             End Date:
                             <input
+                                className="PIE-input"
                                 type="date"
                                 value={endDate}
                                 onChange={handleEndDateChange}
