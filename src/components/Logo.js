@@ -1,5 +1,4 @@
 import React from "react";
-import Icon from "../images/settings-icon.png";
 import Pingu from "../images/pinguLogo.png";
 
 import "../css/Logo.css";

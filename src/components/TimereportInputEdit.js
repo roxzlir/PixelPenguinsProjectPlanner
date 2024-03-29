@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/ProjectInputEdit.css";
 
+//LÄGGA RESPONSIVE DESIGN PÅ ALLA DEM HÄR SOM ÄNDRAR DATA
+
 export default function TimereportInputEdit() {
     const [data, setData] = useState(null);
     const [peopleData, setPeopleData] = useState({});
@@ -138,8 +140,6 @@ export default function TimereportInputEdit() {
         const dateB = new Date(b.properties["Date"]?.date?.start);
         return dateA - dateB;
     });
-
-    console.log("Här är projectData", projectData);
 
     return (
         <div className="page-container">

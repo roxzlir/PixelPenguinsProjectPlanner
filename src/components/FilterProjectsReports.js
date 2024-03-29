@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "../css/ProjectInputEdit.css"
+import "../css/ProjectInputEdit.css";
 
 function FilterProjectsReports() {
     const [timereports, setTimereports] = useState([]);
@@ -76,11 +76,9 @@ function FilterProjectsReports() {
                     <tbody>
                         {filterTimereports().map((report) => (
                             <tr key={report.id}>
-                                {" "}
                                 <td>{report.properties.Date.date.start}</td>
                                 <td>{report.properties.Hours.number}</td>
                                 <td>
-                                    {" "}
                                     {projects.find(
                                         (project) =>
                                             project.id ===
@@ -89,7 +87,6 @@ function FilterProjectsReports() {
                                     )?.name || "Unknown"}
                                 </td>
                                 <td>
-                                    {" "}
                                     {report.properties.Note?.title?.[0]
                                         ?.plain_text || "No note"}
                                 </td>
