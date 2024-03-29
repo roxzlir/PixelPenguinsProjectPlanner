@@ -65,7 +65,7 @@ export default function AlertCompareEndDate() {
         if (activeProject === "Active") {
           if (daysLeft <= 0) {
             // no days left, check enddate!
-            warningMessage = "EndDate!";
+            warningMessage = "End Date!";
           } else {
             warningMessage = `Days left: ${daysLeft}`;
           }
@@ -120,6 +120,7 @@ export default function AlertCompareEndDate() {
   // If data exists
   return (
     <main className="ACEDtable-container">
+      <h2>Summary, sortet by status - Alerts</h2>
       <table className="ACED-table">
         <thead>
           <tr>
