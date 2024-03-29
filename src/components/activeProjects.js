@@ -40,24 +40,24 @@ function ActiveProjects() {
     return (
         <div className="ap-page-container">
             <div className="ap-display-section">
-                <thead>
-                    <h1 style={{ textAlign: "center" }}>Active projects</h1>
+                <div className="ap-table-container">
+                    <thead>
+                        <h1 style={{ textAlign: "center" }}>Active projects</h1>
+                        <label htmlFor="statusFilter">Filter by status:</label>
+                        <select
+                            className="PIE-select"
+                            id="statusFilter"
+                            value={statusFilter}
+                            onChange={handleStatusFilterChange}
+                        >
+                            <option value="All">All</option>
+                            <option value="Active">Active</option>
+                            <option value="Next Up">Next Up</option>
+                            <option value="Done">Done</option>
+                        </select>
+                    </thead>
+                </div>
 
-                    <label htmlFor="statusFilter">Filter by status:</label>
-                    <select
-                        id="statusFilter"
-                        value={statusFilter}
-                        onChange={handleStatusFilterChange}
-                    >
-                        <option value="All">All</option>
-                        <option value="Active">Active</option>
-                        <option value="Next Up">Next Up</option>
-                        <option value="Done">Done</option>
-                    </select>
-                </thead>
-            </div>
-
-            <div className="ap-table-container">
                 <table className="ap-timereport-table">
                     <tbody>
                         <tr>
@@ -72,7 +72,6 @@ function ActiveProjects() {
                             {filteredProjects.map((item) => (
                                 <tr key={item.id}>
                                     <td>
-                                        {" "}
                                         {
                                             item.properties.Projectname.title[0]
                                                 .plain_text
@@ -80,14 +79,12 @@ function ActiveProjects() {
                                     </td>
                                     <td>{item.properties.Hours.number}</td>
                                     <td>
-                                        {" "}
                                         {
                                             item.properties["Hours left"]
                                                 .formula.number
                                         }
                                     </td>
                                     <td>
-                                        {" "}
                                         {
                                             item.properties["Worked hours"]
                                                 .rollup.number
@@ -97,7 +94,6 @@ function ActiveProjects() {
                                         {item.properties.Status.select.name}
                                     </td>
                                     <td>
-                                        {" "}
                                         {item.properties.Timespan.date ? (
                                             <>
                                                 {

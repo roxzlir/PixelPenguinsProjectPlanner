@@ -82,8 +82,7 @@ const ProjectHoursEdit = () => {
             <div className="display-section">
                 <h1>Current project with hours</h1>
                 <h3>
-                    Please click on the project you would like to change end
-                    date for:
+                    Please select a project you would like to change hours for:
                 </h3>
                 <select
                     onChange={handleSelectedProject}

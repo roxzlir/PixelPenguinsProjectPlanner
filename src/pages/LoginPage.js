@@ -11,7 +11,7 @@ export default function LoginPage() {
                 {loginprocess && <UserVisualize />}
             </section>
             <section className="LP-right">
-                <LoginAuth />
+                {!loginprocess && <LoginAuth />}
             </section>
         </main>
     );
