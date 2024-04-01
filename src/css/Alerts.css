@@ -23,6 +23,7 @@
   border: solid #ffa346;
 }
 .Alert-box {
+  display: block;
   font-family: Arial, Helvetica, sans-serif;
   flex-direction: row;
   justify-content: center;
@@ -39,14 +40,11 @@
 }
 .Alert-B {
   font-family: Arial, Helvetica, sans-serif;
-  color: #ffffff;
+  background-color: rgb(255, 255, 255);
   padding: 2px;
   margin: 2px;
   height: fit-content;
   width: 195px;
-}
-.Alert-B :hover {
-  size: 5%;
 }
 
 /* Media query small screens */
