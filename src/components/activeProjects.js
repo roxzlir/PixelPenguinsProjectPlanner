@@ -51,7 +51,7 @@ function ActiveProjects() {
         <main className="ap-page-container">
             <section className="ap-table-container">
                 <thead>
-                    <h1 style={{ textAlign: "center" }}>Active projects</h1>
+                    {/* <h3 style={{ textAlign: "center" }}>Active projects</h3> */}
                     <label htmlFor="statusFilter">Filter by status:</label>
                     <select
                         className="PIE-select"

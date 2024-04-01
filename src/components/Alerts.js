@@ -287,8 +287,14 @@ export default function Alert({ onSelectProject }) {
         <section className="Alert-container">
             <main className="Alert-box">
                 <h2>Project Alerts</h2>
-                <h3>TODAY DATE: {todayDate.toDateString()}</h3>
-                <p>DoubleClick to see warnings</p>
+                <h3
+                    style={{
+                        textAlign: "center",
+                        fontFamily: "Graduate, serif",
+                    }}
+                >
+                    Todays date: {todayDate.toDateString()}
+                </h3>
 
                 {/* 10 Days to startup, Next up project (not Active yet) */}
                 <button
