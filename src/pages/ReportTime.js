@@ -5,9 +5,18 @@ import "../css/ReportTime.css";
 
 export default function ReportTime() {
     return (
-        <div className="ReportTime-container">
+        <main className="ReportTime-container">
+            <h1
+                style={{
+                    textAlign: "center",
+                    color: "whitesmoke",
+                    fontFamily: "Graduate, serif",
+                }}
+            >
+                Please report your worked hours
+            </h1>
             <LogTimereport />
             <LoggedInTimereports />
-        </div>
+        </main>
     );
 }

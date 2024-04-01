@@ -16,11 +16,6 @@ export default function UserVisualize() {
         axios
             .post("http://localhost:3001/api/notion/people", payload)
             .then((response) => {
-                console.log(
-                    "Datan vi hämtar från People-databasen: ",
-                    response.data
-                );
-
                 // Byt ut 'desiredName' mot det namn vi vill söka efter och personen som ska displayas
                 const desiredName = localStorage.getItem("loggedInUser");
                 const desiredPerson = response.data.results.find(
@@ -35,7 +30,7 @@ export default function UserVisualize() {
             .catch((error) => {
                 console.log(
                     // Felmeddelande
-                    "Fel inträffade vid hämtningen från People-databasen: ",
+                    "Error when fetching data from Notion API: ",
                     error
                 );
             });

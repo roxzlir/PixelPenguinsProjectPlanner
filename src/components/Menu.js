@@ -17,11 +17,11 @@ function Menu({ userRole, onLogout }) {
     return (
         <header className="menu-container">
             <nav>
-                <div className="menu-toggle" onClick={toggleMenu}>
+                <section className="menu-toggle" onClick={toggleMenu}>
                     <div className="menu-toggle-bar"></div>
                     <div className="menu-toggle-bar"></div>
                     <div className="menu-toggle-bar"></div>
-                </div>
+                </section>
                 <ul className={`menu-links ${showMenu ? "show" : ""}`}>
                     <li className="menu-link">
                         <NavLink

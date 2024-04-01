@@ -1,31 +1,3 @@
-/* .menu-container {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #102e2e;
-}
-.menu-links {
-    background-color: #254949;
-    list-style: none;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.menu-link {
-    display: flex;
-    justify-content: space-evenly;
-
-    padding-left: 100px;
-    padding-right: 100px;
-    font-family: "Graduate", serif;
-}
-.nav-link {
-    text-decoration: none;
-    color: antiquewhite;
-} */
 .menu-container {
     background-color: #102e2e;
     padding: 10px;
@@ -38,7 +10,7 @@
 .menu-toggle-bar {
     width: 30px;
     height: 4px;
-    background-color: #fff;
+    background-color: whitesmoke;
     margin: 5px 0;
 }
 
@@ -63,7 +35,7 @@
 
 .nav-link {
     text-decoration: none;
-    color: antiquewhite;
+    color: whitesmoke;
 }
 .logout-btn {
     background-color: initial;

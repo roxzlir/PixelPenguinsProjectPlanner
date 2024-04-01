@@ -4,10 +4,14 @@ import LoginAuth from "../components/LoginAuth";
 
 export default function Start() {
     return (
-        <div>
-            <h1>WELCOME</h1>
+        <main>
+            <h1 style={{
+                textAlign: "center",
+                color: "whitesmoke",
+                fontFamily: "Graduate, serif",
+            }}>PIXEL PENGUINS PROJECT PLANNER</h1>
             <LoginAuth />
             <UserVisualize />
-        </div>
+        </main>
     );
 }
