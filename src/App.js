@@ -1,5 +1,4 @@
 import "./css/App.css";
-
 import React, { useState, useEffect } from "react";
 import {
     HashRouter as Router,
@@ -7,7 +6,6 @@ import {
     Routes,
     Navigate,
 } from "react-router-dom";
-
 import Start from "./pages/Start";
 import ReportTime from "./pages/ReportTime";
 import DisplayProjects from "./pages/DisplayProjects";

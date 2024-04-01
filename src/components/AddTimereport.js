@@ -12,8 +12,6 @@ export default function AddTimereport() {
     const [projectData, setProjectData] = useState([]);
     //Denna vill jag spara ner ALL data från JSON svaret
 
-
-
     const FetchProjects = () => {
         const payload = {};
 
@@ -31,7 +29,7 @@ export default function AddTimereport() {
             })
             .catch((error) => {
                 console.log(
-                    "Fel inträffade vid hämtningen från Notion: ",
+                    "Error when fetching data from Notion API: ",
                     error
                 );
             });
@@ -75,7 +73,6 @@ export default function AddTimereport() {
                     return item.properties.Name.title[0].plain_text;
                 });
                 setNames(namesList);
-
             })
             .catch((error) => {
                 console.log(
@@ -125,7 +122,6 @@ export default function AddTimereport() {
     const peopleID = findPersonId(reportData.selectedName);
     const projectID = findProjectId(reportData.selectedProject);
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -135,11 +131,10 @@ export default function AddTimereport() {
             selectedName: peopleID,
             selectedProject: projectID,
         };
-        console.log("REPORT DATACOPY: ", reportDataCopy);
+
         axios
             .post("http://localhost:3001/api/add-report", reportDataCopy)
             .then((response) => {
-
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
                 const reportString = `
           Hours: ${reportData.hours}
@@ -152,14 +147,12 @@ export default function AddTimereport() {
             })
 
             .catch((error) => {
-                // Hantera fel här
                 console.error("Error adding report:", error);
             });
     };
 
     return (
         <main className="A-T-container">
-            <h3>Project manager component for adding a timereport:</h3>
             <form className="A-T-form" onSubmit={handleSubmit}>
                 <label>
                     Choose name:

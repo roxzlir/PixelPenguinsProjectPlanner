@@ -30,10 +30,7 @@ export default function LogTimereport() {
                 setProjects(projectNameList); //sätter mappade svaret till projects
             })
             .catch((error) => {
-                console.log(
-                    "Fel inträffade vid hämtningen från Notion: ",
-                    error
-                );
+                console.log("Error while fetching from Notion API: ", error);
             });
     };
 
@@ -97,7 +94,6 @@ export default function LogTimereport() {
     useEffect(() => {
         fetchData();
         FetchProjects();
-        findPersonId();
     }, []);
 
     //************************************************** */
@@ -136,13 +132,13 @@ export default function LogTimereport() {
             .then((response) => {
                 //*********************       HÄR LÄGGER JAG IN DET SOM ÄR GJORT FRÅN TimeReportAddConfirmation   ********************** */
                 const reportString = `
-          Timmar: ${reportData.hours}
-          Datum: ${reportData.addDate}
-          Ämne: ${reportData.note}
+          Hours: ${reportData.hours}
+          Date: ${reportData.addDate}
+          Note: ${reportData.note}
         `;
 
                 // Visar strängen med datan ur timrapporten som rapporterats i popupfönster med bekräftelsemeddelande
-                alert(`${reportString}\n\nRapporten har lagts till.`);
+                alert(`${reportString}\nReport added.`);
             })
 
             .catch((error) => {
@@ -153,7 +149,9 @@ export default function LogTimereport() {
 
     return (
         <main className="L-T-container">
-            <h3>Thank you for your hard work {loggedInName}!</h3>
+            <h3 style={{ fontFamily: "Graduate, serif" }}>
+                Thank you for your hard work {loggedInName}!
+            </h3>
 
             <form onSubmit={handleSubmit} className="L-T-form">
                 <label>

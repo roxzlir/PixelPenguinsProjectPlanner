@@ -4,9 +4,18 @@ import LoggedInTimereports from "../components/LoggedInTimereports";
 
 export default function ReportTimeAll() {
     return (
-        <div>
+        <main>
+            <h1
+                style={{
+                    textAlign: "center",
+                    color: "whitesmoke",
+                    fontFamily: "Graduate, serif",
+                }}
+            >
+                Add new timereport on any employee
+            </h1>
             <AddTimereport />
             <LoggedInTimereports />
-        </div>
+        </main>
     );
 }

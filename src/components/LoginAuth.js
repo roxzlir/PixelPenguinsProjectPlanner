@@ -56,7 +56,7 @@ export default function LoginAuth() {
             .then((response) => {
                 const usersData = response.data.results.map((item) => ({
                     username: item.properties.Name.title[0]?.plain_text,
-                    id: item.properties.Password.rich_text[0]?.text.content,
+                    id: item.properties.Password.rich_text[0]?.text.content, //Här kallar vi våra password för id då vi först hade det som lösenord i vår applikation
                     role: item.properties.Role.select.name,
                     pageID: item.id,
                 }));

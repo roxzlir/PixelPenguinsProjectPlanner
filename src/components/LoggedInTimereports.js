@@ -37,8 +37,6 @@ export default function LoggedInTimereports() {
             axios
                 .post("http://localhost:3001/api/notion/people")
                 .then((response) => {
-                    const fetchedData = response.data;
-
                     const people = {};
                     response.data.results.forEach((person) => {
                         const properties = person.properties || {};
@@ -57,15 +55,13 @@ export default function LoggedInTimereports() {
                 });
         };
 
-        // Funktion för att hämta projektdata från en extern källa
         const fetchProjectData = () => {
-            // Anropar en API-endpoint för att hämta projektdata
             axios.post("http://localhost:3001/api/notion").then((response) => {
                 // Skapar ett tomt objekt för att lagra projektnamn och deras tillhörande ID
                 const projects = {};
                 // Loopar igenom varje resultat i API-svaret
                 response.data.results.forEach((item) => {
-                    // Hämtar egenskaperna för varje projekt, eller om det inte finns några egenskaper, sätts det till ett tomt objekt
+                    // Hämtar egenskaperna för varje projekt, eller om det inte finns några egenskaper, sätts det till mitt tomma objekt
                     const properties = item.properties || {};
                     // Hämtar projektnamnet från egenskaperna, om det finns, eller sätter det till "Unknown" om det inte finns något namn
                     const projectName =
@@ -82,7 +78,7 @@ export default function LoggedInTimereports() {
         fetchSingleTimereports();
         fetchPeopleData();
         fetchProjectData();
-    }, []); // Kör useEffect endast en gång vid mount
+    }, []);
 
     if (!data || !Array.isArray(data?.results)) {
         return <p>Loading data / No data to display...</p>;

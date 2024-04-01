@@ -17,13 +17,10 @@ export default function PeopleRullup() {
       .post("http://localhost:3001/api/notion/people", payload)
       .then((response) => {
         setData(response.data); // Spara datan i state
-        console.log("Datan vi hämtar från People-databasen: ", response.data);
+
       })
       .catch((error) => {
-        console.log(
-          "Fel inträffade vid hämtningen från People-databasen: ",
-          error
-        );
+        console.log(error);
       });
   };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../css/ProjectInputEdit.css";
+import TimereportDateEdit from "./TimereportDateEdit";
 
 function TimereportReader() {
     const [timereports, setTimereports] = useState([]);
@@ -9,6 +10,14 @@ function TimereportReader() {
     const [endDate, setEndDate] = useState(null);
     const [people, setPeople] = useState([]);
     const [projects, setProjects] = useState({});
+
+    const [selectedReport, setSelectedReport] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    const handleEditReport = (report) => {
+        setSelectedReport(report);
+        setShowEditModal(true);
+    };
 
     useEffect(() => {
         fetchData();
@@ -125,10 +134,34 @@ function TimereportReader() {
                                 {report.properties.Note?.title?.[0]
                                     ?.plain_text || "No note"}
                             </td>
+                            <td>
+                                <button
+                                    className="standard-btn"
+                                    onClick={() => handleEditReport(report)}
+                                >
+                                    Edit
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+            {showEditModal && (
+                <section className="modal">
+                    <main className="modal-content">
+                        <span
+                            className="close"
+                            onClick={() => setShowEditModal(false)}
+                        >
+                            &times;
+                        </span>
+                        <TimereportDateEdit
+                            selectedReport={selectedReport}
+                            onClose={() => setShowEditModal(false)}
+                        />
+                    </main>
+                </section>
+            )}
         </div>
     );
 }
