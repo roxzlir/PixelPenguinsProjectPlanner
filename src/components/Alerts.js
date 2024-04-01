@@ -271,8 +271,8 @@ export default function Alert({ onSelectProject }) {
         {/* 10 Days to startup, Next up project (not Active yet) */}
         <button
           className="Alert-B"
-          onDoubleClick={alertDaysUntilStart} // starts alertfunction on doubleClick
-          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          onClick={alertDaysUntilStart} // starts alertfunction on doubleClick
+          onAbort={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
           style={{ backgroundColor: checkAlertResult }} // if data red button
         >
           (10 Days to StartUp)
@@ -281,8 +281,8 @@ export default function Alert({ onSelectProject }) {
         {/* less then 10 h left Active projekt*/}
         <button
           className="Alert-B"
-          onDoubleClick={alertHours} // starts alertfunction on doubleClick
-          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          onClick={alertHours} // starts alertfunction on doubleClick
+          onDoubleClick={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
           style={{ backgroundColor: checkAlertResult }} // if data red button
         >
           (Less then 10 Hours left)
@@ -291,8 +291,8 @@ export default function Alert({ onSelectProject }) {
         {/* more Hours left vs/ workdays til end date */}
         <button
           className="Alert-B"
-          onDoubleClick={alertHoursDays} // starts alertfunction on doubleClick
-          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          onClick={alertHoursDays} // starts alertfunction on doubleClick
+          onDoubleClick={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
           style={{ backgroundColor: checkAlertResult }} // if data red button
         >
           (Active Date & Time)
@@ -301,8 +301,8 @@ export default function Alert({ onSelectProject }) {
         {/* less then 48 h left to end date Active */}
         <button
           className="Alert-B"
-          onDoubleClick={alertTwoDayEnd} // starts alertfunction on doubleClick
-          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
+          onClick={alertTwoDayEnd} // starts alertfunction on doubleClick
+          onDoubleClick={() => setAlertResults([])} // reset setalertResults onMouseDown(no visualize)
           style={{ backgroundColor: checkAlertResult }} // if data red button
         >
           (Less than 48h EndDate)
@@ -311,12 +311,23 @@ export default function Alert({ onSelectProject }) {
         {/* end date passed Active */}
         <button
           className="Alert-B"
-          onDoubleClick={alertEndDate} // starts alertfunction on doubleClick
-          onMouseDown={() => setAlertResults([])} // reset setalertResults onMouseDown
+          onClick={alertEndDate} // starts alertfunction on doubleClick
+          onDoubleClick={() => setAlertResults([])} // reset setalertResults onMouseDown
           style={{ backgroundColor: checkAlertResult }} // if data red button
         >
           (ACTIVE EndDate PASSED!!)
         </button>
+        <br />
+        <br />
+
+        {/* Close */}
+        <button
+          className="standard-btn2"
+          onClick={() => setAlertResults([])} // starts alertfunction on doubleClick
+        >
+          Close Alert Window
+        </button>
+        <br />
 
         {alertResults}
       </main>
