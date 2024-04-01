@@ -58,6 +58,9 @@ data from localStorage and return the user to our "/LoginPage" again as when the
 #### Link to our SCRUM board:
 [https://app.asana.com/0/1206692289443729/1206692184386317](https://app.asana.com/read-only/Pixel-Penguins/1201209955681624/8f66c19702d85e5f19a8d5f3dec76d8b/board)
 
+#### Link to our Asana page for our Daily Standup, Sprint Planning & Review's: 
+https://app.asana.com/0/1206714234837953/1206714473590103
+
 #### The Pixel Penguin Team:
 ##### -> Angelica Lindström
 ##### -> Caroline Uthawong-Burr
