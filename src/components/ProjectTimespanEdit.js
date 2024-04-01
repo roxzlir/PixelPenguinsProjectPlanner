@@ -46,14 +46,14 @@ const ProjectTimespanEdit = ({ selectedProject, onClose }) => {
         <div className="page-container">
             <section className="display-section">
                 <div>
-                    <h2>
-                        Update start and end date for project{" "}
+                    <h3>
+                        Edit start and end date for project{" "}
                         {
                             selectedProject.properties.Projectname.title[0]
                                 .plain_text
                         }
                         :
-                    </h2>
+                    </h3>
                     <label>
                         Start Date:
                         <input

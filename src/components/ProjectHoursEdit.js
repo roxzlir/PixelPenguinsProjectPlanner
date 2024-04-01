@@ -50,7 +50,6 @@ const ProjectHoursEdit = () => {
             return;
         }
 
-        console.log("DETTA SKICKAS TILL UPPDATE: ", updateData);
         axios
             .patch("http://localhost:3001/api/update-project-hours", updateData)
             .then((response) => {
@@ -80,7 +79,7 @@ const ProjectHoursEdit = () => {
     return (
         <div className="page-container">
             <div className="display-section">
-                <h1>Current project with hours</h1>
+                
                 <h3>
                     Please select a project you would like to change hours for:
                 </h3>

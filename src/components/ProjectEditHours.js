@@ -41,14 +41,14 @@ const ProjectEditHours = ({ selectedProject, onClose }) => {
             <div className="display-section">
                 {selectedProject && (
                     <div>
-                        <h2>
+                        <h3>
                             or update hours for{" "}
                             {
                                 selectedProject.properties.Projectname.title[0]
                                     .plain_text
                             }
                             :
-                        </h2>
+                        </h3>
                         <label>
                             New number of hours:
                             <input
