@@ -49,7 +49,6 @@ export default function AddNewProject() {
                 With status: ${status}
                 Date for project: ${startDate} - ${endDate}`;
             alert(`${addedSuccses}\n Have been added to the project database`);
-
         } catch (error) {
             console.error("Error adding new project:", error);
         }
@@ -57,7 +56,9 @@ export default function AddNewProject() {
 
     return (
         <main className="ANP-container">
-            <h3>Please fill all fileds to add a new project:</h3>
+            <h3 style={{ fontFamily: "Graduate, serif" }}>
+                Please fill all fileds to add a new project:
+            </h3>
             <form className="ANP-form" onSubmit={handleSubmit}>
                 <label>
                     Project Name:

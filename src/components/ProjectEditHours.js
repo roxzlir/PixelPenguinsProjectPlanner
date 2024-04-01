@@ -66,7 +66,7 @@ const ProjectEditHours = ({ selectedProject, onClose }) => {
                                 Save
                             </button>
                             <button className="standard-btn3" onClick={onClose}>
-                                Cancel
+                                Close
                             </button>
                         </section>
                     </div>

@@ -13,7 +13,7 @@ export default function LoginPage() {
                     fontFamily: "Graduate, serif",
                 }}
             >
-                Welcome to Pixel Penguins Project Planner
+                Welcome to our Project Planner
             </h1>
             {loginprocess && <UserVisualize />}
 
