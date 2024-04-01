@@ -149,12 +149,6 @@ function TimereportReader() {
             {showEditModal && (
                 <section className="modal">
                     <main className="modal-content">
-                        <span
-                            className="close"
-                            onClick={() => setShowEditModal(false)}
-                        >
-                            &times;
-                        </span>
                         <TimereportDateEdit
                             selectedReport={selectedReport}
                             onClose={() => setShowEditModal(false)}
